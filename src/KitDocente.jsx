@@ -416,27 +416,27 @@ const IB_CRITERION_GUIDANCE = {
 const CURRICULAR_ROUTES = [
   {
     id: 'men',
-    label: 'Kit MEN - Tecnología e Informática',
-    labelEn: 'MEN Kit - Technology and Computing',
+    label: 'Tecnología e Informática',
+    labelEn: 'Technology and Computing',
     shortLabel: 'MEN',
-    desc: 'Ruta actual por grado y componente de Tecnologia e Informatica.',
-    descEn: 'Current route by grade level and MEN Technology and Computing component.',
+    desc: 'Por grado y componente MEN.',
+    descEn: 'By grade and MEN component.',
   },
   {
     id: 'ib_myp_design',
-    label: 'Diseño Escolar',
-    labelEn: 'School Design',
+    label: 'Diseño',
+    labelEn: 'Design',
     shortLabel: 'Diseño',
-    desc: 'Ruta por año y ciclo de diseño escolar.',
-    descEn: 'Route by year with a school design cycle approach.',
+    desc: 'Por año y ciclo de diseño.',
+    descEn: 'By year and design cycle.',
   },
   {
     id: 'stem',
     label: 'STEM / STEAM',
     labelEn: 'STEM / STEAM',
     shortLabel: 'STEM',
-    desc: 'Interdisciplinario bilingüe; reto, guía, rúbrica y evidencias integradas.',
-    descEn: 'Bilingual interdisciplinary track; challenge, guide, rubric and evidence integrated.',
+    desc: 'Interdisciplinario bilingüe.',
+    descEn: 'Bilingual interdisciplinary.',
   },
 ]
 
