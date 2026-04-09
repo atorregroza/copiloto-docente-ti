@@ -2879,7 +2879,7 @@ function Welcome({ data, onChange, onStart, onLoad, onOpenPanel, onStartTour }) 
           onClick={handleLoadExample}
           className="w-full py-3 rounded-2xl border-2 border-[#fbb041]/50 bg-[#fff8ec] text-sm font-bold text-[#9b6714] hover:-translate-y-0.5 transition-transform flex items-center justify-center gap-2"
         >
-          📦 {en ? 'Load example to explore' : 'Cargar ejemplo para explorar'}
+          {en ? 'Take a guided tour with a sample kit' : 'Haz un recorrido guiado con un kit de ejemplo'}
         </button>
         <p className="text-center text-xs text-[#8a9e98]">{en ? '~10-15 min · Saves automatically' : '~10-15 min · Se guarda automáticamente'}</p>
       </div>
