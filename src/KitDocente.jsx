@@ -7546,9 +7546,10 @@ export function KitDocente() {
   const [sharedKit, setSharedKit] = useState(null)
   const [showCreditos, setShowCreditos] = useState(false)
   const [kitId, setKitId] = useState(null)
-  const [guidedTour, setGuidedTour] = useState(null) // null | { track: 'create'|'evaluate'|'student'|'full' }
+  const [guidedTour, setGuidedTour] = useState(null) // null | { track: 'create'|'evaluate'|'student'|'full'|'products' }
   const [tourMenu, setTourMenu] = useState(false)
   const [tourComplete, setTourComplete] = useState(null) // null | completedTrackKey
+  const [isExample, setIsExample] = useState(false)
   const topRef = useRef()
   const en = isEnglish(data)
 
@@ -7580,8 +7581,9 @@ export function KitDocente() {
     return () => { active = false }
   }, [])
 
-  // ── Auto-save ──────────────────────────────────────────────────
+  // ── Auto-save (no guarda si estamos en modo ejemplo/tour) ────
   useEffect(() => {
+    if (isExample) return
     if (step > 0) {
       localStorage.setItem('mm_last_step', step.toString())
       localStorage.setItem('mm_last_data', JSON.stringify(data))
@@ -7589,7 +7591,7 @@ export function KitDocente() {
     if (step > 0 && kitId) {
       lsSaveKit(kitId, step, data)
     }
-  }, [data, step, kitId])
+  }, [data, step, kitId, isExample])
 
   // ── Cargar kit guardado ────────────────────────────────────────
   const handleLoad = (savedKit) => {
@@ -7672,14 +7674,15 @@ export function KitDocente() {
   }
 
   const reset = () => {
-    setStep(0); setData(INITIAL); setError(''); setKitId(null)
+    setStep(0); setData(INITIAL); setError(''); setKitId(null); setIsExample(false)
+    setGuidedTour(null); setTourMenu(false); setTourComplete(null)
     localStorage.removeItem('mm_last_step')
     localStorage.removeItem('mm_last_data')
   }
 
   const scrollToTop = () => topRef.current?.scrollTo(0, 0)
   const renderContent = () => {
-    if (step === 0) return <Welcome data={data} onChange={update} onStart={next} onLoad={handleLoad} onOpenPanel={() => setShowPanel(true)} onStartTour={() => setTourMenu(true)} />
+    if (step === 0) return <Welcome data={data} onChange={update} onStart={next} onLoad={handleLoad} onOpenPanel={() => setShowPanel(true)} onStartTour={() => { setIsExample(true); setTourMenu(true) }} />
     if (step === 1) return <BlockA data={data} onChange={update} />
     if (step === 2) return <BlockB data={data} onChange={update} />
     if (step === 3) return <BlockC data={data} onChange={update} />
@@ -7747,7 +7750,15 @@ export function KitDocente() {
             </span>
             <FiExternalLink className="text-[10px] opacity-60" />
           </a>
-          {step > 0 && (
+          {step > 0 && isExample && (
+            <button
+              onClick={reset}
+              className="text-xs font-bold text-white bg-[#fbb041] hover:bg-[#e5a038] flex items-center gap-1.5 transition-colors px-3 py-1.5 rounded-lg shadow-sm"
+            >
+              <FiChevronLeft className="text-xs" /> {en ? 'Back to start' : 'Volver al inicio'}
+            </button>
+          )}
+          {step > 0 && !isExample && (
             <button
               onClick={reset}
               className="text-xs text-gray-400 hover:text-[#2b5a52] flex items-center gap-1 transition-colors border border-transparent hover:border-gray-200 px-2 py-1.5 rounded-lg"
