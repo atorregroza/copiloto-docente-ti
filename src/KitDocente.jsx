@@ -2812,6 +2812,11 @@ function Welcome({ data, onChange, onStart, onLoad, onOpenPanel, onStartTour }) 
         <p className="mt-3 text-sm text-[#8a9e98]">
           {en ? 'One connected flow · Ready in 10-15 minutes' : 'Un solo flujo conectado · Listo en 10-15 minutos'}
         </p>
+        <p className="mt-3 text-[13px] text-[#5a7069] max-w-md mx-auto leading-6 italic">
+          {en
+            ? 'You are the pilot. This is your copilot — the more you know about your class, the better the kit will be.'
+            : 'Tú eres el piloto. Esto es tu copiloto — entre más conozcas a tus estudiantes, mejores serán tus kits.'}
+        </p>
       </div>
 
       {/* ── Selector de ruta (compacto) ── */}
