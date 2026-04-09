@@ -661,19 +661,44 @@ function buildStemRoundsFromChallenge(bandKey = 'innovadores', language = 'es', 
   const metric = challenge.metric || (language === 'en' ? 'Metric or quick measurement' : 'Métrica o medición rápida')
   const prototype = challenge.prototype || (language === 'en' ? 'Prototype' : 'Prototipo')
   const en = language === 'en'
-  return Array.from({ length: rounds }, (_, i) => {
-    return {
-      focus: (en
-        ? `Test ${i + 1}: does "${prototype}" really respond to "${need}"?`
-        : `Prueba ${i + 1}: ¿"${prototype}" responde a "${need}"?`),
-      evidence: (en
-        ? `Capture ${metric.toLowerCase()} with a photo/data note.`
-        : `Captura ${metric.toLowerCase()} con una foto/dato.`),
-      adjustment: (en
-        ? 'One adjustment after the test (material, size, time).'
-        : 'Un ajuste después de la prueba (material, tamaño, tiempo).'),
-    }
-  })
+  const focusTemplates = en
+    ? [
+        `Does "${prototype}" respond to "${need}"?`,
+        `How can we improve the design based on test 1 data?`,
+        `Does the improved prototype meet user needs and constraints?`,
+      ]
+    : [
+        `¿"${prototype}" responde a "${need}"?`,
+        `¿Cómo mejoramos el diseño con los datos de la prueba 1?`,
+        `¿El prototipo mejorado cumple con las necesidades y restricciones?`,
+      ]
+  const evidenceTemplates = en
+    ? [
+        `Capture ${metric.toLowerCase()} with a photo/data note.`,
+        `Compare test 1 vs test 2 data. Photo of the change made.`,
+        `Trend table/chart across all rounds. Impact note.`,
+      ]
+    : [
+        `Captura ${metric.toLowerCase()} con una foto/dato.`,
+        `Compara datos prueba 1 vs prueba 2. Foto del cambio realizado.`,
+        `Tabla/gráfico de tendencia entre rondas. Nota de impacto.`,
+      ]
+  const adjustTemplates = en
+    ? [
+        'One adjustment after the test (material, size, time).',
+        'Priority adjustment based on data — what changed and why?',
+        'Decide: iterate again or present? Justify with data.',
+      ]
+    : [
+        'Un ajuste después de la prueba (material, tamaño, tiempo).',
+        'Ajuste prioritario basado en datos — ¿qué cambió y por qué?',
+        'Decidir: ¿iterar de nuevo o presentar? Justificar con datos.',
+      ]
+  return Array.from({ length: rounds }, (_, i) => ({
+    focus: `${en ? 'Test' : 'Prueba'} ${i + 1}: ${focusTemplates[Math.min(i, focusTemplates.length - 1)]}`,
+    evidence: evidenceTemplates[Math.min(i, evidenceTemplates.length - 1)],
+    adjustment: adjustTemplates[Math.min(i, adjustTemplates.length - 1)],
+  }))
 }
 
 function buildStemBandDefaults(grado = '', language = 'es', prev = {}) {
@@ -1132,17 +1157,17 @@ function buildIBCoherenceReport(data = {}) {
       field: 'outcome',
       severity: 'high',
       message: en
-        ? 'The expected outcome is too short. It should describe a real product, prototype or system.'
-        : 'El producto esperado es demasiado corto. Debe describir un producto, prototipo o sistema real.',
+        ? 'Try expanding the outcome — describe the product, prototype or system your students will create.'
+        : 'Intenta ampliar el producto — describe el prototipo o sistema que tus estudiantes van a crear.',
     })
   }
   if (data.ibOutcome?.trim() && !matchesAnyKeyword(data.ibOutcome, guide.outcomeKeywords)) {
     issues.push({
       field: 'outcome',
-      severity: 'high',
+      severity: 'medium',
       message: en
-        ? `The expected outcome does not clearly reflect ${support.criterion.label}: ${guide.objective}.`
-        : `El producto esperado no refleja con claridad ${support.criterion.labelEs}: ${guide.objectiveEs}.`,
+        ? `Tip: try including a word like "prototype", "product" or "system" to align better with ${support.criterion.label}.`
+        : `Sugerencia: incluye una palabra como "prototipo", "producto" o "sistema" para alinearte mejor con ${support.criterion.labelEs}.`,
     })
   }
   if (data.ibEvidence?.trim() && !hasMeaningfulText(data.ibEvidence)) {
@@ -1150,17 +1175,17 @@ function buildIBCoherenceReport(data = {}) {
       field: 'evidence',
       severity: 'high',
       message: en
-        ? 'The evidence is too short. It should show process, testing or reflection.'
-        : 'La evidencia es demasiado corta. Debe mostrar proceso, pruebas o reflexion.',
+        ? 'Try expanding the evidence — mention process photos, testing data or a short reflection.'
+        : 'Intenta ampliar la evidencia — menciona fotos del proceso, datos de pruebas o una reflexión breve.',
     })
   }
   if (data.ibEvidence?.trim() && !matchesAnyKeyword(data.ibEvidence, guide.evidenceKeywords)) {
     issues.push({
       field: 'evidence',
-      severity: 'high',
+      severity: 'medium',
       message: en
-        ? 'The evidence does not yet show the process and proof expected by the selected criterion.'
-        : 'La evidencia todavia no muestra el proceso y las pruebas que exige el criterio seleccionado.',
+        ? 'Consider adding words like "test", "photo", "prototype" or "adjustment" to strengthen the evidence.'
+        : 'Considera agregar palabras como "prueba", "foto", "prototipo" o "ajuste" para fortalecer la evidencia.',
     })
   }
   if (data.ibNeed?.trim() && data.ibNeed.trim().length < 18) {
@@ -1168,8 +1193,8 @@ function buildIBCoherenceReport(data = {}) {
       field: 'need',
       severity: 'medium',
       message: en
-        ? 'The need is still too short. It should describe user, context or concrete problem.'
-        : 'La necesidad todavia es muy corta. Debe describir usuario, contexto o problema concreto.',
+        ? 'The need could be more specific — try describing who is affected and what the concrete problem is.'
+        : 'La necesidad podría ser más específica — intenta describir a quién afecta y cuál es el problema concreto.',
     })
   }
 
@@ -1394,11 +1419,13 @@ function calcScore(data) {
     { key: 'teacher', ok: !!data.docente?.trim(), pts: 7, label: copy('Docente identificado', 'Teacher identified') },
     {
       key: 'framework',
-      ok: !!(data.route === 'ib_myp_design' ? data.mypYear : data.componente),
+      ok: !!(data.route === 'ib_myp_design' ? data.mypYear : data.route === 'stem' ? data.stemBand : data.componente),
       pts: 10,
       label: data.route === 'ib_myp_design'
         ? copy('Marco de diseño definido', 'Design framework set')
-        : copy('Componente MEN seleccionado', 'MEN component selected'),
+        : data.route === 'stem'
+          ? copy('Banda STEM seleccionada', 'STEM band selected')
+          : copy('Componente MEN seleccionado', 'MEN component selected'),
     },
     {
       key: 'competency',
@@ -2695,6 +2722,32 @@ function Welcome({ data, onChange, onStart, onLoad, onOpenPanel }) {
     onStart()
   }
 
+  const handleLoadExample = () => {
+    const lang = data?.language || 'es'
+    const esLang = lang === 'es'
+    const example = {
+      route: data?.route || 'men',
+      language: lang,
+      institucion: esLang ? 'Colegio Distrital Ejemplo' : 'Example District School',
+      ciudad: 'Bogot\u00E1',
+      docente: esLang ? 'Mar\u00EDa Garc\u00EDa' : 'Maria Garcia',
+      grado: '7\u00B0',
+      mypYear: 'A\u00F1o 3',
+      componente: 'solucion',
+      competencia: esLang
+        ? 'Resuelve problemas tecnol\u00F3gicos sencillos evaluando alternativas y seleccionando la m\u00E1s adecuada'
+        : 'Solves simple technology problems by evaluating alternatives and selecting the most suitable',
+      duracionProyecto: esLang ? '3 semanas (6 sesiones de 55 min)' : '3 weeks (6 sessions of 55 min)',
+      duracionSimulador: '20',
+      recursos: esLang ? 'Aula de inform\u00E1tica con 15 computadores, material reciclable, cartulinas' : 'Computer lab with 15 computers, recyclable material, poster board',
+      restricciones: esLang ? 'Sin impresora 3D, celulares no permitidos en clase' : 'No 3D printer, phones not allowed in class',
+      incluyeImagenes: true, maxImagenes: 3, puedenFotografiar: true,
+      tieneNEE: true, tiposNEE: ['visual'],
+      descripcionNEE: esLang ? '1 estudiante con baja visi\u00F3n' : '1 student with low vision',
+    }
+    onLoad({ data: example, step: 1 })
+  }
+
   const handleDelete = (id, e) => {
     e.stopPropagation()
     lsDeleteKit(id)
@@ -2883,13 +2936,20 @@ function Welcome({ data, onChange, onStart, onLoad, onOpenPanel }) {
               </button>
             </div>
           ) : (
-            <div className="mt-4">
+            <div className="mt-4 grid gap-3 sm:grid-cols-2">
               <button
                 type="button"
                 onClick={onStart}
                 className="w-full rounded-[18px] border border-[#2b5a52]/20 bg-[#2b5a52] px-4 py-3 text-sm font-bold text-white shadow-[0_12px_28px_rgba(43,90,82,.18)] hover:bg-[#234a43] transition-colors"
               >
-                {en ? 'Continue with this route' : 'Continuar con esta ruta'}
+                {en ? 'Start my kit' : 'Crear mi kit'}
+              </button>
+              <button
+                type="button"
+                onClick={handleLoadExample}
+                className="w-full rounded-[18px] border border-[#fbb041]/45 bg-[#fff8ec] px-4 py-3 text-sm font-bold text-[#9b6714] shadow-[0_12px_26px_rgba(251,176,65,.18)] hover:-translate-y-0.5 transition-transform"
+              >
+                {en ? 'Load example to explore' : 'Cargar ejemplo para explorar'}
               </button>
             </div>
           )}
@@ -7031,38 +7091,50 @@ ul{margin:0 0 0 18px}.foot{padding:12px 20px;border-top:1px solid #e5e7eb;font-s
 
           {exportsOpen && (
             <div className="bg-[#f8faf9] px-5 py-4">
-              <div className="flex items-center gap-2 flex-wrap">
-                <button
-                  onClick={() => runWithValidation(handleExportHTML)}
-                  className="flex items-center gap-2 px-4 py-2.5 bg-white text-[#2b5a52] rounded-xl
-                    text-sm font-bold hover:bg-[#eef4f2] active:scale-95 transition-all border border-[#2b5a52]/25"
-                  title={en ? 'Open the complete kit in a clean support view' : 'Abrir el kit completo en una vista limpia de apoyo'}
-                >
-                  <FiFileText /> {en ? 'Open full kit view' : 'Abrir vista completa del kit'}
-                </button>
+              <div className="grid gap-2 sm:grid-cols-2">
                 <button
                   onClick={() => runWithValidation(handleExportPDF)}
-                  className="flex items-center gap-2 px-4 py-2.5 bg-[#2b5a52] text-white rounded-xl
-                    text-sm font-bold hover:bg-[#234a43] active:scale-95 transition-all shadow-md shadow-[#2b5a52]/20"
-                  title={en ? 'Open the compact print version, ideal for PDF' : 'Abrir la versión compacta de impresión, ideal para PDF'}
+                  className="flex items-start gap-3 px-4 py-3 bg-[#2b5a52] text-white rounded-xl
+                    text-left hover:bg-[#234a43] active:scale-[0.98] transition-all shadow-md shadow-[#2b5a52]/20"
                 >
-                  <FiPrinter /> {en ? 'Open print / PDF view' : 'Abrir vista impresión / PDF'}
+                  <FiPrinter className="mt-0.5 flex-shrink-0" />
+                  <div>
+                    <p className="text-sm font-bold">{en ? 'Print / PDF' : 'Imprimir / PDF'}</p>
+                    <p className="text-[11px] text-white/70 leading-4 mt-0.5">{en ? 'Compact version — use Ctrl+P to save as PDF' : 'Versión compacta — usa Ctrl+P para guardar como PDF'}</p>
+                  </div>
+                </button>
+                <button
+                  onClick={() => runWithValidation(handleExportHTML)}
+                  className="flex items-start gap-3 px-4 py-3 bg-white text-[#2b5a52] rounded-xl
+                    text-left hover:bg-[#eef4f2] active:scale-[0.98] transition-all border border-[#2b5a52]/25"
+                >
+                  <FiFileText className="mt-0.5 flex-shrink-0" />
+                  <div>
+                    <p className="text-sm font-bold">{en ? 'Interactive kit' : 'Kit interactivo'}</p>
+                    <p className="text-[11px] text-[#5a7069] leading-4 mt-0.5">{en ? 'Full kit with tabs — teacher guide + student guide' : 'Kit completo con pestañas — guía docente + guía estudiante'}</p>
+                  </div>
                 </button>
                 <button
                   onClick={() => runWithValidation(handleExportRubrica)}
-                  className="flex items-center gap-1.5 px-3 py-2 bg-white text-[#2b5a52] rounded-xl
-                    text-xs font-bold hover:bg-[#2b5a52]/5 active:scale-95 transition-all border border-[#2b5a52]/30"
-                  title={en ? 'Open the rubric in a clean support view' : 'Abrir la rúbrica en una vista limpia de apoyo'}
+                  className="flex items-start gap-3 px-4 py-3 bg-white text-[#2b5a52] rounded-xl
+                    text-left hover:bg-[#2b5a52]/5 active:scale-[0.98] transition-all border border-[#2b5a52]/30"
                 >
-                  <FiAward className="text-xs" /> {en ? 'Open rubric view' : 'Abrir vista de rúbrica'}
+                  <FiAward className="mt-0.5 flex-shrink-0" />
+                  <div>
+                    <p className="text-sm font-bold">{en ? 'Grading rubric' : 'Rúbrica de calificación'}</p>
+                    <p className="text-[11px] text-[#5a7069] leading-4 mt-0.5">{en ? 'Click to grade, auto-calculates, saves scores' : 'Haz clic para calificar, calcula automático, guarda notas'}</p>
+                  </div>
                 </button>
                 <button
                   onClick={() => runWithValidation(handleExportFamilias)}
-                  className="flex items-center gap-1.5 px-3 py-2 bg-white text-[#b45309] rounded-xl
-                    text-xs font-bold hover:bg-[#fffbeb] active:scale-95 transition-all border border-[#fbb041]/50"
-                  title={en ? 'Open the family summary in a clean support view' : 'Abrir el resumen para familias en una vista limpia de apoyo'}
+                  className="flex items-start gap-3 px-4 py-3 bg-white text-[#b45309] rounded-xl
+                    text-left hover:bg-[#fffbeb] active:scale-[0.98] transition-all border border-[#fbb041]/50"
                 >
-                  <FiUsers className="text-xs" /> {en ? 'Open family summary' : 'Abrir resumen para familias'}
+                  <FiUsers className="mt-0.5 flex-shrink-0" />
+                  <div>
+                    <p className="text-sm font-bold">{en ? 'Family summary' : 'Resumen para familias'}</p>
+                    <p className="text-[11px] text-[#8e5e12] leading-4 mt-0.5">{en ? 'One page — what the project is and what to expect' : 'Una página — qué es el proyecto y qué esperar'}</p>
+                  </div>
                 </button>
               </div>
             </div>
