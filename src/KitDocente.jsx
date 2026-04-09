@@ -2815,13 +2815,13 @@ function Welcome({ data, onChange, onStart, onLoad, onOpenPanel, onStartTour }) 
         <div className="mt-5 rounded-xl bg-[#2b5a52] px-5 py-4 max-w-lg mx-auto text-center">
           <p className="text-sm text-white font-semibold leading-6">
             {en
-              ? 'You lead the class. This is your copilot.'
-              : 'Tú diriges la clase. Esto es tu copiloto.'}
+              ? 'You design. This is your copilot.'
+              : 'Tú diseñas. Esto es tu copiloto.'}
           </p>
           <p className="mt-1 text-xs text-white/70 leading-5">
             {en
-              ? 'The platform generates the structure — your expertise in the subject makes it exceptional.'
-              : 'La plataforma genera la estructura — tu dominio de la asignatura la hace excepcional.'}
+              ? 'The platform generates the structure — your expertise in the area makes it exceptional.'
+              : 'La plataforma genera la estructura — tu dominio del área la hace excepcional.'}
           </p>
         </div>
       </div>
