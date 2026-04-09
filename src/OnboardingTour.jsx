@@ -23,6 +23,28 @@ const TRACKS = {
       { step: 6, emoji: '📐', title: 'Your kit is ready', text: 'Competency, objective, challenge, guides, rubric — all done. And everything is editable: modify, add or remove whatever you need.' },
     ],
   },
+  products: {
+    emoji: '🎁', labelEs: 'Lo que genera el kit', labelEn: 'What the kit generates',
+    descEs: 'Los 7 documentos que produce: para qué sirve cada uno', descEn: 'The 7 documents it produces: what each one is for',
+    stepsEs: [
+      { step: 6, emoji: '📐', title: 'Alineación curricular', text: 'Tu competencia, objetivo medible y criterios de éxito. Este documento lo usas para planear y para mostrarlo a coordinación.' },
+      { step: 7, emoji: '🎯', title: 'Reto auténtico', text: 'El problema contextualizado a tu colegio, versiones con y sin hardware, y la guía de evidencias. Esto lo proyectas al inicio de clase.' },
+      { step: 8, emoji: '📦', title: 'Lista de materiales', text: 'Checklist completo: materiales físicos, digitales, alternativas de bajo costo y preparación del espacio. Lo imprimes antes de clase.' },
+      { step: 9, emoji: '👩‍🏫', title: 'Guía docente', text: 'Tu secuencia cronometrada con tiempos reales: apertura, exploración, construcción, socialización y cierre. La llevas a clase como tu hoja de ruta.' },
+      { step: 10, emoji: '📝', title: 'Guía del estudiante', text: 'El cuadernillo que le entregas al estudiante. Lo diligencia con respuestas, fotos del proceso, checkpoints de semáforo y reflexión final.' },
+      { step: 11, emoji: '⭐', title: 'Rúbrica de evaluación', text: 'Tu instrumento de evaluación con criterios y pesos editables. Se convierte en planilla interactiva para calificar después de clase.' },
+      { step: 12, emoji: '🏫', title: 'Empaque institucional', text: 'Portada con logo, índice de los 7 documentos, instrucciones de reutilización y recursos digitales. Para coordinación, portafolio docente o compartir con colegas.' },
+    ],
+    stepsEn: [
+      { step: 6, emoji: '📐', title: 'Curricular alignment', text: 'Your competency, measurable objective and success criteria. Use this document for planning and to show your coordinator.' },
+      { step: 7, emoji: '🎯', title: 'Authentic challenge', text: 'The problem contextualized to your school, versions with and without hardware, and the evidence guide. Project this at the start of class.' },
+      { step: 8, emoji: '📦', title: 'Materials checklist', text: 'Complete checklist: physical, digital, low-cost alternatives and workspace setup. Print it before class.' },
+      { step: 9, emoji: '👩‍🏫', title: 'Teacher guide', text: 'Your timed sequence with real durations: opening, exploration, building, sharing and closing. Take it to class as your roadmap.' },
+      { step: 10, emoji: '📝', title: 'Student guide', text: 'The workbook you deliver to students. They fill it in with answers, process photos, traffic-light checkpoints and final reflection.' },
+      { step: 11, emoji: '⭐', title: 'Assessment rubric', text: 'Your assessment tool with editable criteria and weights. It becomes an interactive grading sheet for after class.' },
+      { step: 12, emoji: '🏫', title: 'Institutional package', text: 'Cover with logo, 7-document index, reuse instructions and digital resources. For coordination, teaching portfolio or sharing with colleagues.' },
+    ],
+  },
   evaluate: {
     emoji: '⭐', labelEs: 'Evaluar y calificar', labelEn: 'Evaluate and grade',
     descEs: 'La rúbrica, la planilla de notas y cómo compartir calificaciones', descEn: 'The rubric, grade sheet and how to share scores',
@@ -83,7 +105,7 @@ const TRACKS = {
   },
 }
 
-const TRACK_ORDER = ['create', 'evaluate', 'student', 'full']
+const TRACK_ORDER = ['create', 'products', 'student', 'evaluate', 'full']
 
 // ─── Menú de selección de recorrido ──────────────────────────────────────────
 export function TourMenu({ language = 'es', onSelect, onDismiss }) {

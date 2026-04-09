@@ -7812,7 +7812,7 @@ export function KitDocente() {
             setGuidedTour({ track })
             // Jump to first step of the track
             const enrichedData = { ...data, componenteLabel: getFrameworkValue(data), subtema: getLocalizedSubtema(data) }
-            const firstStep = track === 'create' ? 0 : track === 'evaluate' ? 11 : track === 'student' ? 10 : 0
+            const firstStep = track === 'create' ? 0 : track === 'products' ? 6 : track === 'student' ? 10 : track === 'evaluate' ? 11 : 0
             for (let s = 0; s <= firstStep; s++) {
               if (s >= 5 && s <= 11) {
                 const field = `paso${s - 4}`
@@ -7866,7 +7866,7 @@ export function KitDocente() {
           onSelect={(track) => {
             setTourComplete(null)
             setGuidedTour({ track })
-            const firstStep = track === 'create' ? 0 : track === 'evaluate' ? 11 : track === 'student' ? 10 : 0
+            const firstStep = track === 'create' ? 0 : track === 'products' ? 6 : track === 'student' ? 10 : track === 'evaluate' ? 11 : 0
             const enrichedData = { ...data, componenteLabel: getFrameworkValue(data), subtema: getLocalizedSubtema(data) }
             for (let s = 0; s <= firstStep; s++) {
               if (s >= 5 && s <= 11) {
