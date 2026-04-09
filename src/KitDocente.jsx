@@ -1253,7 +1253,7 @@ function buildIBProposalPrompt(data = {}) {
   const coherence = buildIBCoherenceReport(data)
   return en
     ? `You are an IB MYP Design curriculum assistant. Based on the information below, generate exactly 3 classroom-ready design brief proposals for a teacher.\n\nReturn ONLY valid JSON with this shape:\n{"proposals":[{"title":"","need":"","outcome":"","evidence":"","prereq":"","rationale":""}]}\n\nRules:\n- Each proposal must be different and usable in school context.\n- Keep the language concise and teacher-facing.\n- Align with ${support.focus}.\n- Guiding inquiry: ${support.inquiry}\n- Suggested brief: ${support.brief}\n- Criterion coherence: the outcome should reflect ${coherence.guide.objective}, and the evidence should show ${coherence.guide.evidence}.\n- If current inputs are weak or incoherent, correct them instead of repeating them.\n- MYP year: ${data.mypYear || 'MYP 1'}\n- Route: IB MYP Design\n- Language: English\n\nCurrent inputs:\n- Need/problem: ${data.ibNeed || '[not defined]'}\n- Expected product/system: ${data.ibOutcome || '[not defined]'}\n- Evidence: ${data.ibEvidence || '[not defined]'}\n- Prior knowledge: ${data.ibPrereq || '[not defined]'}`
-    : `Actua como asistente curricular de IB MYP Design. Con base en la informacion siguiente, genera exactamente 3 propuestas de brief de diseno listas para aula.\n\nDevuelve SOLO JSON valido con esta estructura:\n{"proposals":[{"title":"","need":"","outcome":"","evidence":"","prereq":"","rationale":""}]}\n\nReglas:\n- Cada propuesta debe ser distinta y usable en contexto escolar.\n- Usa lenguaje breve y util para docentes.\n- Alinea las propuestas con ${support.focus}.\n- Pregunta orientadora: ${support.inquiry}\n- Formulacion sugerida: ${support.brief}\n- Coherencia con el criterio: el producto debe responder a ${coherence.guide.objectiveEs}, y la evidencia debe mostrar ${coherence.guide.evidenceEs}.\n- Si las entradas actuales son debiles o incoherentes, corrigelas en lugar de repetirlas.\n- Año MYP: ${data.mypYear || 'MYP 1'}\n- Ruta: IB MYP Design\n- Idioma: Espanol\n\nEntradas actuales:\n- Necesidad/problema: ${data.ibNeed || '[sin definir]'}\n- Producto/sistema esperado: ${data.ibOutcome || '[sin definir]'}\n- Evidencia: ${data.ibEvidence || '[sin definir]'}\n- Prerrequisitos: ${data.ibPrereq || '[sin definir]'}`
+    : `Actua como asistente curricular de IB MYP Design. Con base en la informacion siguiente, genera exactamente 3 propuestas de brief de diseño listas para aula.\n\nDevuelve SOLO JSON valido con esta estructura:\n{"proposals":[{"title":"","need":"","outcome":"","evidence":"","prereq":"","rationale":""}]}\n\nReglas:\n- Cada propuesta debe ser distinta y usable en contexto escolar.\n- Usa lenguaje breve y util para docentes.\n- Alinea las propuestas con ${support.focus}.\n- Pregunta orientadora: ${support.inquiry}\n- Formulacion sugerida: ${support.brief}\n- Coherencia con el criterio: el producto debe responder a ${coherence.guide.objectiveEs}, y la evidencia debe mostrar ${coherence.guide.evidenceEs}.\n- Si las entradas actuales son debiles o incoherentes, corrigelas en lugar de repetirlas.\n- Año MYP: ${data.mypYear || 'MYP 1'}\n- Ruta: IB MYP Design\n- Idioma: Espanol\n\nEntradas actuales:\n- Necesidad/problema: ${data.ibNeed || '[sin definir]'}\n- Producto/sistema esperado: ${data.ibOutcome || '[sin definir]'}\n- Evidencia: ${data.ibEvidence || '[sin definir]'}\n- Prerrequisitos: ${data.ibPrereq || '[sin definir]'}`
 }
 
 function parseAIProposalResponse(raw) {
@@ -1775,7 +1775,7 @@ PROPOSED VISUAL SUPPORTS:
 Institución: ${d.institucion || '[nombre institución]'}
 ${levelLabel}: ${levelValue} | Docente: ${d.docente || '[nombre docente]'}
 ${frameworkLabel}: ${getFrameworkValue(d)}
-${d.route === 'ib_myp_design' ? 'Reto de diseno' : 'Subtema'}: ${d.subtema?.nombre || (d.route === 'ib_myp_design' ? '[reto definido]' : '[subtema seleccionado]')}
+${d.route === 'ib_myp_design' ? 'Reto de diseño' : 'Subtema'}: ${d.subtema?.nombre || (d.route === 'ib_myp_design' ? '[reto definido]' : '[subtema seleccionado]')}
 
 MARCO CURRICULAR:
 ${d.competencia?.trim() || competenciaBase}
@@ -1785,7 +1785,7 @@ ALCANCE DEL PROYECTO:
 ✘ NO incluye: programación avanzada, electrónica de potencia ni instalaciones físicas permanentes.
 
 OBJETIVO MEDIBLE:
-Al finalizar el proyecto, el/la estudiante elaborara "${d.subtema?.producto || '[producto definido]'}" ${d.route === 'ib_myp_design' ? 'como respuesta coherente al reto de diseno' : 'que evidencie comprension del subtema'}, cumpliendo al menos 2 de los 3 criterios de la rubrica de evaluacion.
+Al finalizar el proyecto, el/la estudiante elaborara "${d.subtema?.producto || '[producto definido]'}" ${d.route === 'ib_myp_design' ? 'como respuesta coherente al reto de diseño' : 'que evidencie comprension del subtema'}, cumpliendo al menos 2 de los 3 criterios de la rubrica de evaluacion.
 
 CRITERIOS DE ÉXITO OBSERVABLES:
 1. El/la estudiante entrega: ${d.subtema?.evidencia || '[evidencia definida]'}
@@ -3736,7 +3736,7 @@ function QuickAdvancedToggle({ value, onChange, isEN }) {
         onClick={() => onChange('quick')}
         className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[11px] font-semibold transition-colors ${isQuick ? 'bg-[#2b5a52] text-white' : 'text-[#5a7069] hover:text-[#2b5a52]'}`}
       >
-        <FiZap className="text-xs" /> {isEN ? 'Quick' : 'Rapido'}
+        <FiZap className="text-xs" /> {isEN ? 'Quick' : 'Rápido'}
       </button>
       <button
         type="button"
@@ -7099,7 +7099,7 @@ ul{margin:0 0 0 18px}.foot{padding:12px 20px;border-top:1px solid #e5e7eb;font-s
             <div className="grid grid-cols-2 gap-2">
               {[
                 { e: '📚', t: en ? `Key concepts explained for ${levelLabel.toLowerCase()}` : `Conceptos clave explicados para tu ${levelLabel.toLowerCase()}` },
-                { e: '🇨🇴', t: en ? (data.route === 'ib_myp_design' ? 'Design and use contexts for the project' : 'Examples grounded in Colombian school context') : (data.route === 'ib_myp_design' ? 'Contextos de diseno y uso para el proyecto' : 'Ejemplos del contexto colombiano') },
+                { e: '🇨🇴', t: en ? (data.route === 'ib_myp_design' ? 'Design and use contexts for the project' : 'Examples grounded in Colombian school context') : (data.route === 'ib_myp_design' ? 'Contextos de diseño y uso para el proyecto' : 'Ejemplos del contexto colombiano') },
                 { e: '❓', t: en ? 'Ready-to-use guiding questions for class' : 'Preguntas dinamizadoras listas para clase' },
                 { e: '⚠️', t: en ? 'Frequent mistakes and how to prevent them' : 'Errores frecuentes y como prevenirlos' },
               ].map(({ e, t }) => (
@@ -7120,7 +7120,7 @@ ul{margin:0 0 0 18px}.foot{padding:12px 20px;border-top:1px solid #e5e7eb;font-s
           <FiBook className="text-[#2b5a52] flex-shrink-0" />
           <div className="flex-1 min-w-0">
             <p className="text-xs font-semibold text-[#2b5a52]">{data.route === 'ib_myp_design' ? 'IB MYP Design' : (en ? 'MEN Curriculum Guidelines 2022' : 'Orientaciones Curriculares MEN 2022')}</p>
-            <p className="text-[10px] text-gray-500">{en ? (data.route === 'ib_myp_design' ? 'Official reference for the MYP Design route' : 'Official reference for Technology and Computing in Colombia') : (data.route === 'ib_myp_design' ? 'Marco oficial de referencia para la ruta de diseno del PAI' : 'Documento oficial de referencia para el area de Tecnologia e Informatica')}</p>
+            <p className="text-[10px] text-gray-500">{en ? (data.route === 'ib_myp_design' ? 'Official reference for the MYP Design route' : 'Official reference for Technology and Computing in Colombia') : (data.route === 'ib_myp_design' ? 'Marco oficial de referencia para la ruta de diseño del PAI' : 'Documento oficial de referencia para el area de Tecnologia e Informatica')}</p>
           </div>
           <FiExternalLink className="text-gray-400 group-hover:text-[#2b5a52] transition-colors flex-shrink-0 text-xs" />
         </a>
@@ -7515,7 +7515,7 @@ export function KitDocente() {
     if (step === 5 && candidate.route === 'ib_myp_design') {
       const ibSubtema = buildIBSubtemaFromData(candidate)
       const coherence = buildIBCoherenceReport(candidate)
-      if (!hasMeaningfulText(candidate.ibNeed)) return isEnglish(candidate) ? 'Define a meaningful design need before continuing.' : 'Define una necesidad de diseno con sentido antes de continuar.'
+      if (!hasMeaningfulText(candidate.ibNeed)) return isEnglish(candidate) ? 'Define a meaningful design need before continuing.' : 'Define una necesidad de diseño con sentido antes de continuar.'
       if (!hasMeaningfulText(candidate.ibOutcome)) return isEnglish(candidate) ? 'Define a meaningful product, prototype or system before continuing.' : 'Define un producto, prototipo o sistema con sentido antes de continuar.'
       if (!hasMeaningfulText(candidate.ibEvidence)) return isEnglish(candidate) ? 'Define meaningful process evidence before continuing.' : 'Define una evidencia de proceso con sentido antes de continuar.'
       if (!ibSubtema?.nombre) return isEnglish(candidate) ? 'Define at least the design need or challenge before continuing.' : 'Define al menos la necesidad o el reto de diseño para continuar.'
