@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { FiChevronRight, FiChevronLeft, FiPrinter, FiRefreshCw, FiCheck, FiBook, FiExternalLink, FiFileText, FiUsers, FiCheckSquare, FiPackage, FiUpload, FiX, FiSave, FiClock, FiFolder, FiLink, FiAlertCircle, FiTrash2, FiAward, FiImage, FiCopy, FiInfo, FiZap, FiSliders } from 'react-icons/fi'
 import logoMM from './assets/images/LogoMM.svg'
 import { detectStemDomain, buildStemPackage, STEM_DOMAINS } from './data/stemCatalog'
-import { OnboardingTour } from './OnboardingTour'
+import { OnboardingTour, GuidedTour } from './OnboardingTour'
 
 const MEN_URL = 'https://www.colombiaaprende.edu.co/sites/default/files/files_public/2022-11/Orientaciones_Curricures_Tecnologia.pdf'
 const IB_MYP_DESIGN_URL = 'https://www.ibo.org/programmes/middle-years-programme/curriculum/design/'
@@ -2709,7 +2709,7 @@ function SectionTitle({ letter, title, desc }) {
 }
 
 // ─── Pantallas de cada paso ───────────────────────────────────────────────────
-function Welcome({ data, onChange, onStart, onLoad, onOpenPanel }) {
+function Welcome({ data, onChange, onStart, onLoad, onOpenPanel, onStartTour }) {
   const [savedKits, setSavedKits] = useState(() => lsGetKits())
   const routeMeta = getRouteMeta(data?.route)
   const isIB = data?.route === 'ib_myp_design'
@@ -2726,6 +2726,12 @@ function Welcome({ data, onChange, onStart, onLoad, onOpenPanel }) {
   const handleLoadExample = () => {
     const lang = data?.language || 'es'
     const esLang = lang === 'es'
+    const subtemaEj = {
+      nombre: esLang ? 'Algoritmos para procesos de la vida cotidiana' : 'Algorithms for everyday processes',
+      producto: esLang ? 'Algoritmo escrito + diagrama de flujo de un proceso del entorno escolar' : 'Written algorithm + flowchart of a school environment process',
+      evidencia: esLang ? 'Diagrama revisado + prueba de escritorio documentada paso a paso' : 'Reviewed diagram + step-by-step desk check documentation',
+      prerequisito: esLang ? 'Comprensi\u00F3n de procesos secuenciales y condiciones' : 'Understanding of sequential processes and conditions',
+    }
     const example = {
       route: data?.route || 'men',
       language: lang,
@@ -2745,8 +2751,11 @@ function Welcome({ data, onChange, onStart, onLoad, onOpenPanel }) {
       incluyeImagenes: true, maxImagenes: 3, puedenFotografiar: true,
       tieneNEE: true, tiposNEE: ['visual'],
       descripcionNEE: esLang ? '1 estudiante con baja visi\u00F3n' : '1 student with low vision',
+      subtema: subtemaEj,
+      subtemaPropio: subtemaEj.nombre,
     }
-    onLoad({ data: example, step: 1 })
+    onLoad({ data: example, step: 0 })
+    if (onStartTour) onStartTour()
   }
 
   const handleDelete = (id, e) => {
@@ -7525,6 +7534,7 @@ export function KitDocente() {
   const [sharedKit, setSharedKit] = useState(null)
   const [showCreditos, setShowCreditos] = useState(false)
   const [kitId, setKitId] = useState(null)
+  const [guidedTour, setGuidedTour] = useState(false)
   const topRef = useRef()
   const en = isEnglish(data)
 
@@ -7655,7 +7665,7 @@ export function KitDocente() {
 
   const scrollToTop = () => topRef.current?.scrollTo(0, 0)
   const renderContent = () => {
-    if (step === 0) return <Welcome data={data} onChange={update} onStart={next} onLoad={handleLoad} onOpenPanel={() => setShowPanel(true)} />
+    if (step === 0) return <Welcome data={data} onChange={update} onStart={next} onLoad={handleLoad} onOpenPanel={() => setShowPanel(true)} onStartTour={() => setGuidedTour(true)} />
     if (step === 1) return <BlockA data={data} onChange={update} />
     if (step === 2) return <BlockB data={data} onChange={update} />
     if (step === 3) return <BlockC data={data} onChange={update} />
@@ -7777,6 +7787,30 @@ export function KitDocente() {
             )}
           </div>
         </div>
+      )}
+
+      {/* Tour guiado con ejemplo */}
+      {guidedTour && (
+        <GuidedTour
+          language={data.language}
+          currentStep={step}
+          onNext={(targetStep) => {
+            // Pre-generate content for steps we're skipping to
+            const enrichedData = { ...data, componenteLabel: getFrameworkValue(data), subtema: getLocalizedSubtema(data) }
+            for (let s = step; s < targetStep; s++) {
+              if (s >= 5 && s <= 11) {
+                const field = `paso${s - 4}`
+                if (!data[field]) {
+                  const gen = GENERADORES[s - 5]
+                  if (gen) update({ [field]: gen(enrichedData) })
+                }
+              }
+            }
+            setStep(targetStep)
+            topRef.current?.scrollTo(0, 0)
+          }}
+          onDismiss={() => setGuidedTour(false)}
+        />
       )}
 
       {/* Modal créditos */}
