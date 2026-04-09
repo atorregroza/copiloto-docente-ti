@@ -2889,13 +2889,15 @@ function Welcome({ data, onChange, onStart, onLoad, onOpenPanel, onStartTour }) 
         <p className="text-[10px] font-bold uppercase tracking-wide text-[#8e5e12] mb-4">{en ? 'How it works' : 'Cómo funciona'}</p>
         <div className="grid gap-4 sm:grid-cols-3">
           {[
-            { n: '01', emoji: '🎯', title: en ? 'Define' : 'Define', text: en ? 'Route, grade, challenge, resources and constraints.' : 'Ruta, grado, reto, recursos y restricciones.' },
-            { n: '02', emoji: '⚡', title: en ? 'Generate' : 'Genera', text: en ? '7 documents auto-generated: guides, rubric, assessment, family summary.' : '7 documentos auto-generados: guías, rúbrica, evaluación, resumen familias.' },
-            { n: '03', emoji: '✅', title: en ? 'Use' : 'Usa', text: en ? 'Edit what you need, deliver to students, grade with the interactive rubric, share.' : 'Edita lo que necesites, entrega al estudiante, califica con la rúbrica interactiva, comparte.' },
+            { n: '01', icon: FiSliders, title: en ? 'Define' : 'Define', text: en ? 'Route, grade, challenge, resources and constraints.' : 'Ruta, grado, reto, recursos y restricciones.' },
+            { n: '02', icon: FiPackage, title: en ? 'Generate' : 'Genera', text: en ? '7 documents auto-generated: guides, rubric, assessment, family summary.' : '7 documentos auto-generados: guías, rúbrica, evaluación, resumen familias.' },
+            { n: '03', icon: FiCheck, title: en ? 'Use' : 'Usa', text: en ? 'Edit what you need, deliver to students, grade with the interactive rubric, share.' : 'Edita lo que necesites, entrega al estudiante, califica con la rúbrica interactiva, comparte.' },
           ].map((item) => (
             <div key={item.n} className="rounded-xl border border-[#e8f0ec] bg-[#f8fbfa] p-4">
-              <div className="flex items-center gap-2 mb-2">
-                <span className="text-lg">{item.emoji}</span>
+              <div className="flex items-center gap-2.5 mb-2">
+                <div className="w-8 h-8 rounded-lg bg-[#2b5a52]/10 flex items-center justify-center flex-shrink-0">
+                  <item.icon className="text-sm text-[#2b5a52]" />
+                </div>
                 <span className="text-xs font-black text-[#fbb041]">{item.n}</span>
               </div>
               <p className="text-sm font-bold text-[#173d37]">{item.title}</p>
