@@ -2913,14 +2913,6 @@ function Welcome({ data, onChange, onStart, onLoad, onOpenPanel, onStartTour }) 
             </div>
           ))}
         </div>
-        <div className="mt-4 pt-3 border-t border-gray-100 flex items-center justify-between">
-          <button type="button" data-tour="panel" onClick={onOpenPanel} className="text-xs font-semibold text-[#2b5a52] hover:text-[#234a43] transition-colors">
-            {en ? 'My saved kits' : 'Mis kits guardados'}
-          </button>
-          <a href={isIB ? IB_MYP_DESIGN_URL : MEN_URL} target="_blank" rel="noopener noreferrer" className="text-xs text-[#5a7069] hover:text-[#2b5a52] transition-colors flex items-center gap-1">
-            {en ? 'Curriculum reference' : 'Referencia curricular'} <FiExternalLink className="text-[10px]" />
-          </a>
-        </div>
 
         {/* Bloque de confianza */}
         <div className="mt-4 pt-3 border-t border-gray-100">
