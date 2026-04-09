@@ -5565,7 +5565,7 @@ body{font-family:Georgia,serif;background:#fff;color:#111;font-size:11pt;line-he
 </div></div>
 ${data.competencia?.trim() ? `<div class="competencia"><strong>${competenciaLabel}:</strong> ${escHtml(data.competencia)}</div>` : ''}
 ${cards}
-<div class="footer">${en ? 'Kit Docente TI' : 'Kit Docente TI'} · Maryam Math · ${sourceLabel} · ${en ? 'Author' : 'Autora'}: ${AUTORA.nombre}</div>
+<div class="footer">${en ? 'Copiloto Docente TI' : 'Copiloto Docente TI'} · Maryam Math · ${sourceLabel} · ${en ? 'Author' : 'Autora'}: ${AUTORA.nombre}</div>
 <script>window.onload=()=>window.print()<\/script>
 </body></html>`
     const blob = new Blob([html], { type: 'text/html;charset=utf-8' })
@@ -5730,7 +5730,7 @@ td{padding:10px 12px;vertical-align:top;border-bottom:1px solid #f0f0f0;line-hei
       <tbody id="rbody"></tbody>
     </table>
   </div>
-  <p class="footer">Kit Docente TI · Maryam Math · ${sourceLabel} · ${en ? 'Author' : 'Autora'}: ${AUTORA.nombre} · ${new Date().getFullYear()}</p>
+  <p class="footer">Copiloto Docente TI · Maryam Math · ${sourceLabel} · ${en ? 'Author' : 'Autora'}: ${AUTORA.nombre} · ${new Date().getFullYear()}</p>
 <script>
 const PESOS = ${pesosJson};
 const CRIT_NOMBRES = ${critNombresJson};
@@ -5963,7 +5963,7 @@ function compartirEstudiante() {
     +'<th style="background:#fef9c3;color:#854d0e">⚠ ${en ? 'Developing' : 'Basico'}<br><small>' + v.b + '/' + escMax + '</small></th>'
     +'<th style="background:#fee2e2;color:#991b1b">✗ ${en ? 'Beginning' : 'Bajo'}<br><small>' + v.l + '/' + escMax + '</small></th>'
     +'</tr></thead><tbody>' + trows + '</tbody></table></div>'
-    +'<div class="footer">Kit Docente TI · Maryam Math · ' + ${jS(en ? 'Teacher' : 'Docente')} + ': ' + META.docente + '</div>'
+    +'<div class="footer">Copiloto Docente TI · Maryam Math · ' + ${jS(en ? 'Teacher' : 'Docente')} + ': ' + META.docente + '</div>'
     + '</body></html>';
     
   const blob = new Blob([h], { type: 'text/html;charset=utf-8' });
@@ -6428,7 +6428,7 @@ label.cr input[type=checkbox]{width:18px;height:18px;accent-color:#fbb041;flex-s
   ${renderCards([4, 5], 'e-card')}
 </div>
 
-<div class="footer">${data.language === 'en' ? 'Kit generated with' : 'Kit generado con'} Kit Docente TI · Maryam Math Plataforma Educativa · ${badge} · ${data.language === 'en' ? 'Author' : 'Autora'}: ${AUTORA.nombre}</div>
+<div class="footer">${data.language === 'en' ? 'Kit generated with' : 'Kit generado con'} Copiloto Docente TI · Maryam Math Plataforma Educativa · ${badge} · ${data.language === 'en' ? 'Author' : 'Autora'}: ${AUTORA.nombre}</div>
 
 <script>
 const SAVE_KEY = 'kit_${escHtml(data.subtema?.nombre || 'taller').toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')}';
@@ -6674,7 +6674,7 @@ label.cr input[type=checkbox]{width:18px;height:18px;accent-color:#fbb041;flex-s
     <div class="doc-content">${studentRubricaHtml}</div>
   </div>
 </div>
-<div class="footer">${en ? 'Student Workbook' : 'Taller del Estudiante'} · Kit Docente TI · Maryam Math · ${sourceLabel} · ${en ? 'Author' : 'Autora'}: ${AUTORA.nombre}</div>
+<div class="footer">${en ? 'Student Workbook' : 'Taller del Estudiante'} · Copiloto Docente TI · Maryam Math · ${sourceLabel} · ${en ? 'Author' : 'Autora'}: ${AUTORA.nombre}</div>
 <script>
 const SAVE_KEY='${SAVE_KEY}';
 function prevImg(input,pid){const f=input.files[0];if(!f)return;const r=new FileReader();r.onload=e=>{const img=document.getElementById(pid);if(img){img.src=e.target.result;img.style.display='block';}};r.readAsDataURL(f);}
@@ -6720,7 +6720,7 @@ ul{margin:0 0 0 18px}.foot{padding:12px 20px;border-top:1px solid #e5e7eb;font-s
 <div class="sec"><h2>${en ? 'What must they submit?' : '¿Qué debe entregar?'}</h2><p><strong>${en ? 'Product' : 'Producto'}:</strong> ${escHtml(producto)}</p><p><strong>${en ? 'Evidence' : 'Evidencia'}:</strong> ${escHtml(evidencia)}</p></div>
 <div class="sec"><h2>${en ? 'How will it be assessed?' : '¿Cómo será evaluado?'}</h2><p>${en ? 'With a clear rubric shared with the student from the beginning of the project.' : 'Con una rúbrica de criterios claros compartida con el estudiante (comprensión del reto, calidad del producto, evidencias y trabajo en equipo).'}</p></div>
 <div class="sec"><h2>${en ? 'How to support from home (10–15 min)' : '¿Cómo apoyar desde casa (10–15 min)?'}</h2><ul><li>${en ? 'Ask what problem was solved and how it was approached.' : 'Preguntar qué problema resolvió y cómo lo hizo.'}</li><li>${en ? 'Check that evidence is complete (photos, reflection and product).' : 'Revisar que complete evidencias (fotos, reflexión y producto).'}</li><li>${en ? 'Invite them to rehearse a short 2-minute explanation.' : 'Acompañar una breve explicación oral de 2 minutos.'}</li></ul></div>
-</div><div class="foot">Kit Docente TI · ${en ? 'Family summary' : 'Resumen para familias'} · ${sourceLabel}</div></div>
+</div><div class="foot">Copiloto Docente TI · ${en ? 'Family summary' : 'Resumen para familias'} · ${sourceLabel}</div></div>
 <script>window.onload=()=>window.print()<\/script></body></html>`
     const blob = new Blob([html], { type: 'text/html;charset=utf-8' })
     const url = URL.createObjectURL(blob)
@@ -7231,7 +7231,7 @@ function CreditosModal({ onClose, data }) {
         <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100 sticky top-0 bg-white">
           <div>
             <h2 className="font-bold text-[#2b5a52] text-base">{en ? 'About this application' : 'Acerca de esta aplicación'}</h2>
-            <p className="text-xs text-gray-400 mt-0.5">Kit Docente TI · Maryam Math Plataforma Educativa</p>
+            <p className="text-xs text-gray-400 mt-0.5">Copiloto Docente TI · Maryam Math Plataforma Educativa</p>
             <p className="text-[11px] text-[#2b5a52] mt-1 font-medium">{isIB ? (en ? 'Active route: School Design' : 'Ruta activa: Diseño Escolar') : (en ? 'Active route: MEN Kit - Technology and Computing' : 'Ruta activa: Kit MEN - Tecnología e Informática')}</p>
           </div>
           <button
@@ -7331,7 +7331,7 @@ export function KitDocente() {
   // ── Título del documento (para que al imprimir no aparezca el título del sitio) ──
   useEffect(() => {
     const prev = document.title
-    document.title = 'Kit Docente TI · Maryam Math'
+    document.title = 'Copiloto Docente TI · Maryam Math'
     return () => { document.title = prev }
   }, [])
 
@@ -7465,9 +7465,9 @@ export function KitDocente() {
         <div className="flex items-center gap-2 sm:gap-3 min-w-0">
           <img src={logoMM} alt="Maryam Math" className="h-7 sm:h-8 flex-shrink-0" />
           <div className="min-w-0">
-            <h1 className="font-bold text-[#173d37] text-sm sm:text-base leading-tight whitespace-nowrap overflow-hidden text-ellipsis">Kit Docente TI</h1>
+            <h1 className="font-bold text-[#173d37] text-sm sm:text-base leading-tight whitespace-nowrap overflow-hidden text-ellipsis">Copiloto Docente TI</h1>
             <p className="text-[10px] sm:text-xs text-gray-400 leading-tight hidden md:block">
-              {data.route === 'ib_myp_design' ? 'Diseño Escolar' : (en ? 'Technology and Computing MEN 2022' : 'Tecnología e Informática MEN 2022')}
+              {en ? 'Your assistant for Technology and Computing kits' : 'Tu asistente para kits de Tecnología e Informática'}
             </p>
           </div>
         </div>
