@@ -2921,6 +2921,20 @@ function Welcome({ data, onChange, onStart, onLoad, onOpenPanel, onStartTour }) 
             {en ? 'Curriculum reference' : 'Referencia curricular'} <FiExternalLink className="text-[10px]" />
           </a>
         </div>
+
+        {/* Bloque de confianza */}
+        <div className="mt-4 pt-3 border-t border-gray-100">
+          <div className="flex flex-wrap justify-center gap-x-5 gap-y-1">
+            {(en
+              ? ['No account needed', 'Works on phone', 'Auto-saves', 'Free', '100% private']
+              : ['Sin cuenta ni registro', 'Funciona en el celular', 'Se guarda solo', 'Gratis', '100% privado']
+            ).map((item) => (
+              <span key={item} className="text-[11px] text-[#8a9e98] flex items-center gap-1">
+                <FiCheck className="text-[#2b5a52] text-[9px]" /> {item}
+              </span>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   )
