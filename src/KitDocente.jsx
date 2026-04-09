@@ -145,14 +145,14 @@ const REFERENTES_MEN = [
 
 const REFERENTES_IB = [
   {
-    tag: 'IB', color: 'bg-red-100 text-red-700',
-    titulo: 'MYP Design',
-    cita: 'International Baccalaureate Organization — curriculum overview',
+    tag: 'Ref.', color: 'bg-red-100 text-red-700',
+    titulo: 'Ciclo de Diseño Escolar',
+    cita: 'Adaptado de International Baccalaureate Organization — curriculum overview',
   },
   {
-    tag: 'MYP', color: 'bg-orange-100 text-orange-700',
-    titulo: 'How the MYP works',
-    cita: 'International Baccalaureate Organization — programme framework',
+    tag: 'Ref.', color: 'bg-orange-100 text-orange-700',
+    titulo: 'Marco de Programa por Años',
+    cita: 'Adaptado de International Baccalaureate Organization — programme framework',
   },
 ]
 
@@ -192,7 +192,7 @@ const REFERENTES_COMPARTIDOS = [
 const REFERENTES_STEM = [
   { tag: 'NGSS', color: 'bg-blue-100 text-blue-700', titulo: 'NGSS Appendix I: Engineering Design', cita: 'Next Generation Science Standards, 2013' },
   { tag: 'MEN', color: 'bg-green-100 text-green-700', titulo: 'Orientaciones Curriculares Tec. e Informática 2022', cita: 'Ministerio de Educación Nacional de Colombia' },
-  { tag: 'IB', color: 'bg-orange-100 text-orange-700', titulo: 'Ciclo de Diseño · IB MYP', cita: 'International Baccalaureate Organization' },
+  { tag: 'Ref.', color: 'bg-orange-100 text-orange-700', titulo: 'Ciclo de Diseño Escolar', cita: 'Adaptado de International Baccalaureate Organization' },
   { tag: 'UNESCO', color: 'bg-teal-100 text-teal-700', titulo: 'ICT-CFT v3 · Inclusión y sostenibilidad', cita: 'UNESCO, 2019' },
   { tag: 'REF', color: 'bg-amber-100 text-amber-700', titulo: 'Referencia interna STEM / STEAM', cita: 'Disponible en la plataforma · /stem-ref.html' },
 ]
@@ -215,13 +215,13 @@ function generarPromptSimulador(subtema, grado, componenteLabel, data = {}) {
   const recursos = data.recursos?.trim() ? `Recursos disponibles: ${data.recursos}.` : ''
   const restricc = data.restricciones?.trim() ? `Restricciones del contexto: ${data.restricciones}.` : ''
   const isIB = data.route === 'ib_myp_design'
-  const audience = isIB ? (data.mypYear || 'MYP 1') : grado
-  const area = isIB ? 'IB MYP Design' : (componenteLabel || 'Tecnología e Informática')
+  const audience = isIB ? (data.mypYear || 'Año 1') : grado
+  const area = isIB ? 'Diseño Escolar' : (componenteLabel || 'Tecnología e Informática')
   const intro = isIB
-    ? `Eres un docente experto en MYP Design del Bachillerato Internacional, trabajando con estudiantes de ${audience}.`
+    ? `Eres un docente experto en diseño escolar y ciclo de diseño aplicado, trabajando con estudiantes de ${audience}.`
     : `Eres un tutor experto en Tecnología e Informática para estudiantes de ${audience} de educación básica en Colombia, alineado con las Orientaciones Curriculares MEN 2022.`
   const context = isIB
-    ? 'Estoy preparando un kit didáctico con enfoque de diseño. Necesito que el reto, el producto y la evaluación dialoguen con el ciclo de diseño del MYP.'
+    ? 'Estoy preparando un kit didáctico con enfoque de diseño. Necesito que el reto, el producto y la evaluación dialoguen con el ciclo de diseño escolar.'
     : `Estoy preparando un kit didáctico sobre "${nombre}". Mis estudiantes deben lograr construir: ${producto}.`
   const examplesBlock = isIB
     ? `2. EJEMPLOS Y CONTEXTOS DE DISEÑO
@@ -339,7 +339,7 @@ const MEN_COMPONENTES = [
 ]
 
 const GRADOS = ['Preescolar', '1°', '2°', '3°', '4°', '5°', '6°', '7°', '8°', '9°', '10°', '11°']
-const MYP_YEARS = ['MYP 1', 'MYP 2', 'MYP 3', 'MYP 4', 'MYP 5']
+const MYP_YEARS = ['Año 1', 'Año 2', 'Año 3', 'Año 4', 'Año 5']
 const LANGUAGES = [
   { id: 'es', label: 'Español', shortLabel: 'ES' },
   { id: 'en', label: 'English', shortLabel: 'EN' },
@@ -423,18 +423,18 @@ const CURRICULAR_ROUTES = [
   },
   {
     id: 'ib_myp_design',
-    label: 'Kit IB - MYP Design',
-    labelEn: 'Kit IB - MYP Design',
-    shortLabel: 'IB MYP',
-    desc: 'Ruta nueva por año MYP con enfoque de diseño.',
-    descEn: 'New route by MYP year with a design-centered approach.',
+    label: 'Diseño Escolar',
+    labelEn: 'School Design',
+    shortLabel: 'Diseño',
+    desc: 'Ruta por año y ciclo de diseño escolar.',
+    descEn: 'Route by year with a school design cycle approach.',
   },
   {
     id: 'stem',
     label: 'STEM / STEAM',
     labelEn: 'STEM / STEAM',
     shortLabel: 'STEM',
-    desc: 'Interdisciplinario bilingüe sin dividir MEN / IB; reto, guía, rúbrica y evidencias integradas.',
+    desc: 'Interdisciplinario bilingüe; reto, guía, rúbrica y evidencias integradas.',
     descEn: 'Bilingual interdisciplinary track; challenge, guide, rubric and evidence integrated.',
   },
 ]
@@ -742,8 +742,8 @@ function buildStemBandDefaults(grado = '', language = 'es', prev = {}) {
 
 function getLevelLabel(data = {}) {
   if (data.route === 'stem') return isEnglish(data) ? 'Suggested level' : 'Nivel sugerido'
-  if (isEnglish(data)) return data.route === 'ib_myp_design' ? 'MYP Year' : 'Grade'
-  return data.route === 'ib_myp_design' ? 'Año MYP' : 'Grado'
+  if (isEnglish(data)) return data.route === 'ib_myp_design' ? 'Design year' : 'Grade'
+  return data.route === 'ib_myp_design' ? 'Año de diseño' : 'Grado'
 }
 
 function getLevelValue(data = {}) {
@@ -752,7 +752,7 @@ function getLevelValue(data = {}) {
     const bandLabel = band ? (isEnglish(data) ? band.label.en : band.label.es) : ''
     return `${data.grado || '9°'}${bandLabel ? ` · ${bandLabel}` : ''}`
   }
-  return data.route === 'ib_myp_design' ? (data.mypYear || 'MYP 1') : (data.grado || '7°')
+  return data.route === 'ib_myp_design' ? (data.mypYear || 'Año 1') : (data.grado || '7°')
 }
 
 function translateMenText(text = '') {
@@ -797,20 +797,20 @@ function getLocalizedSubtema(data = {}) {
 }
 
 function getFrameworkValue(data = {}) {
-  if (data.route === 'ib_myp_design') return 'IB MYP Design'
+  if (data.route === 'ib_myp_design') return 'Diseño Escolar'
   if (data.route === 'stem') return 'STEM / STEAM'
   const label = MEN_COMPONENTES.find((c) => c.id === data.componente)?.label || ''
   return isEnglish(data) ? translateMenText(label) : label
 }
 
 function getCurriculumBadge(data = {}) {
-  if (data.route === 'ib_myp_design') return 'IB MYP Design'
+  if (data.route === 'ib_myp_design') return 'Diseño Escolar'
   if (data.route === 'stem') return 'STEM / STEAM Plus'
   return isEnglish(data) ? 'MEN Technology and Computing' : 'Tecnologia e Informatica MEN'
 }
 
 function getSourceLabel(data = {}) {
-  if (data.route === 'ib_myp_design') return 'IB MYP Design'
+  if (data.route === 'ib_myp_design') return 'Diseño Escolar'
   if (data.route === 'stem') return 'STEM / STEAM plus'
   return isEnglish(data) ? 'MEN Technology and Computing 2022' : 'MEN Colombia 2022'
 }
@@ -1008,7 +1008,7 @@ function buildStemPreset(language = 'es') {
     route: 'stem',
     language,
     grado: defaultGrade,
-    mypYear: 'MYP 1',
+    mypYear: 'Año 1',
     componente: 'solucion',
     competencia: en ? 'STEM / STEAM interdisciplinary integration' : 'Integración interdisciplinaria STEM / STEAM',
     duracionProyecto: en ? '4-6 weeks' : '4–6 semanas',
@@ -1120,8 +1120,8 @@ function buildIBCoherenceReport(data = {}) {
     ? `Design a response to a real need connected to ${contextLabel.toLowerCase()}, making ${keyLabel.toLowerCase()} and ${relatedLabel.toLowerCase()} visible in the decision-making process.`
     : `Diseñar una respuesta a una necesidad real vinculada con ${contextLabel.toLowerCase()}, haciendo visible ${keyLabel.toLowerCase()} y ${relatedLabel.toLowerCase()} en la toma de decisiones.`
   const recommendedOutcome = en
-    ? `${guide.outcome} for ${data.mypYear || 'MYP 1'}`
-    : `${guide.outcomeEs} para ${data.mypYear || 'MYP 1'}`
+    ? `${guide.outcome} for ${data.mypYear || 'Año 1'}`
+    : `${guide.outcomeEs} para ${data.mypYear || 'Año 1'}`
   const recommendedEvidence = en
     ? `${guide.evidence}.`
     : `${guide.evidenceEs}.`
@@ -1252,8 +1252,8 @@ function buildIBProposalPrompt(data = {}) {
   const support = buildIBSupport(data)
   const coherence = buildIBCoherenceReport(data)
   return en
-    ? `You are an IB MYP Design curriculum assistant. Based on the information below, generate exactly 3 classroom-ready design brief proposals for a teacher.\n\nReturn ONLY valid JSON with this shape:\n{"proposals":[{"title":"","need":"","outcome":"","evidence":"","prereq":"","rationale":""}]}\n\nRules:\n- Each proposal must be different and usable in school context.\n- Keep the language concise and teacher-facing.\n- Align with ${support.focus}.\n- Guiding inquiry: ${support.inquiry}\n- Suggested brief: ${support.brief}\n- Criterion coherence: the outcome should reflect ${coherence.guide.objective}, and the evidence should show ${coherence.guide.evidence}.\n- If current inputs are weak or incoherent, correct them instead of repeating them.\n- MYP year: ${data.mypYear || 'MYP 1'}\n- Route: IB MYP Design\n- Language: English\n\nCurrent inputs:\n- Need/problem: ${data.ibNeed || '[not defined]'}\n- Expected product/system: ${data.ibOutcome || '[not defined]'}\n- Evidence: ${data.ibEvidence || '[not defined]'}\n- Prior knowledge: ${data.ibPrereq || '[not defined]'}`
-    : `Actua como asistente curricular de IB MYP Design. Con base en la informacion siguiente, genera exactamente 3 propuestas de brief de diseño listas para aula.\n\nDevuelve SOLO JSON valido con esta estructura:\n{"proposals":[{"title":"","need":"","outcome":"","evidence":"","prereq":"","rationale":""}]}\n\nReglas:\n- Cada propuesta debe ser distinta y usable en contexto escolar.\n- Usa lenguaje breve y util para docentes.\n- Alinea las propuestas con ${support.focus}.\n- Pregunta orientadora: ${support.inquiry}\n- Formulacion sugerida: ${support.brief}\n- Coherencia con el criterio: el producto debe responder a ${coherence.guide.objectiveEs}, y la evidencia debe mostrar ${coherence.guide.evidenceEs}.\n- Si las entradas actuales son debiles o incoherentes, corrigelas en lugar de repetirlas.\n- Año MYP: ${data.mypYear || 'MYP 1'}\n- Ruta: IB MYP Design\n- Idioma: Espanol\n\nEntradas actuales:\n- Necesidad/problema: ${data.ibNeed || '[sin definir]'}\n- Producto/sistema esperado: ${data.ibOutcome || '[sin definir]'}\n- Evidencia: ${data.ibEvidence || '[sin definir]'}\n- Prerrequisitos: ${data.ibPrereq || '[sin definir]'}`
+    ? `You are a school design cycle curriculum assistant. Based on the information below, generate exactly 3 classroom-ready design brief proposals for a teacher.\n\nReturn ONLY valid JSON with this shape:\n{"proposals":[{"title":"","need":"","outcome":"","evidence":"","prereq":"","rationale":""}]}\n\nRules:\n- Each proposal must be different and usable in school context.\n- Keep the language concise and teacher-facing.\n- Align with ${support.focus}.\n- Guiding inquiry: ${support.inquiry}\n- Suggested brief: ${support.brief}\n- Criterion coherence: the outcome should reflect ${coherence.guide.objective}, and the evidence should show ${coherence.guide.evidence}.\n- If current inputs are weak or incoherent, correct them instead of repeating them.\n- Design year: ${data.mypYear || 'Año 1'}\n- Route: Diseño Escolar\n- Language: English\n\nCurrent inputs:\n- Need/problem: ${data.ibNeed || '[not defined]'}\n- Expected product/system: ${data.ibOutcome || '[not defined]'}\n- Evidence: ${data.ibEvidence || '[not defined]'}\n- Prior knowledge: ${data.ibPrereq || '[not defined]'}`
+    : `Actua como asistente curricular de Diseño Escolar. Con base en la informacion siguiente, genera exactamente 3 propuestas de brief de diseño listas para aula.\n\nDevuelve SOLO JSON valido con esta estructura:\n{"proposals":[{"title":"","need":"","outcome":"","evidence":"","prereq":"","rationale":""}]}\n\nReglas:\n- Cada propuesta debe ser distinta y usable en contexto escolar.\n- Usa lenguaje breve y util para docentes.\n- Alinea las propuestas con ${support.focus}.\n- Pregunta orientadora: ${support.inquiry}\n- Formulacion sugerida: ${support.brief}\n- Coherencia con el criterio: el producto debe responder a ${coherence.guide.objectiveEs}, y la evidencia debe mostrar ${coherence.guide.evidenceEs}.\n- Si las entradas actuales son debiles o incoherentes, corrigelas en lugar de repetirlas.\n- Año de diseño: ${data.mypYear || 'Año 1'}\n- Ruta: Diseño Escolar\n- Idioma: Espanol\n\nEntradas actuales:\n- Necesidad/problema: ${data.ibNeed || '[sin definir]'}\n- Producto/sistema esperado: ${data.ibOutcome || '[sin definir]'}\n- Evidencia: ${data.ibEvidence || '[sin definir]'}\n- Prerrequisitos: ${data.ibPrereq || '[sin definir]'}`
 }
 
 function parseAIProposalResponse(raw) {
@@ -1397,7 +1397,7 @@ function calcScore(data) {
       ok: !!(data.route === 'ib_myp_design' ? data.mypYear : data.componente),
       pts: 10,
       label: data.route === 'ib_myp_design'
-        ? copy('Marco IB definido', 'IB framework set')
+        ? copy('Marco de diseño definido', 'Design framework set')
         : copy('Componente MEN seleccionado', 'MEN component selected'),
     },
     {
@@ -1502,14 +1502,14 @@ const RUTAS_MAP = {
     accion: {
       es: 'Bloque B · campo 6',
       en: 'Block B · field 6',
-      ibEs: 'Bloque B · ruta curricular y año MYP',
-      ibEn: 'Block B · curricular route and MYP year',
+      ibEs: 'Bloque B · ruta curricular y año de diseño',
+      ibEn: 'Block B · curricular route and design year',
     },
     tip: {
       es: 'El componente alinea todo el kit con las Orientaciones Curriculares MEN 2022.',
       en: 'The selected component aligns the whole kit with the MEN Curriculum Guidelines 2022.',
-      ibEs: 'La ruta IB y el año MYP organizan todo el kit desde la lógica de diseño del programa.',
-      ibEn: 'The IB route and MYP year organise the whole kit through the programme design logic.',
+      ibEs: 'La ruta de diseño y el año organizan todo el kit desde la lógica del ciclo de diseño.',
+      ibEn: 'The design route and year organise the whole kit through the design cycle logic.',
     },
   },
   competency: {
@@ -1523,8 +1523,8 @@ const RUTAS_MAP = {
     tip: {
       es: 'La competencia es el ancla pedagógica de todos los 7 PASOS del kit.',
       en: 'The competency is the pedagogical anchor for all 7 kit STEPS.',
-      ibEs: 'El foco de diseño debe orientar el reto, la solución y la evaluación dentro de la ruta IB.',
-      ibEn: 'The design focus should guide the challenge, the solution and the assessment within the IB route.',
+      ibEs: 'El foco de diseño debe orientar el reto, la solución y la evaluación dentro de la ruta de diseño.',
+      ibEn: 'The design focus should guide the challenge, the solution and the assessment within the design route.',
     },
   },
   duration: {
@@ -1548,8 +1548,8 @@ const RUTAS_MAP = {
     tip: {
       es: 'El subtema define el enfoque concreto de todos los documentos del kit.',
       en: 'The selected topic sets the concrete focus for every document in the kit.',
-      ibEs: 'El reto de diseño debe quedar coherente con el criterio IB antes de pasar al resto del kit.',
-      ibEn: 'The design challenge must stay coherent with the IB criterion before moving through the rest of the kit.',
+      ibEs: 'El reto de diseño debe quedar coherente con el criterio seleccionado antes de pasar al resto del kit.',
+      ibEn: 'The design challenge must stay coherent with the selected criterion before moving through the rest of the kit.',
     },
   },
   steps12: {
@@ -1736,7 +1736,7 @@ function gen1(d) {
   const en = isEnglish(d)
   const levelLabel = getLevelLabel(d)
   const levelValue = getLevelValue(d)
-  const frameworkLabel = d.route === 'ib_myp_design' ? (en ? 'IB Framework' : 'Marco IB') : (en ? 'MEN Component' : 'Componente MEN')
+  const frameworkLabel = d.route === 'ib_myp_design' ? (en ? 'Design Framework' : 'Marco de Diseño') : (en ? 'MEN Component' : 'Componente MEN')
   const competenciaBase = d.route === 'ib_myp_design'
     ? (en
       ? `Base objective: The student investigates, develops and evaluates a design solution related to "${d.subtema?.nombre || 'the proposed challenge'}", justifying decisions and considering user, function and constraints.`
@@ -2415,7 +2415,7 @@ function gen6(d) {
     return `STEP 6: TEACHER ASSESSMENT RUBRIC
 =======================================
 Project: ${d.subtema?.nombre || '[project name]'}
-${d.route === 'ib_myp_design' ? 'IB Framework' : 'MEN Component'}: ${getFrameworkValue(d)}
+${d.route === 'ib_myp_design' ? 'Design Framework' : 'MEN Component'}: ${getFrameworkValue(d)}
 ${getLevelLabel(d)}: ${getLevelValue(d)} | Teacher: ${d.docente || '[name]'}
 
 ASSESSED COMPETENCY:
@@ -2435,7 +2435,7 @@ Excellent (5.0 × weight) + High (4.2 × weight) + Basic (3.5 × weight) + Low (
   return `PASO 6: RÚBRICA DE EVALUACIÓN DOCENTE
 =======================================
 Proyecto: ${d.subtema?.nombre || '[nombre del proyecto]'}
-${d.route === 'ib_myp_design' ? 'Marco IB' : 'Componente MEN'}: ${getFrameworkValue(d)}
+${d.route === 'ib_myp_design' ? 'Marco de Diseño' : 'Componente MEN'}: ${getFrameworkValue(d)}
 ${getLevelLabel(d)}: ${getLevelValue(d)} | Docente: ${d.docente || '[nombre]'}
 
 COMPETENCIA EVALUADA:
@@ -2457,8 +2457,8 @@ function gen7(d) {
   const en = isEnglish(d)
   const levelLabel = getLevelLabel(d)
   const levelValue = getLevelValue(d)
-  const frameworkLabel = d.route === 'ib_myp_design' ? (en ? 'IB Framework' : 'Marco IB') : (en ? 'MEN Component' : 'Componente MEN')
-  const areaLabel = d.route === 'ib_myp_design' ? (en ? 'Area: IB MYP Design' : 'Area: IB MYP Design') : (en ? 'Area: Technology and Computing' : 'Area: Tecnologia e Informatica')
+  const frameworkLabel = d.route === 'ib_myp_design' ? (en ? 'Design Framework' : 'Marco de Diseño') : (en ? 'MEN Component' : 'Componente MEN')
+  const areaLabel = d.route === 'ib_myp_design' ? (en ? 'Area: School Design' : 'Area: Diseño Escolar') : (en ? 'Area: Technology and Computing' : 'Area: Tecnologia e Informatica')
   if (en) {
     return `STEP 7: INSTITUTIONAL PACKAGE
 ==============================
@@ -2499,8 +2499,7 @@ DIGITAL SUPPORT RESOURCES:
 • Scratch (visual coding): https://scratch.mit.edu
 • PhET (science simulations): https://phet.colorado.edu
 • Canva for Education: https://www.canva.com
-• ${d.route === 'ib_myp_design' ? 'IB MYP Design: https://www.ibo.org/programmes/middle-years-programme/curriculum/design/' : 'MEN Curriculum Guidelines: https://www.colombiaaprende.edu.co'}
-• The kit prioritizes work in the platform and leaves exports as support.
+${d.route === 'ib_myp_design' ? '' : '• MEN Curriculum Guidelines: https://www.colombiaaprende.edu.co\n'}• The kit prioritizes work in the platform and leaves exports as support.
 
 Responsible teacher: ${d.docente || '[Name]'} — ${d.institucion || '[Institution]'}`
   }
@@ -2543,8 +2542,7 @@ RECURSOS DIGITALES DE APOYO:
 • Scratch (programación visual): https://scratch.mit.edu
 • PhET (simuladores científicos): https://phet.colorado.edu/es
 • Canva educativo gratuito: https://www.canva.com/es_co/
-• ${d.route === 'ib_myp_design' ? 'IB MYP Design: https://www.ibo.org/programmes/middle-years-programme/curriculum/design/' : 'Orientaciones Curriculares MEN: https://www.colombiaaprende.edu.co'}
-• El kit prioriza el trabajo en plataforma y deja los exportables como apoyo.
+${d.route === 'ib_myp_design' ? '' : '• Orientaciones Curriculares MEN: https://www.colombiaaprende.edu.co\n'}• El kit prioriza el trabajo en plataforma y deja los exportables como apoyo.
 
 Docente responsable: ${d.docente || '[Nombre]'} — ${d.institucion || '[Institución]'}`
 }
@@ -2713,7 +2711,7 @@ function Welcome({ data, onChange, onStart, onLoad, onOpenPanel }) {
           <div>
             <img src={logoMM} alt="Maryam Math" className="mb-4 h-11 drop-shadow-sm sm:mb-5 sm:h-14" />
             <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#fbb041]/30 bg-[#fff7e4] px-3 py-1 text-[11px] font-bold uppercase tracking-[0.16em] text-[#9b6714]">
-              <FiBook className="text-xs" /> {isIB ? 'IB · MYP Design' : (en ? 'MEN · Technology and Computing' : 'MEN · Tecnología e Informática')}
+              <FiBook className="text-xs" /> {isIB ? 'Diseño Escolar' : (en ? 'MEN · Technology and Computing' : 'MEN · Tecnología e Informática')}
             </div>
             <h1 className="max-w-3xl text-[2.6rem] leading-[0.98] text-[#173d37] sm:text-[3.6rem] sm:leading-[1.02] xl:text-[4.1rem]" style={{ fontFamily: 'Georgia, Times New Roman, serif', fontWeight: 800 }}>
               {en ? <>Design, review and deliver a teaching kit with professional structure.</> : <>Diseña, revisa y entrega un kit docente con estructura profesional.</>}
@@ -2721,8 +2719,8 @@ function Welcome({ data, onChange, onStart, onLoad, onOpenPanel }) {
             <p className="mt-3 max-w-3xl text-[15px] leading-7 text-[#536a63] sm:mt-4 sm:text-[17px] sm:leading-8">
               {isIB
                 ? (en
-                  ? 'Create an IB MYP Design kit with planning, student workbook, aligned rubric, assessment and institutional support views in one connected flow.'
-                  : 'Crea un kit de IB MYP Design con planeación, guía del estudiante, rúbrica alineada, evaluación y vistas institucionales en un flujo conectado.')
+                  ? 'Create a school design kit with planning, student workbook, aligned rubric, assessment and institutional support views in one connected flow.'
+                  : 'Crea un kit de Diseño Escolar con planeación, guía del estudiante, rúbrica alineada, evaluación y vistas institucionales en un flujo conectado.')
                 : (en
                   ? 'Create a Technology and Computing MEN kit with clear curricular structure, student workbook, connected assessment and institutional support views in one connected flow.'
                   : 'Crea un kit MEN de Tecnología e Informática con estructura curricular clara, guía del estudiante, evaluación conectada y vistas institucionales en un flujo conectado.')}
@@ -2730,7 +2728,7 @@ function Welcome({ data, onChange, onStart, onLoad, onOpenPanel }) {
 
             <div className="mt-5 grid gap-2 sm:mt-6 sm:gap-3 sm:grid-cols-2">
               {[
-                { k: en ? 'Curricular scope' : 'Alcance curricular', v: en ? 'MEN + IB MYP Design' : 'MEN + IB MYP Design', s: en ? 'Technology and Computing MEN and IB MYP Design in distinct routes' : 'Tecnología e Informática MEN e IB MYP Design en rutas diferenciadas' },
+                { k: en ? 'Curricular scope' : 'Alcance curricular', v: en ? 'MEN + School Design' : 'MEN + Diseño Escolar', s: en ? 'Technology and Computing MEN and School Design in distinct routes' : 'Tecnología e Informática MEN y Diseño Escolar en rutas diferenciadas' },
                 { k: en ? 'Language and outputs' : 'Idioma y salidas', v: en ? 'Spanish + English' : 'Español + English', s: en ? 'Platform, generated kit and key outputs in both languages' : 'Plataforma, kit generado y salidas clave en ambos idiomas' },
               ].map((item) => (
                 <div key={item.k} className="rounded-2xl border border-white/80 bg-white/80 px-3.5 py-3.5 shadow-[0_8px_24px_rgba(23,61,55,.05)] backdrop-blur sm:px-4 sm:py-4">
@@ -2757,7 +2755,7 @@ function Welcome({ data, onChange, onStart, onLoad, onOpenPanel }) {
             <div className="mt-4 grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
               {[
                 { title: en ? 'Active route' : 'Ruta activa', text: getRouteDescription(routeMeta.id, data?.language) },
-                { title: en ? 'Coverage' : 'Cobertura', text: en ? 'Curriculum in MEN Technology and Computing or IB MYP Design, with Spanish and English available.' : 'Currículo en MEN de Tecnología e Informática o IB MYP Design, con español e inglés disponibles.' },
+                { title: en ? 'Coverage' : 'Cobertura', text: en ? 'Curriculum in MEN Technology and Computing or School Design, with Spanish and English available.' : 'Currículo en MEN de Tecnología e Informática o Diseño Escolar, con español e inglés disponibles.' },
                 { title: en ? 'Main outputs' : 'Salidas principales', text: en ? 'Teacher guide, student workbook, rubric, assessment, family summary, dashboard and support views.' : 'Guía docente, taller del estudiante, rúbrica, evaluación, resumen para familias, panel y vistas de apoyo.' },
               ].map((item) => (
                 <div key={item.title} className="rounded-2xl border border-[#dce8e4] bg-white px-4 py-3.5">
@@ -2792,7 +2790,7 @@ function Welcome({ data, onChange, onStart, onLoad, onOpenPanel }) {
                 onClick={() => onChange({
                   route: route.id,
                   rubrica: buildDefaultRubrica(route.id, data?.language || 'es'),
-                  mypYear: route.id === 'ib_myp_design' ? (data?.mypYear || 'MYP 1') : (data?.mypYear || 'MYP 1'),
+                  mypYear: route.id === 'ib_myp_design' ? (data?.mypYear || 'Año 1') : (data?.mypYear || 'Año 1'),
                   grado: route.id === 'men' ? (data?.grado || '7°') : data?.grado,
                   paso1: '',
                   paso2: '',
@@ -2818,8 +2816,8 @@ function Welcome({ data, onChange, onStart, onLoad, onOpenPanel }) {
                 <p className="mt-4 text-xs leading-6 text-[#4b635d]">
                   {route.id === 'ib_myp_design'
                     ? (en
-                      ? 'Work by MYP year, design focus, solution, testing, iteration and assessment.'
-                      : 'Trabaja por año MYP, foco de diseño, solución, prueba, iteración y evaluación.')
+                      ? 'Work by design year, design focus, solution, testing, iteration and assessment.'
+                      : 'Trabaja por año de diseño, foco de diseño, solución, prueba, iteración y evaluación.')
                     : (en
                       ? 'Work by grade, MEN component, curricular competency and technology project.'
                       : 'Trabaja por grado, componente MEN, competencia curricular y proyecto tecnológico.')}
@@ -2933,8 +2931,8 @@ function Welcome({ data, onChange, onStart, onLoad, onOpenPanel }) {
 
             <div className="mt-5 flex flex-wrap gap-2.5">
               {[
-                isIB ? 'IB MYP Design' : (en ? 'Technology and Computing' : 'Tecnología e Informática'),
-                isIB ? (en ? 'MYP teachers and coordination' : 'Docentes MYP y coordinación') : (en ? 'Teachers and coordination' : 'Docentes y coordinación'),
+                isIB ? 'Diseño Escolar' : (en ? 'Technology and Computing' : 'Tecnología e Informática'),
+                isIB ? (en ? 'Design teachers and coordination' : 'Docentes de diseño y coordinación') : (en ? 'Teachers and coordination' : 'Docentes y coordinación'),
                 en ? languageMeta.label : languageMeta.label,
               ].map((item) => (
                 <span key={item} className="inline-flex items-center rounded-full border border-[#d9e5e1] bg-white px-3 py-1.5 text-[12px] font-semibold text-[#30534c] shadow-[0_6px_18px_rgba(23,61,55,.05)]">
@@ -3013,8 +3011,8 @@ function Welcome({ data, onChange, onStart, onLoad, onOpenPanel }) {
           <FiBook className="text-[#2b5a52]" />
         </div>
         <div className="flex-1 text-left">
-          <p className="text-sm font-semibold text-[#2b5a52]">{isIB ? 'IB MYP Design' : (en ? 'MEN Curriculum Guidelines' : 'Orientaciones Curriculares MEN')}</p>
-          <p className="text-xs text-gray-500">{isIB ? (en ? 'Check the official MYP Design reference' : 'Consulta la referencia oficial del marco MYP Design') : (en ? 'Check the official Ministry of Education document' : 'Consulta el documento oficial del Ministerio de Educación')}</p>
+          <p className="text-sm font-semibold text-[#2b5a52]">{isIB ? 'Diseño Escolar' : (en ? 'MEN Curriculum Guidelines' : 'Orientaciones Curriculares MEN')}</p>
+          <p className="text-xs text-gray-500">{isIB ? (en ? 'Check the official design cycle reference' : 'Consulta la referencia oficial del ciclo de diseño') : (en ? 'Check the official Ministry of Education document' : 'Consulta el documento oficial del Ministerio de Educación')}</p>
         </div>
         <FiExternalLink className="text-gray-400 group-hover:text-[#2b5a52] transition-colors flex-shrink-0" />
       </a>
@@ -3244,7 +3242,7 @@ function BlockB({ data, onChange }) {
       <SectionTitle
         letter="B"
         title={isEN ? 'Curricular route' : 'Ruta curricular'}
-        desc={isEN ? 'Choose whether you will work with the MEN Technology and Computing kit or with Kit IB - MYP Design.' : 'Elige si trabajarás con el kit MEN de Tecnología e Informática o con Kit IB - MYP Design.'}
+        desc={isEN ? 'Choose whether you will work with the MEN Technology and Computing kit or with the School Design kit.' : 'Elige si trabajarás con el kit MEN de Tecnología e Informática o con el kit de Diseño Escolar.'}
       />
       <div className="grid gap-5 lg:grid-cols-[1.24fr_.76fr]">
         <div className="rounded-[30px] border border-[#d7e3df] bg-[linear-gradient(180deg,#fffdfa_0%,#f7fbfa_100%)] p-5 shadow-[0_18px_42px_rgba(23,61,55,.06)]">
@@ -3395,7 +3393,7 @@ function BlockB({ data, onChange }) {
               </>
             ) : (
               <div>
-                <Label required>{isIB ? (isEN ? '7. MYP year' : '7. Año MYP') : (isEN ? '7. Grade' : '7. Grado')}</Label>
+                <Label required>{isIB ? (isEN ? '7. Design year' : '7. Año de diseño') : (isEN ? '7. Grade' : '7. Grado')}</Label>
                 <Select
                   value={isIB ? data.mypYear : data.grado}
                   onChange={(v) => onChange(isIB ? { mypYear: v } : { grado: v })}
@@ -3445,11 +3443,11 @@ function BlockB({ data, onChange }) {
                   value={data.competencia}
                   onChange={(v) => onChange({ competencia: v })}
                   placeholder={isEN
-                    ? 'Write the design objective or unit focus here. If left blank, we will use a default formulation aligned with MYP Design.'
-                    : 'Escribe aquí el objetivo de diseño o el foco de la unidad. Si lo dejas vacío, usaremos una formulación base alineada a MYP Design.'}
+                    ? 'Write the design objective or unit focus here. If left blank, we will use a default formulation aligned with the design cycle.'
+                    : 'Escribe aquí el objetivo de diseño o el foco de la unidad. Si lo dejas vacío, usaremos una formulación base alineada al ciclo de diseño.'}
                   rows={4}
                 />
-                <p className="mt-1 text-sm leading-6 text-[#5a7069]">{isEN ? 'In the IB route we preserve a design-centered logic instead of forcing literal equivalences with MEN.' : 'En la ruta IB preservamos una lógica propia de diseño, sin forzar equivalencias literales con MEN.'}</p>
+                <p className="mt-1 text-sm leading-6 text-[#5a7069]">{isEN ? 'In the design route we preserve a design-centered logic instead of forcing literal equivalences with MEN.' : 'En la ruta de diseño preservamos una lógica propia de diseño, sin forzar equivalencias literales con MEN.'}</p>
               </div>
             )}
           </div>
@@ -3464,7 +3462,7 @@ function BlockB({ data, onChange }) {
           <div className="mt-5 space-y-3">
             {[
               isIB
-                ? (isEN ? 'Use MYP year and design focus as the organising frame.' : 'Usa año MYP y foco de diseño como marco organizador.')
+                ? (isEN ? 'Use design year and design focus as the organising frame.' : 'Usa año de diseño y foco de diseño como marco organizador.')
                 : (isEN ? 'Use grade and MEN component as the organising frame.' : 'Usa grado y componente MEN como marco organizador.'),
               isEN ? 'A strong decision here avoids weak or contradictory outputs later.' : 'Una decisión fuerte aquí evita salidas débiles o contradictorias después.',
               isEN ? 'If the school already has official wording, paste it here instead of reinventing it.' : 'Si la institución ya tiene redacción oficial, pégala aquí en lugar de reinventarla.',
@@ -3478,7 +3476,7 @@ function BlockB({ data, onChange }) {
           <div className="mt-5 rounded-[24px] border border-[#f3cf86]/30 bg-[#fff5db] px-4 py-4 text-[#5c430e]">
             <p className="text-[10px] font-bold uppercase tracking-[0.14em]">{isEN ? 'Protected base' : 'Base protegida'}</p>
             <p className="mt-1 text-sm leading-6">
-              {isEN ? 'The redesign can change presentation and confidence signals, but it must not alter MEN / IB separation or the core pedagogical flow.' : 'El rediseño puede cambiar presentación y señales de confianza, pero no debe alterar la separación MEN / IB ni el flujo pedagógico central.'}
+              {isEN ? 'The redesign can change presentation and confidence signals, but it must not alter MEN / Design separation or the core pedagogical flow.' : 'El rediseño puede cambiar presentación y señales de confianza, pero no debe alterar la separación MEN / Diseño ni el flujo pedagógico central.'}
             </p>
           </div>
         </aside>
@@ -4201,7 +4199,7 @@ function Paso0({ data, subtemas, onChange }) {
         <h2 className="text-lg font-bold text-[#2b5a52]">{isIB ? 'Selección del reto de diseño' : 'Menú curricular y selección de subtema'}</h2>
         <p className="text-sm text-[#5a7069] mt-1 leading-6">
           {isIB
-            ? 'Define el reto o proyecto central con el que trabajarás este kit en la ruta IB MYP Design.'
+            ? 'Define el reto o proyecto central con el que trabajarás este kit en la ruta de Diseño Escolar.'
             : 'Elige el subtema concreto con el que trabajarás este kit.'}
         </p>
       </div>
@@ -4260,7 +4258,7 @@ function Paso0({ data, subtemas, onChange }) {
       {isIB && (
         <div className="mb-4 rounded-xl border border-[#173d37]/10 bg-[linear-gradient(135deg,#fffaf1_0%,#f8fbfa_100%)] p-4 space-y-4">
           <div>
-            <p className="text-xs font-bold uppercase tracking-wide text-[#8e5e12]">Ruta IB MYP Design</p>
+            <p className="text-xs font-bold uppercase tracking-wide text-[#8e5e12]">Ruta de Diseño Escolar</p>
             <p className="mt-2 text-sm text-gray-700 leading-relaxed">{isEN ? 'Set the curricular frame for the design brief.' : 'Define el marco curricular del reto de diseño.'}</p>
           </div>
 
@@ -4417,7 +4415,7 @@ function Paso0({ data, subtemas, onChange }) {
               </div>
             ) : (
               <div className="mt-3 rounded-lg border border-green-200 bg-green-50 px-3 py-2 text-xs text-green-700">
-                {isEN ? 'The current challenge, outcome and evidence are coherent with the selected IB criterion.' : 'El reto, el producto y la evidencia actuales son coherentes con el criterio IB seleccionado.'}
+                {isEN ? 'The current challenge, outcome and evidence are coherent with the selected design criterion.' : 'El reto, el producto y la evidencia actuales son coherentes con el criterio de diseño seleccionado.'}
               </div>
             )}
           </div>}
@@ -4520,7 +4518,7 @@ function Paso0({ data, subtemas, onChange }) {
           ) : (
             <div className="rounded-xl border border-[#2b5a52]/10 bg-[#f8faf9] p-3 space-y-2">
               <p className="text-[11px] font-bold uppercase tracking-wide text-[#2b5a52]">{isEN ? 'Auto-configured' : 'Auto-configurado'}</p>
-              <p className="text-xs text-[#5a7069]">{isEN ? 'Evidence, prior knowledge, and IB concepts are set from the coherence engine.' : 'Evidencia, prerrequisitos y conceptos IB configurados desde el motor de coherencia.'}</p>
+              <p className="text-xs text-[#5a7069]">{isEN ? 'Evidence, prior knowledge, and design concepts are set from the coherence engine.' : 'Evidencia, prerrequisitos y conceptos de diseño configurados desde el motor de coherencia.'}</p>
               <button
                 type="button"
                 onClick={() => onChange(syncIBSubtema({
@@ -4764,7 +4762,7 @@ function getSugerencias(pasoIdx, data) {
     // PASO 1: Alineación
     [
       !data.competencia?.trim() && (data.route === 'ib_myp_design'
-        ? (en ? 'A base design focus was proposed. Adjust it to the expectations of your MYP programme.' : 'Se propuso un foco de diseño base. Ajústalo al lenguaje y a las expectativas de tu programa MYP.')
+        ? (en ? 'A base design focus was proposed. Adjust it to the expectations of your design programme.' : 'Se propuso un foco de diseño base. Ajústalo al lenguaje y a las expectativas de tu programa de diseño.')
         : (en ? 'A MEN competency was proposed. Adjust it to your school planning language if needed.' : 'Se propuso una competencia MEN. Copiala a tu plan de area o ajustala a la redaccion oficial de tu institucion.')),
       en ? `Check that the objective fits the project duration: ${durProyecto}.` : `Verifica que el objetivo sea alcanzable en la duracion del proyecto: ${durProyecto}.`,
       en ? 'Success criteria should be directly observable in class.' : 'Los criterios de exito deben ser observables directamente en clase, sin instrumentos especiales.',
@@ -7119,8 +7117,8 @@ ul{margin:0 0 0 18px}.foot{padding:12px 20px;border-top:1px solid #e5e7eb;font-s
         >
           <FiBook className="text-[#2b5a52] flex-shrink-0" />
           <div className="flex-1 min-w-0">
-            <p className="text-xs font-semibold text-[#2b5a52]">{data.route === 'ib_myp_design' ? 'IB MYP Design' : (en ? 'MEN Curriculum Guidelines 2022' : 'Orientaciones Curriculares MEN 2022')}</p>
-            <p className="text-[10px] text-gray-500">{en ? (data.route === 'ib_myp_design' ? 'Official reference for the MYP Design route' : 'Official reference for Technology and Computing in Colombia') : (data.route === 'ib_myp_design' ? 'Marco oficial de referencia para la ruta de diseño del PAI' : 'Documento oficial de referencia para el area de Tecnologia e Informatica')}</p>
+            <p className="text-xs font-semibold text-[#2b5a52]">{data.route === 'ib_myp_design' ? 'Diseño Escolar' : (en ? 'MEN Curriculum Guidelines 2022' : 'Orientaciones Curriculares MEN 2022')}</p>
+            <p className="text-[10px] text-gray-500">{en ? (data.route === 'ib_myp_design' ? 'Official reference for the school design route' : 'Official reference for Technology and Computing in Colombia') : (data.route === 'ib_myp_design' ? 'Marco oficial de referencia para la ruta de diseño escolar' : 'Documento oficial de referencia para el area de Tecnologia e Informatica')}</p>
           </div>
           <FiExternalLink className="text-gray-400 group-hover:text-[#2b5a52] transition-colors flex-shrink-0 text-xs" />
         </a>
@@ -7173,7 +7171,7 @@ const INITIAL = {
   language: 'es',
   institucion: '', ciudad: '', tienelogo: false, logoUrl: '', logoFileName: '',
   docente: '',
-  grado: '7°', mypYear: 'MYP 1', componente: '', competencia: '',
+  grado: '7°', mypYear: 'Año 1', componente: '', competencia: '',
   duracionProyecto: '', duracionSimulador: '15–20', recursos: '', restricciones: '',
   incluyeImagenes: false, tiposVisual: [], maxImagenes: 3, puedenFotografiar: false,
   tieneNEE: false, tiposNEE: [], descripcionNEE: '',
@@ -7204,7 +7202,7 @@ function isValidData(d) {
 function PanelDocente({ onClose, onLoad, language = 'es', route = 'men' }) {
   const en = language === 'en'
   const [kits, setKits] = useState(() => lsGetKits())
-  const routeLabel = route === 'ib_myp_design' ? 'IB MYP Design' : (en ? 'MEN Kit - Technology and Computing' : 'Kit MEN - Tecnología e Informática')
+  const routeLabel = route === 'ib_myp_design' ? 'Diseño Escolar' : (en ? 'MEN Kit - Technology and Computing' : 'Kit MEN - Tecnología e Informática')
 
   const kitData = kits
     .filter((k) => (k?.data?.route || 'men') === route)
@@ -7374,7 +7372,7 @@ function CreditosModal({ onClose, data }) {
           <div>
             <h2 className="font-bold text-[#2b5a52] text-base">{en ? 'About this application' : 'Acerca de esta aplicación'}</h2>
             <p className="text-xs text-gray-400 mt-0.5">Kit Docente TI · Maryam Math Plataforma Educativa</p>
-            <p className="text-[11px] text-[#2b5a52] mt-1 font-medium">{isIB ? (en ? 'Active route: Kit IB - MYP Design' : 'Ruta activa: Kit IB - MYP Design') : (en ? 'Active route: MEN Kit - Technology and Computing' : 'Ruta activa: Kit MEN - Tecnología e Informática')}</p>
+            <p className="text-[11px] text-[#2b5a52] mt-1 font-medium">{isIB ? (en ? 'Active route: School Design' : 'Ruta activa: Diseño Escolar') : (en ? 'Active route: MEN Kit - Technology and Computing' : 'Ruta activa: Kit MEN - Tecnología e Informática')}</p>
           </div>
           <button
             onClick={onClose}
@@ -7419,7 +7417,7 @@ function CreditosModal({ onClose, data }) {
           {/* Pie */}
           <p className="text-center text-xs text-gray-400 pt-2 border-t border-gray-100">
             {isIB
-              ? (en ? 'Designed for teachers working with IB MYP Design' : 'Diseñado para docentes que trabajan con IB MYP Design')
+              ? (en ? 'Designed for teachers working with the school design cycle' : 'Diseñado para docentes que trabajan con el ciclo de diseño escolar')
               : (en ? 'Designed for Colombian Technology and Computing teachers' : 'Diseñado para docentes colombianos de Tecnología e Informática')} · {new Date().getFullYear()}
           </p>
         </div>
@@ -7511,7 +7509,7 @@ export function KitDocente() {
     if (step === 1 && !candidate.institucion.trim()) return isEnglish(candidate) ? 'Enter the institution name.' : 'Ingresa el nombre de la institución.'
     if (step === 1 && !candidate.docente.trim()) return isEnglish(candidate) ? 'Enter the facilitating teacher name.' : 'Ingresa el nombre del docente facilitador(a).'
     if (step === 2 && candidate.route === 'men' && !candidate.componente) return isEnglish(candidate) ? 'Select a MEN component.' : 'Selecciona un componente MEN.'
-    if (step === 2 && candidate.route === 'ib_myp_design' && !candidate.mypYear) return isEnglish(candidate) ? 'Select the MYP year.' : 'Selecciona el año MYP.'
+    if (step === 2 && candidate.route === 'ib_myp_design' && !candidate.mypYear) return isEnglish(candidate) ? 'Select the design year.' : 'Selecciona el año de diseño.'
     if (step === 5 && candidate.route === 'ib_myp_design') {
       const ibSubtema = buildIBSubtemaFromData(candidate)
       const coherence = buildIBCoherenceReport(candidate)
@@ -7603,7 +7601,7 @@ export function KitDocente() {
           <div className="min-w-0">
             <h1 className="font-bold text-[#173d37] text-sm sm:text-base leading-tight whitespace-nowrap overflow-hidden text-ellipsis">Kit Docente TI</h1>
             <p className="text-[10px] sm:text-xs text-gray-400 leading-tight hidden md:block">
-              {data.route === 'ib_myp_design' ? 'IB MYP Design' : (en ? 'Technology and Computing MEN 2022' : 'Tecnología e Informática MEN 2022')}
+              {data.route === 'ib_myp_design' ? 'Diseño Escolar' : (en ? 'Technology and Computing MEN 2022' : 'Tecnología e Informática MEN 2022')}
             </p>
           </div>
         </div>
@@ -7632,7 +7630,7 @@ export function KitDocente() {
               border-[#2b5a52]/25 text-[#2b5a52] hover:bg-[#2b5a52]/8 transition-colors font-medium"
             title={
               data.route === 'ib_myp_design'
-                ? 'IB MYP Design'
+                ? 'Diseño Escolar'
                 : data.route === 'stem'
                   ? (en ? 'STEM / STEAM reference (internal)' : 'Referencia STEM / STEAM (interna)')
                   : (en ? 'MEN Curriculum Guidelines 2022' : 'Orientaciones Curriculares MEN 2022')
@@ -7641,7 +7639,7 @@ export function KitDocente() {
             <FiBook className="text-xs" />
             <span>
               {data.route === 'ib_myp_design'
-                ? 'IB MYP Design'
+                ? 'Diseño Escolar'
                 : data.route === 'stem'
                   ? (en ? 'STEM / STEAM ref' : 'Referencia STEM / STEAM')
                   : (en ? 'MEN Guidelines' : 'Orientaciones MEN')}
