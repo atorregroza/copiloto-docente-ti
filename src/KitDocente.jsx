@@ -7294,11 +7294,6 @@ function CreditosModal({ onClose, data }) {
 }
 
 export function KitDocente() {
-  const [step, setStep] = useState(() => {
-    const s = localStorage.getItem('mm_last_step')
-    const n = s ? parseInt(s, 10) : 0
-    return Number.isFinite(n) && n >= 0 && n <= TOTAL_STEPS ? n : 0
-  })
   const [data, setData] = useState(() => {
     try {
       const raw = localStorage.getItem('mm_last_data')
@@ -7309,6 +7304,20 @@ export function KitDocente() {
     } catch {
       return INITIAL
     }
+  })
+  const [step, setStep] = useState(() => {
+    const s = localStorage.getItem('mm_last_step')
+    const n = s ? parseInt(s, 10) : 0
+    if (!Number.isFinite(n) || n < 0 || n > TOTAL_STEPS) return 0
+    // Si no hay institución, no tiene sentido restaurar — volver al inicio
+    const raw = localStorage.getItem('mm_last_data')
+    if (raw) {
+      try {
+        const parsed = JSON.parse(raw)
+        if (!parsed.institucion?.trim()) return 0
+      } catch { return 0 }
+    }
+    return n
   })
   const [error, setError] = useState('')
   const [showPanel, setShowPanel] = useState(false)
