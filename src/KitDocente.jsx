@@ -2809,7 +2809,7 @@ function Welcome({ data, onChange, onStart, onLoad, onOpenPanel, onStartTour }) 
             </span>
           ))}
         </div>
-        <p className="mt-3 text-sm text-[#8a9e98]">
+        <p className="mt-3 text-sm text-[#5a7069]">
           {en ? 'One connected flow · Ready in 10-15 minutes' : 'Un solo flujo conectado · Listo en 10-15 minutos'}
         </p>
         <div className="mt-5 rounded-xl bg-[#2b5a52] px-5 py-4 max-w-lg mx-auto text-center">
@@ -2818,7 +2818,7 @@ function Welcome({ data, onChange, onStart, onLoad, onOpenPanel, onStartTour }) 
               ? 'You design. This is your copilot.'
               : 'Tú diseñas. Esto es tu copiloto.'}
           </p>
-          <p className="mt-1 text-xs text-white/70 leading-5">
+          <p className="mt-1 text-xs text-white/90 leading-5">
             {en
               ? 'The platform generates the structure — your expertise in the area makes it exceptional.'
               : 'La plataforma genera la estructura — tu dominio del área la hace excepcional.'}
@@ -2907,7 +2907,7 @@ function Welcome({ data, onChange, onStart, onLoad, onOpenPanel, onStartTour }) 
       <div className="mt-8 rounded-2xl border border-[#d7e3df] bg-white p-5 shadow-sm">
         <div className="flex items-center justify-between mb-4">
           <p className="text-[10px] font-bold uppercase tracking-wide text-[#8e5e12]">{en ? 'How it works' : 'Cómo funciona'}</p>
-          <p className="text-[11px] text-[#8a9e98]">{en ? '~10-15 min · Saves automatically' : '~10-15 min · Se guarda automáticamente'}</p>
+          <p className="text-[11px] text-[#5a7069]">{en ? '~10-15 min · Saves automatically' : '~10-15 min · Se guarda automáticamente'}</p>
         </div>
         <div className="grid gap-4 sm:grid-cols-3">
           {[
