@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { FiChevronRight, FiChevronLeft, FiPrinter, FiRefreshCw, FiCheck, FiBook, FiExternalLink, FiFileText, FiUsers, FiCheckSquare, FiPackage, FiUpload, FiX, FiSave, FiClock, FiFolder, FiLink, FiAlertCircle, FiTrash2, FiAward, FiImage, FiCopy, FiInfo, FiZap, FiSliders } from 'react-icons/fi'
 import logoMM from './assets/images/LogoMM.svg'
 import { detectStemDomain, buildStemPackage, STEM_DOMAINS } from './data/stemCatalog'
+import { OnboardingTour } from './OnboardingTour'
 
 const MEN_URL = 'https://www.colombiaaprende.edu.co/sites/default/files/files_public/2022-11/Orientaciones_Curricures_Tecnologia.pdf'
 const IB_MYP_DESIGN_URL = 'https://www.ibo.org/programmes/middle-years-programme/curriculum/design/'
@@ -2756,6 +2757,7 @@ function Welcome({ data, onChange, onStart, onLoad, onOpenPanel }) {
 
   return (
     <div className="min-h-full w-full max-w-6xl px-3 py-6 mx-auto sm:px-4 sm:py-8 lg:px-6">
+      <OnboardingTour language={data?.language || 'es'} />
       <div className="relative overflow-hidden rounded-[32px] border border-[#d7e3df] bg-[radial-gradient(circle_at_top_left,#fff4d8_0%,transparent_24%),radial-gradient(circle_at_85%_15%,rgba(43,90,82,.12)_0%,transparent_24%),linear-gradient(135deg,#fffdfa_0%,#f4faf8_58%,#edf5f2_100%)] p-4 shadow-[0_20px_60px_rgba(23,61,55,.08)] sm:rounded-[36px] sm:p-6">
         <div className="pointer-events-none absolute -right-10 top-10 h-36 w-36 rounded-full border border-[#fbb041]/25 bg-[#fbb041]/10 blur-2xl" />
         <div className="pointer-events-none absolute bottom-0 left-0 h-32 w-40 rounded-tr-[80px] border-t border-r border-[#173d37]/10 bg-[#173d37]/[0.03]" />
@@ -2833,7 +2835,7 @@ function Welcome({ data, onChange, onStart, onLoad, onOpenPanel }) {
           </div>
         </div>
 
-        <div className="grid gap-3 md:grid-cols-2">
+        <div className="grid gap-3 md:grid-cols-2" data-tour="rutas">
           {CURRICULAR_ROUTES.map((route) => {
             const active = data?.route === route.id
             return (
@@ -2880,7 +2882,7 @@ function Welcome({ data, onChange, onStart, onLoad, onOpenPanel }) {
           })}
         </div>
 
-        <div className="mt-5 rounded-[26px] border border-white/80 bg-white/88 p-5 shadow-[0_12px_24px_rgba(23,61,55,.05)]">
+        <div className="mt-5 rounded-[26px] border border-white/80 bg-white/88 p-5 shadow-[0_12px_24px_rgba(23,61,55,.05)]" data-tour="idioma">
           <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-[#8e5e12]">{en ? 'Working language' : 'Idioma de trabajo'}</p>
           <div className="mt-3 grid gap-2 sm:grid-cols-2">
             {LANGUAGES.map((language) => {
@@ -2939,6 +2941,7 @@ function Welcome({ data, onChange, onStart, onLoad, onOpenPanel }) {
             <div className="mt-4 grid gap-3 sm:grid-cols-2">
               <button
                 type="button"
+                data-tour="empezar"
                 onClick={onStart}
                 className="w-full rounded-[18px] border border-[#2b5a52]/20 bg-[#2b5a52] px-4 py-3 text-sm font-bold text-white shadow-[0_12px_28px_rgba(43,90,82,.18)] hover:bg-[#234a43] transition-colors"
               >
@@ -2946,6 +2949,7 @@ function Welcome({ data, onChange, onStart, onLoad, onOpenPanel }) {
               </button>
               <button
                 type="button"
+                data-tour="ejemplo"
                 onClick={handleLoadExample}
                 className="w-full rounded-[18px] border border-[#fbb041]/45 bg-[#fff8ec] px-4 py-3 text-sm font-bold text-[#9b6714] shadow-[0_12px_26px_rgba(251,176,65,.18)] hover:-translate-y-0.5 transition-transform"
               >
@@ -3086,6 +3090,7 @@ function Welcome({ data, onChange, onStart, onLoad, onOpenPanel }) {
             </p>
             <button
               type="button"
+              data-tour="panel"
               onClick={onOpenPanel}
               className="text-xs font-semibold text-[#2b5a52] hover:text-[#234a43] transition-colors"
             >
