@@ -2815,8 +2815,8 @@ function Welcome({ data, onChange, onStart, onLoad, onOpenPanel, onStartTour }) 
         <div className="mt-5 rounded-xl bg-[#2b5a52] px-5 py-4 max-w-lg mx-auto text-center">
           <p className="text-sm text-white font-semibold leading-6">
             {en
-              ? 'You are the pilot. This is your copilot.'
-              : 'Tú eres el piloto. Esto es tu copiloto.'}
+              ? 'You lead the class. This is your copilot.'
+              : 'Tú diriges la clase. Esto es tu copiloto.'}
           </p>
           <p className="mt-1 text-xs text-white/70 leading-5">
             {en
