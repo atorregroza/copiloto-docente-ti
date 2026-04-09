@@ -566,7 +566,7 @@ function getStemTemplates(bandKey = 'innovadores', en = false) {
       need: en ? 'Reduce noise in the lunch line for clearer instructions.' : 'Reducir ruido en la fila del comedor para dar instrucciones claras.',
       users: en ? 'Students in 3rd–5th grade and lunch assistants.' : 'Estudiantes de 3°–5° y auxiliares del comedor.',
       metric: en ? 'Noise level before/after (3-point scale or dB) in 15–30 min.' : 'Nivel de ruido antes/después (escala de 3 puntos o dB) en 15–30 min.',
-      prototype: en ? 'Visual “traffic light” for noise or simple divider with reused cardboard.' : 'Semáforo visual de ruido o divisor simple con cartón reutilizado.',
+      prototype: en ? 'Visual "traffic light" for noise or simple divider with reused cardboard.' : 'Semáforo visual de ruido o divisor simple con cartón reutilizado.',
       impact: en ? 'Safer, calmer wait line; clear instructions.' : 'Fila más segura y tranquila; instrucciones claras.',
       evidence: en ? 'Photo of prototype + quick note of noise change.' : 'Foto del prototipo + nota rápida del cambio de ruido.',
     },
@@ -3681,14 +3681,14 @@ function BlockD({ data, onChange }) {
           <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#f3cf86]">{isEN ? 'Tips for clarity' : 'Pistas para más claridad'}</p>
           <p className="mt-2 text-xl" style={{ fontFamily: 'Georgia, Times New Roman, serif', fontWeight: 700 }}>
             {isEN
-              ? 'Haz que el estudiante entienda qué hacer, con qué, cuándo y qué evidencias debe entregar.'
+              ? 'Help students understand what to do, with what, when, and what evidence to submit.'
               : 'Haz que el estudiante entienda qué hacer, con qué, cuándo y qué evidencias debe entregar.'}
           </p>
           <div className="mt-5 space-y-3">
             {[
-              isEN ? 'Muestra 1–2 fotos reales o bocetos; explica en una frase qué deben observar.' : 'Muestra 1–2 fotos reales o bocetos; cuenta en una frase qué deben observar.',
-              isEN ? 'Aclara la evidencia mínima: fotos del proceso + dato/medición + ajuste después de la prueba.' : 'Aclara la evidencia mínima: fotos del proceso + dato/medición + ajuste después de la prueba.',
-              isEN ? 'Escribe tiempos y entregables concretos: “15 min para medir, 10 min para ajustar”.' : 'Escribe tiempos y entregables concretos: “15 min para medir, 10 min para ajustar”.',
+              isEN ? 'Show 1–2 real photos or sketches; explain in one sentence what to observe.' : 'Muestra 1–2 fotos reales o bocetos; cuenta en una frase qué deben observar.',
+              isEN ? 'Clarify the minimum evidence: process photos + data/measurement + adjustment after testing.' : 'Aclara la evidencia mínima: fotos del proceso + dato/medición + ajuste después de la prueba.',
+              isEN ? 'Write specific times and deliverables: "15 min to measure, 10 min to adjust".' : 'Escribe tiempos y entregables concretos: "15 min para medir, 10 min para ajustar".',
             ].map((item) => (
               <div key={item} className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
                 <p className="text-sm leading-6 text-white/84">{item}</p>
@@ -4884,8 +4884,8 @@ function formatStepContent(raw = '') {
 
 function normalizeStepText(text = '') {
   return text
-    .replace(/^["“”']+/, '')
-    .replace(/["“”']+$/, '')
+    .replace(/^["""']+/, '')
+    .replace(/["""']+$/, '')
     .trim()
 }
 
@@ -6774,7 +6774,7 @@ ul{margin:0 0 0 18px}.foot{padding:12px 20px;border-top:1px solid #e5e7eb;font-s
               <span className="text-xs text-gray-400 font-medium">/100</span>
             </div>
           </div>
-          <div className="bg-white/60 rounded-full h-2 mb-3">
+          <div className="bg-white/60 rounded-full h-2 mb-3" role="progressbar" aria-valuenow={score} aria-valuemin={0} aria-valuemax={100} aria-label={en ? 'Kit quality score' : 'Puntaje de calidad del kit'}>
             <div
               className={`h-2 rounded-full transition-all duration-700 ${score >= 85 ? 'bg-green-500' : score >= 65 ? 'bg-yellow-400' : 'bg-orange-500'}`}
               style={{ width: `${score}%` }}
@@ -7073,9 +7073,8 @@ function PanelDocente({ onClose, onLoad, language = 'es', route = 'men' }) {
   const semColor = avgScore >= 85 ? 'text-green-500' : avgScore >= 65 ? 'text-amber-500' : 'text-orange-500'
 
   return (
-    <div role="button" tabIndex={0} className="fixed inset-0 z-50 flex items-start justify-end no-print" onClick={onClose} onKeyDown={(e) => { if (e.key === 'Escape') onClose() }}>
+    <div role="dialog" aria-modal="true" aria-label={en ? 'Progress panel' : 'Panel de evolución'} className="fixed inset-0 z-50 flex items-start justify-end no-print" onClick={onClose} onKeyDown={(e) => { if (e.key === 'Escape') onClose() }}>
       <div
-        role="presentation"
         className="bg-white h-full w-full max-w-sm shadow-2xl overflow-y-auto flex flex-col"
         onClick={(e) => e.stopPropagation()}
       >
@@ -7086,7 +7085,7 @@ function PanelDocente({ onClose, onLoad, language = 'es', route = 'men' }) {
             <p className="text-white font-bold text-sm">{en ? 'My progress panel' : 'Mi Panel de Evolución'}</p>
             <p className="text-white/70 text-xs">{en ? `History and progress for ${routeLabel}` : `Historial y progreso de ${routeLabel}`}</p>
           </div>
-          <button onClick={onClose} className="text-white/60 hover:text-white p-1.5 rounded-lg hover:bg-white/10 transition-colors">
+          <button onClick={onClose} aria-label={en ? 'Close' : 'Cerrar'} className="text-white/60 hover:text-white p-1.5 rounded-lg hover:bg-white/10 transition-colors">
             <FiX />
           </button>
         </div>
@@ -7207,9 +7206,8 @@ function CreditosModal({ onClose, data }) {
   const referentes = getReferentesByRoute(data?.route)
 
   return (
-    <div role="button" tabIndex={0} className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 no-print" onClick={onClose} onKeyDown={(e) => { if (e.key === 'Escape') onClose() }}>
+    <div role="dialog" aria-modal="true" aria-label={en ? 'About this application' : 'Acerca de esta aplicación'} className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 no-print" onClick={onClose} onKeyDown={(e) => { if (e.key === 'Escape') onClose() }}>
       <div
-        role="presentation"
         className="bg-white rounded-2xl shadow-2xl max-w-lg w-full max-h-[85vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
@@ -7222,6 +7220,7 @@ function CreditosModal({ onClose, data }) {
           </div>
           <button
             onClick={onClose}
+            aria-label={en ? 'Close' : 'Cerrar'}
             className="text-gray-400 hover:text-gray-600 p-1.5 rounded-xl hover:bg-gray-100 transition-colors"
           >
             <FiX />
