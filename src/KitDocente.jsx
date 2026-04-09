@@ -2790,6 +2790,18 @@ function Welcome({ data, onChange, onStart, onLoad, onOpenPanel, onStartTour }) 
                   : 'Crea un kit MEN de Tecnología e Informática con estructura curricular clara, guía del estudiante, evaluación conectada y vistas institucionales en un flujo conectado.')}
             </p>
 
+            {/* Botón ejemplo destacado */}
+            <div className="mt-4 sm:mt-5">
+              <button
+                type="button"
+                data-tour="ejemplo"
+                onClick={handleLoadExample}
+                className="inline-flex items-center gap-2 rounded-2xl border-2 border-[#fbb041]/60 bg-[#fff8ec] px-5 py-3 text-sm font-bold text-[#9b6714] shadow-[0_8px_20px_rgba(251,176,65,.15)] hover:-translate-y-0.5 transition-transform"
+              >
+                📦 {en ? 'Load example to explore — see a finished kit' : 'Cargar ejemplo para explorar — mira un kit terminado'}
+              </button>
+            </div>
+
             <div className="mt-5 grid gap-2 sm:mt-6 sm:gap-3 sm:grid-cols-2">
               {[
                 { k: en ? 'Curricular scope' : 'Alcance curricular', v: en ? 'MEN + School Design' : 'MEN + Diseño Escolar', s: en ? 'Technology and Computing MEN and School Design in distinct routes' : 'Tecnología e Informática MEN y Diseño Escolar en rutas diferenciadas' },

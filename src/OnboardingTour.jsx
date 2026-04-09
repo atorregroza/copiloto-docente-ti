@@ -6,29 +6,29 @@ const LS_KEY = 'mm_onboarding_done'
 const TOUR_STEPS_ES = [
   { step: 0, emoji: '👋', title: 'Bienvenido al Copiloto', text: 'Vamos a recorrer la plataforma juntos con un kit de ejemplo. En cada pantalla te explico qué se llenó y para qué sirve. Solo dale "Siguiente".' },
   { step: 1, emoji: '🏫', title: 'Tu institución', text: 'Aquí va tu colegio, ciudad y nombre. Estos datos aparecen en la portada del kit, la rúbrica y todos los documentos exportados.' },
-  { step: 2, emoji: '📚', title: 'Ruta y grado', text: 'Elegimos ruta MEN, grado 7° y componente "Solución de problemas". Esto determina los subtemas disponibles y la estructura de la rúbrica.' },
+  { step: 2, emoji: '📚', title: 'Ruta y grado', text: 'Aquí eliges tu ruta curricular: MEN, Diseño Escolar o STEM/STEAM. En este ejemplo usamos MEN con grado 7°, pero tú eliges la que necesites. Cada ruta genera contenido diferente.' },
   { step: 3, emoji: '🧰', title: 'Recursos y restricciones', text: 'Aquí defines cuánto dura el proyecto, qué materiales tienes y qué limitaciones hay. La guía docente se adapta a esto.' },
-  { step: 4, emoji: '♿', title: 'Inclusión', text: 'Activamos NEE para un estudiante con baja visión. La plataforma genera 4 adaptaciones específicas: fuente grande, par-apoyo, descripción verbal y materiales táctiles.' },
+  { step: 4, emoji: '♿', title: 'Inclusión', text: 'Si tienes estudiantes con necesidades educativas especiales, activa la opción y la plataforma genera adaptaciones específicas. En este ejemplo: fuente grande, par-apoyo, descripción verbal y materiales táctiles.' },
   { step: 5, emoji: '🎯', title: 'Subtema del proyecto', text: 'Elegimos "Algoritmos para procesos de la vida cotidiana". A partir de aquí, los 7 pasos del kit se generan automáticamente.' },
-  { step: 6, emoji: '📐', title: 'Paso 1 — Alineación', text: 'Tu competencia, objetivo medible y criterios de éxito. Todo conectado al componente MEN que elegiste.' },
-  { step: 9, emoji: '👩‍🏫', title: 'Paso 4 — Guía docente', text: 'Secuencia cronometrada real: Apertura (10 min), Exploración (15 min), Construcción, Socialización (10 min) y Cierre (10 min). Lista para usar en clase.' },
-  { step: 10, emoji: '📝', title: 'Paso 5 — Guía del estudiante', text: 'Cuadernillo con ficha del reto, pasos cronometrados, espacios para fotos, 2 checkpoints formativos de semáforo y autoevaluación.' },
-  { step: 11, emoji: '⭐', title: 'Paso 6 — Rúbrica', text: '4 criterios con pesos que suman 100%. Editable. Se exporta como tabla interactiva donde haces clic para calificar y calcula la nota.' },
-  { step: 13, emoji: '🎉', title: '¡Kit completo!', text: 'Score 100/100. Desde aquí exportas: PDF para imprimir, kit interactivo, rúbrica de calificación y resumen para familias. Todo listo.' },
+  { step: 6, emoji: '📐', title: 'Paso 1 — Alineación', text: 'Tu competencia, objetivo medible y criterios de éxito. Todo esto es editable: puedes modificar, agregar o quitar lo que necesites para adaptarlo a tu clase.' },
+  { step: 9, emoji: '👩‍🏫', title: 'Paso 4 — Guía docente', text: 'Secuencia cronometrada: Apertura (10 min), Exploración (15 min), Construcción, Socialización (10 min) y Cierre (10 min). Puedes editar tiempos, preguntas y actividades.' },
+  { step: 10, emoji: '📝', title: 'Paso 5 — Guía del estudiante', text: 'Este cuadernillo se lo entregas al estudiante: tiene la ficha del reto, pasos con tiempos, espacios para fotos, checkpoints de semáforo y autoevaluación. También es editable antes de exportar.' },
+  { step: 11, emoji: '⭐', title: 'Paso 6 — Rúbrica', text: '4 criterios con pesos que suman 100%. Puedes editar nombres, pesos y descriptores. Después de implementar el proyecto, la exportas como tabla interactiva para calificar: haces clic, calcula la nota y guarda las calificaciones.' },
+  { step: 13, emoji: '🎉', title: '¡Kit completo!', text: 'Desde aquí exportas todo: PDF para imprimir, kit interactivo, rúbrica de calificación para después de clase, y resumen de una página para familias. Todo lo que generó la plataforma es tuyo para editar y usar.' },
 ]
 
 const TOUR_STEPS_EN = [
   { step: 0, emoji: '👋', title: 'Welcome to the Copilot', text: 'Let\'s walk through the platform together with a sample kit. At each screen I\'ll explain what was filled and why. Just click "Next".' },
   { step: 1, emoji: '🏫', title: 'Your institution', text: 'Your school, city and name go here. This data appears on the kit cover, rubric and all exported documents.' },
-  { step: 2, emoji: '📚', title: 'Route and grade', text: 'We chose the MEN route, grade 7 and "Problem solving" component. This determines available topics and rubric structure.' },
+  { step: 2, emoji: '📚', title: 'Route and grade', text: 'Here you choose your curricular route: MEN, School Design or STEM/STEAM. In this example we used MEN with grade 7, but you pick whichever you need. Each route generates different content.' },
   { step: 3, emoji: '🧰', title: 'Resources and constraints', text: 'Here you define project duration, available materials and limitations. The teacher guide adapts to this.' },
-  { step: 4, emoji: '♿', title: 'Inclusion', text: 'We enabled accessibility for a low-vision student. The platform generates 4 specific adaptations: large font, peer support, verbal description and tactile materials.' },
+  { step: 4, emoji: '♿', title: 'Inclusion', text: 'If you have students with special educational needs, enable the option and the platform generates specific adaptations. In this example: large font, peer support, verbal description and tactile materials.' },
   { step: 5, emoji: '🎯', title: 'Project topic', text: 'We chose "Algorithms for everyday processes". From here, all 7 kit steps are generated automatically.' },
-  { step: 6, emoji: '📐', title: 'Step 1 — Alignment', text: 'Your competency, measurable objective and success criteria. All connected to the MEN component you chose.' },
-  { step: 9, emoji: '👩‍🏫', title: 'Step 4 — Teacher guide', text: 'Real timed sequence: Opening (10 min), Exploration (15 min), Building, Sharing (10 min) and Closing (10 min). Ready to use in class.' },
-  { step: 10, emoji: '📝', title: 'Step 5 — Student guide', text: 'Workbook with challenge card, timed steps, photo spaces, 2 formative traffic-light checkpoints and self-assessment.' },
-  { step: 11, emoji: '⭐', title: 'Step 6 — Rubric', text: '4 criteria with weights that sum to 100%. Editable. Exports as an interactive table where you click to grade and it calculates the score.' },
-  { step: 13, emoji: '🎉', title: 'Kit complete!', text: 'Score 100/100. From here you export: PDF to print, interactive kit, grading rubric and family summary. All ready.' },
+  { step: 6, emoji: '📐', title: 'Step 1 — Alignment', text: 'Your competency, measurable objective and success criteria. Everything here is editable: you can modify, add or remove whatever you need to adapt it to your class.' },
+  { step: 9, emoji: '👩‍🏫', title: 'Step 4 — Teacher guide', text: 'Timed sequence: Opening (10 min), Exploration (15 min), Building, Sharing (10 min) and Closing (10 min). You can edit times, questions and activities.' },
+  { step: 10, emoji: '📝', title: 'Step 5 — Student guide', text: 'You deliver this workbook to students: it has the challenge card, timed steps, photo spaces, traffic-light checkpoints and self-assessment. Also editable before exporting.' },
+  { step: 11, emoji: '⭐', title: 'Step 6 — Rubric', text: '4 criteria with weights that sum to 100%. You can edit names, weights and descriptors. After implementing the project, export it as an interactive grading table: click to grade, it calculates the score and saves all grades.' },
+  { step: 13, emoji: '🎉', title: 'Kit complete!', text: 'From here you export everything: PDF to print, interactive kit, grading rubric for after class, and a one-page family summary. Everything the platform generated is yours to edit and use.' },
 ]
 
 export function GuidedTour({ language = 'es', currentStep, onNext, onDismiss }) {
