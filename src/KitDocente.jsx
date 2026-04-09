@@ -2765,98 +2765,51 @@ function Welcome({ data, onChange, onStart, onLoad, onOpenPanel, onStartTour }) 
   }
 
   return (
-    <div className="min-h-full w-full max-w-6xl px-3 py-6 mx-auto sm:px-4 sm:py-8 lg:px-6">
+    <div className="min-h-full w-full max-w-3xl px-4 py-6 mx-auto sm:py-10">
       <OnboardingTour language={data?.language || 'es'} />
-      <div className="relative overflow-hidden rounded-[32px] border border-[#d7e3df] bg-[radial-gradient(circle_at_top_left,#fff4d8_0%,transparent_24%),radial-gradient(circle_at_85%_15%,rgba(43,90,82,.12)_0%,transparent_24%),linear-gradient(135deg,#fffdfa_0%,#f4faf8_58%,#edf5f2_100%)] p-4 shadow-[0_20px_60px_rgba(23,61,55,.08)] sm:rounded-[36px] sm:p-6">
-        <div className="pointer-events-none absolute -right-10 top-10 h-36 w-36 rounded-full border border-[#fbb041]/25 bg-[#fbb041]/10 blur-2xl" />
-        <div className="pointer-events-none absolute bottom-0 left-0 h-32 w-40 rounded-tr-[80px] border-t border-r border-[#173d37]/10 bg-[#173d37]/[0.03]" />
 
-        <div className="relative grid gap-4 sm:gap-6 lg:grid-cols-[1.4fr_.95fr]">
-          <div>
-            <img src={logoMM} alt="Maryam Math" className="mb-4 h-11 drop-shadow-sm sm:mb-5 sm:h-14" />
-            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#fbb041]/30 bg-[#fff7e4] px-3 py-1 text-[11px] font-bold uppercase tracking-[0.16em] text-[#9b6714]">
-              <FiBook className="text-xs" /> {isIB ? 'Diseño Escolar' : (en ? 'MEN · Technology and Computing' : 'MEN · Tecnología e Informática')}
-            </div>
-            <h1 className="max-w-3xl text-[2.6rem] leading-[0.98] text-[#173d37] sm:text-[3.6rem] sm:leading-[1.02] xl:text-[4.1rem]" style={{ fontFamily: 'Georgia, Times New Roman, serif', fontWeight: 800 }}>
-              {en ? <>Design, review and deliver a teaching kit with professional structure.</> : <>Diseña, revisa y entrega un kit docente con estructura profesional.</>}
-            </h1>
-            <p className="mt-3 max-w-3xl text-[15px] leading-7 text-[#536a63] sm:mt-4 sm:text-[17px] sm:leading-8">
-              {isIB
-                ? (en
-                  ? 'Create a school design kit with planning, student workbook, aligned rubric, assessment and institutional support views in one connected flow.'
-                  : 'Crea un kit de Diseño Escolar con planeación, guía del estudiante, rúbrica alineada, evaluación y vistas institucionales en un flujo conectado.')
-                : (en
-                  ? 'Create a Technology and Computing MEN kit with clear curricular structure, student workbook, connected assessment and institutional support views in one connected flow.'
-                  : 'Crea un kit MEN de Tecnología e Informática con estructura curricular clara, guía del estudiante, evaluación conectada y vistas institucionales en un flujo conectado.')}
-            </p>
-
-            {/* Botón ejemplo destacado */}
-            <div className="mt-4 sm:mt-5">
-              <button
-                type="button"
-                data-tour="ejemplo"
-                onClick={handleLoadExample}
-                className="inline-flex items-center gap-2 rounded-2xl border-2 border-[#fbb041]/60 bg-[#fff8ec] px-5 py-3 text-sm font-bold text-[#9b6714] shadow-[0_8px_20px_rgba(251,176,65,.15)] hover:-translate-y-0.5 transition-transform"
-              >
-                📦 {en ? 'Load example to explore — see a finished kit' : 'Cargar ejemplo para explorar — mira un kit terminado'}
-              </button>
-            </div>
-
-            <div className="mt-5 grid gap-2 sm:mt-6 sm:gap-3 sm:grid-cols-2">
-              {[
-                { k: en ? 'Curricular scope' : 'Alcance curricular', v: en ? 'MEN + School Design' : 'MEN + Diseño Escolar', s: en ? 'Technology and Computing MEN and School Design in distinct routes' : 'Tecnología e Informática MEN y Diseño Escolar en rutas diferenciadas' },
-                { k: en ? 'Language and outputs' : 'Idioma y salidas', v: en ? 'Spanish + English' : 'Español + English', s: en ? 'Platform, generated kit and key outputs in both languages' : 'Plataforma, kit generado y salidas clave en ambos idiomas' },
-              ].map((item) => (
-                <div key={item.k} className="rounded-2xl border border-white/80 bg-white/80 px-3.5 py-3.5 shadow-[0_8px_24px_rgba(23,61,55,.05)] backdrop-blur sm:px-4 sm:py-4">
-                  <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#8e5e12]">{item.k}</p>
-                  <p className="mt-1 text-sm font-black text-[#173d37]">{item.v}</p>
-                  <p className="mt-1 text-xs leading-5 text-[#586f69]">{item.s}</p>
+      {/* ── Kits guardados ARRIBA (usuarios que vuelven) ── */}
+      {filteredSavedKits.length > 0 && (
+        <div className="mb-6 rounded-2xl border border-[#2b5a52]/15 bg-white p-4 shadow-sm">
+          <p className="text-[10px] font-bold uppercase tracking-wide text-[#8e5e12] mb-2 flex items-center gap-1.5">
+            <FiFolder className="text-[#2b5a52]" /> {en ? 'Continue where you left off' : 'Continúa donde dejaste'}
+          </p>
+          <div className="space-y-2">
+            {filteredSavedKits.slice(0, 2).map((kit) => (
+              <div key={kit.id} className="flex items-center gap-3 p-2.5 rounded-xl border border-gray-100 hover:border-[#2b5a52]/25 transition-colors">
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-semibold text-gray-800 truncate">{kit.preview.institucion || (en ? '(no institution)' : '(sin institución)')}</p>
+                  <p className="text-xs text-gray-500 truncate">{kit.preview.grado} · {kit.preview.subtema || (en ? '(pending)' : '(pendiente)')}</p>
                 </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="rounded-[26px] border border-[#173d37]/12 bg-[linear-gradient(180deg,rgba(255,255,255,.95)_0%,rgba(248,251,250,.92)_100%)] p-4 shadow-[0_18px_36px_rgba(23,61,55,.08)] sm:rounded-[28px] sm:p-5">
-            <div className="flex flex-col items-start gap-3 border-b border-[#dce8e4] pb-4 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
-              <div>
-                <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#8e5e12]">{en ? 'Product overview' : 'Vista del producto'}</p>
-                <p className="mt-1 text-lg font-black text-[#173d37]" style={{ fontFamily: 'Georgia, Times New Roman, serif' }}>{en ? 'What this kit includes' : 'Qué incluye este kit'}</p>
+                <button onClick={() => onLoad(kit)} className="text-xs px-3 py-1.5 bg-[#2b5a52] text-white rounded-lg font-semibold hover:bg-[#234a43] transition-colors flex-shrink-0">
+                  {en ? 'Continue' : 'Continuar'}
+                </button>
+                <button onClick={(e) => handleDelete(kit.id, e)} className="text-gray-300 hover:text-red-400 p-1 rounded-lg hover:bg-red-50 transition-colors flex-shrink-0" title={en ? 'Delete' : 'Eliminar'}>
+                  <FiTrash2 className="text-sm" />
+                </button>
               </div>
-              <div className="rounded-2xl bg-[#173d37] px-3 py-2 text-right text-white shadow-[0_12px_20px_rgba(23,61,55,.16)]">
-                <p className="text-[10px] uppercase tracking-[0.14em] text-white/80">{en ? 'Current language' : 'Idioma actual'}</p>
-                <p className="text-sm font-bold">{languageMeta.label}</p>
-              </div>
-            </div>
-
-            <div className="mt-4 grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
-              {[
-                { title: en ? 'Active route' : 'Ruta activa', text: getRouteDescription(routeMeta.id, data?.language) },
-                { title: en ? 'Coverage' : 'Cobertura', text: en ? 'Curriculum in MEN Technology and Computing or School Design, with Spanish and English available.' : 'Currículo en MEN de Tecnología e Informática o Diseño Escolar, con español e inglés disponibles.' },
-                { title: en ? 'Main outputs' : 'Salidas principales', text: en ? 'Teacher guide, student workbook, rubric, assessment, family summary, dashboard and support views.' : 'Guía docente, taller del estudiante, rúbrica, evaluación, resumen para familias, panel y vistas de apoyo.' },
-              ].map((item) => (
-                <div key={item.title} className="rounded-2xl border border-[#dce8e4] bg-white px-4 py-3.5">
-                  <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#58756d]">{item.title}</p>
-                  <p className="mt-1 text-[15px] leading-7 text-[#244842]">{item.text}</p>
-                </div>
-              ))}
-            </div>
+            ))}
           </div>
         </div>
+      )}
+
+      {/* ── Hero compacto ── */}
+      <div className="text-center mb-8">
+        <img src={logoMM} alt="Maryam Math" className="mx-auto h-12 mb-4" />
+        <h1 className="text-[2.2rem] sm:text-[2.8rem] leading-[1.05] text-[#173d37]" style={{ fontFamily: 'Georgia, Times New Roman, serif', fontWeight: 800 }}>
+          {en ? 'Create your teaching kit.' : 'Crea tu kit docente.'}
+        </h1>
+        <p className="mt-3 text-base text-[#5a7069] max-w-lg mx-auto leading-7">
+          {en
+            ? 'Planning, student guide, rubric and assessment — in one connected flow. Ready in 10-15 minutes.'
+            : 'Planeación, guía del estudiante, rúbrica y evaluación — en un solo flujo. Listo en 10-15 minutos.'}
+        </p>
       </div>
 
-      <div className="mt-6 w-full rounded-[28px] border border-[#d7e3df] bg-[linear-gradient(135deg,#fffaf1_0%,#f8fbfa_55%,#eef4f2_100%)] p-4 shadow-[0_18px_50px_rgba(23,61,55,.06)] sm:mt-8 sm:rounded-[30px] sm:p-5">
-        <div className="mb-4 flex items-start justify-between gap-4">
-          <div>
-            <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#8e5e12]">{en ? 'Curricular route' : 'Ruta curricular'}</p>
-            <h2 className="mt-1 text-[1.65rem] leading-tight text-[#173d37] sm:text-2xl" style={{ fontFamily: 'Georgia, Times New Roman, serif', fontWeight: 800 }}>{en ? 'Select the operating model of the kit' : 'Selecciona el modelo operativo del kit'}</h2>
-          </div>
-          <div className="hidden sm:block rounded-2xl bg-white/85 border border-white/80 px-4 py-3 shadow-sm">
-            <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#8e5e12]">{en ? 'Active now' : 'Activa ahora'}</p>
-            <p className="mt-1 text-sm font-semibold text-[#2b5a52]">{getRouteLabel(routeMeta.id, data?.language)}</p>
-          </div>
-        </div>
-
-        <div className="grid gap-3 md:grid-cols-2" data-tour="rutas">
+      {/* ── Selector de ruta (compacto) ── */}
+      <div className="mb-4" data-tour="rutas">
+        <p className="text-[10px] font-bold uppercase tracking-wide text-[#8e5e12] mb-2">{en ? 'Route' : 'Ruta'}</p>
+        <div className="grid gap-2 sm:grid-cols-3">
           {CURRICULAR_ROUTES.map((route) => {
             const active = data?.route === route.id
             return (
@@ -2866,300 +2819,95 @@ function Welcome({ data, onChange, onStart, onLoad, onOpenPanel, onStartTour }) 
                 onClick={() => onChange({
                   route: route.id,
                   rubrica: buildDefaultRubrica(route.id, data?.language || 'es'),
-                  mypYear: route.id === 'ib_myp_design' ? (data?.mypYear || 'Año 1') : (data?.mypYear || 'Año 1'),
+                  mypYear: route.id === 'ib_myp_design' ? (data?.mypYear || 'Año 1') : data?.mypYear,
                   grado: route.id === 'men' ? (data?.grado || '7°') : data?.grado,
-                  paso1: '',
-                  paso2: '',
-                  paso3: '',
-                  paso4: '',
-                  paso5: '',
-                  paso6: '',
-                  paso7: '',
+                  paso1: '', paso2: '', paso3: '', paso4: '', paso5: '', paso6: '', paso7: '',
                 })}
-                className={`text-left rounded-[26px] border p-5 transition-all ${
+                className={`text-left rounded-xl border px-3.5 py-3 transition-all ${
                   active
-                    ? 'border-[#173d37] bg-white shadow-[0_16px_30px_rgba(23,61,55,.12)] -translate-y-0.5'
-                    : 'border-white/80 bg-white/75 hover:border-[#2b5a52]/35 hover:bg-white hover:-translate-y-0.5'
+                    ? 'border-[#2b5a52] bg-[#2b5a52]/5 shadow-sm'
+                    : 'border-gray-200 bg-white hover:border-[#2b5a52]/30'
                 }`}
               >
-                <div className="flex items-center justify-between gap-3">
-                  <div>
-                    <p className="text-base font-black text-[#173d37]">{getRouteLabel(route.id, data?.language)}</p>
-                    <p className="mt-1 text-sm leading-6 text-[#526863]">{getRouteDescription(route.id, data?.language)}</p>
-                  </div>
-                  <div className={`flex h-9 w-9 items-center justify-center rounded-2xl border-2 ${active ? 'border-[#173d37] bg-[#173d37] text-white' : 'border-[#c9d8d3] bg-white text-transparent'}`}>•</div>
-                </div>
-                <p className="mt-4 text-xs leading-6 text-[#4b635d]">
-                  {route.id === 'ib_myp_design'
-                    ? (en
-                      ? 'Work by design year, design focus, solution, testing, iteration and assessment.'
-                      : 'Trabaja por año de diseño, foco de diseño, solución, prueba, iteración y evaluación.')
-                    : (en
-                      ? 'Work by grade, MEN component, curricular competency and technology project.'
-                      : 'Trabaja por grado, componente MEN, competencia curricular y proyecto tecnológico.')}
-                </p>
+                <p className="text-sm font-bold text-[#173d37]">{getRouteLabel(route.id, data?.language)}</p>
+                <p className="text-xs text-[#5a7069] mt-0.5 leading-4">{getRouteDescription(route.id, data?.language)}</p>
               </button>
             )
           })}
         </div>
+      </div>
 
-        <div className="mt-5 rounded-[26px] border border-white/80 bg-white/88 p-5 shadow-[0_12px_24px_rgba(23,61,55,.05)]" data-tour="idioma">
-          <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-[#8e5e12]">{en ? 'Working language' : 'Idioma de trabajo'}</p>
-          <div className="mt-3 grid gap-2 sm:grid-cols-2">
-            {LANGUAGES.map((language) => {
-              const active = data?.language === language.id
-              return (
-                <button
-                  key={language.id}
-                  type="button"
-                  onClick={() => onChange({
-                    language: language.id,
-                    rubrica: buildDefaultRubrica(data?.route || 'men', language.id),
-                    paso1: '',
-                    paso2: '',
-                    paso3: '',
-                    paso4: '',
-                    paso5: '',
-                    paso6: '',
-                    paso7: '',
-                  })}
-                  className={`text-left rounded-2xl border px-4 py-4 transition-all ${
-                    active
-                      ? 'border-[#173d37] bg-[#173d37]/5 shadow-[0_10px_18px_rgba(23,61,55,.08)]'
-                      : 'border-gray-200 hover:border-[#2b5a52]/35 hover:-translate-y-0.5'
-                  }`}
-                >
-                  <p className="text-sm font-black text-[#173d37]">{language.label}</p>
-                  <p className="mt-1 text-sm leading-6 text-[#526863]">
-                    {language.id === 'en'
-                      ? (en ? 'Kit, guide, rubric and assessment in English' : 'Kit, guía, rúbrica y evaluación en inglés')
-                      : (en ? 'Kit, guide, rubric and assessment in Spanish' : 'Kit, guía, rúbrica y evaluación en español')}
-                  </p>
-                </button>
-              )
-            })}
-          </div>
-          <p className="mt-4 text-[11px] font-bold uppercase tracking-[0.14em] text-[#55726b]">{en ? 'Active now' : 'Activo ahora'}: <span className="text-[#173d37]">{languageMeta.label}</span></p>
-
-          {data.route === 'stem' ? (
-            <div className="mt-4 grid gap-3 sm:grid-cols-2">
+      {/* ── Selector de idioma (inline) ── */}
+      <div className="mb-6" data-tour="idioma">
+        <p className="text-[10px] font-bold uppercase tracking-wide text-[#8e5e12] mb-2">{en ? 'Language' : 'Idioma'}</p>
+        <div className="flex gap-2">
+          {LANGUAGES.map((language) => {
+            const active = data?.language === language.id
+            return (
               <button
+                key={language.id}
                 type="button"
-                onClick={onStart}
-                className="w-full rounded-[18px] border border-[#2b5a52]/20 bg-[#2b5a52] px-4 py-3 text-sm font-bold text-white shadow-[0_12px_28px_rgba(43,90,82,.18)] hover:bg-[#234a43] transition-colors"
+                onClick={() => onChange({
+                  language: language.id,
+                  rubrica: buildDefaultRubrica(data?.route || 'men', language.id),
+                  paso1: '', paso2: '', paso3: '', paso4: '', paso5: '', paso6: '', paso7: '',
+                })}
+                className={`rounded-xl border px-4 py-2.5 text-sm font-semibold transition-all ${
+                  active ? 'border-[#2b5a52] bg-[#2b5a52]/5' : 'border-gray-200 hover:border-[#2b5a52]/30'
+                }`}
               >
-                {en ? 'Entrar con asistencia inteligente' : 'Entrar con asistencia inteligente'}
+                {language.label}
               </button>
-              <button
-                type="button"
-                onClick={handleStemPreset}
-                className="w-full rounded-[18px] border border-[#fbb041]/45 bg-[#fff8ec] px-4 py-3 text-sm font-bold text-[#9b6714] shadow-[0_12px_26px_rgba(251,176,65,.18)] hover:-translate-y-0.5 transition-transform"
-              >
-                {en ? 'Load STEM / STEAM with guidance' : 'Cargar STEM / STEAM con guía'}
-              </button>
-            </div>
-          ) : (
-            <div className="mt-4 grid gap-3 sm:grid-cols-2">
-              <button
-                type="button"
-                data-tour="empezar"
-                onClick={onStart}
-                className="w-full rounded-[18px] border border-[#2b5a52]/20 bg-[#2b5a52] px-4 py-3 text-sm font-bold text-white shadow-[0_12px_28px_rgba(43,90,82,.18)] hover:bg-[#234a43] transition-colors"
-              >
-                {en ? 'Start my kit' : 'Crear mi kit'}
-              </button>
-              <button
-                type="button"
-                data-tour="ejemplo"
-                onClick={handleLoadExample}
-                className="w-full rounded-[18px] border border-[#fbb041]/45 bg-[#fff8ec] px-4 py-3 text-sm font-bold text-[#9b6714] shadow-[0_12px_26px_rgba(251,176,65,.18)] hover:-translate-y-0.5 transition-transform"
-              >
-                {en ? 'Load example to explore' : 'Cargar ejemplo para explorar'}
-              </button>
-            </div>
-          )}
+            )
+          })}
         </div>
       </div>
 
-      <div className="mt-7 grid items-start gap-4 xl:grid-cols-[0.76fr_1.24fr]">
-        <div className="grid gap-3 sm:grid-cols-3 xl:grid-cols-1">
+      {/* ── CTA principal ── */}
+      <div className="space-y-3">
+        <button
+          type="button"
+          data-tour="empezar"
+          onClick={data.route === 'stem' ? handleStemPreset : onStart}
+          className="w-full py-4 bg-[#2b5a52] text-white rounded-2xl font-bold text-base hover:bg-[#234a43] active:scale-[0.98] transition-all shadow-lg shadow-[#2b5a52]/25 flex items-center justify-center gap-2"
+        >
+          {en ? 'Start my kit' : 'Crear mi kit'} <FiChevronRight />
+        </button>
+        <button
+          type="button"
+          data-tour="ejemplo"
+          onClick={handleLoadExample}
+          className="w-full py-3 rounded-2xl border-2 border-[#fbb041]/50 bg-[#fff8ec] text-sm font-bold text-[#9b6714] hover:-translate-y-0.5 transition-transform flex items-center justify-center gap-2"
+        >
+          📦 {en ? 'Load example to explore' : 'Cargar ejemplo para explorar'}
+        </button>
+        <p className="text-center text-xs text-[#8a9e98]">{en ? '~10-15 min · Saves automatically' : '~10-15 min · Se guarda automáticamente'}</p>
+      </div>
+
+      {/* ── Cómo funciona (debajo del fold) ── */}
+      <div className="mt-10 pt-8 border-t border-gray-100">
+        <p className="text-[10px] font-bold uppercase tracking-wide text-[#8e5e12] text-center mb-4">{en ? 'How it works' : 'Cómo funciona'}</p>
+        <div className="grid gap-3 sm:grid-cols-3">
           {[
-            { n: '4', label: en ? 'Configuration blocks' : 'Bloques de configuración', sub: en ? 'Institution, route, conditions and support' : 'Institución, ruta, condiciones y apoyos', color: 'text-[#2b5a52]' },
-            { n: '7', label: en ? 'Pedagogical outputs' : 'Salidas pedagógicas', sub: en ? 'Ready to edit, review and use' : 'Listas para editar, revisar y usar', color: 'text-[#fbb041]' },
-            { n: '1', label: en ? 'Connected flow' : 'Flujo conectado', sub: en ? 'Planning, delivery and assessment in the same environment' : 'Planeación, entrega y evaluación en el mismo entorno', color: 'text-[#2b5a52]' },
+            { n: '01', title: en ? 'Define' : 'Define', text: en ? 'Route, grade, challenge, resources.' : 'Ruta, grado, reto, recursos.' },
+            { n: '02', title: en ? 'Generate' : 'Genera', text: en ? '7 documents: guides, rubric, assessment.' : '7 documentos: guías, rúbrica, evaluación.' },
+            { n: '03', title: en ? 'Use' : 'Usa', text: en ? 'Edit, deliver, grade, share.' : 'Edita, entrega, califica, comparte.' },
           ].map((item) => (
-            <div key={item.n} className="rounded-[24px] border border-[#d7e3df] bg-white px-4 py-4 shadow-[0_12px_24px_rgba(23,61,55,.05)]">
-              <div className="flex items-start gap-3 xl:items-center">
-                <div className={`flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-2xl bg-[#f8fbfa] text-[1.8rem] leading-none font-black ${item.color}`}>
-                  {item.n}
-                </div>
-                <div className="min-w-0">
-                  <p className="text-[14px] font-black leading-5 text-[#173d37]">{item.label}</p>
-                  <p className="mt-1 text-[12px] leading-5 text-[#6e827c]">{item.sub}</p>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div className="rounded-[30px] border border-[#d7e3df] bg-[linear-gradient(180deg,#fffefb_0%,#f6faf8_100%)] p-5 shadow-[0_14px_30px_rgba(23,61,55,.05)]">
-          <div className="max-w-[48rem]">
-            <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#8e5e12]">{en ? 'What you can prepare here' : 'Lo que puedes preparar aquí'}</p>
-            <p className="mt-2 max-w-[13ch] text-[2rem] leading-[0.98] text-[#173d37] sm:text-[2.35rem]" style={{ fontFamily: 'Georgia, Times New Roman, serif', fontWeight: 700 }}>
-              {en ? 'A kit ready for classroom use and pedagogical review.' : 'Un kit listo para uso en aula y revisión pedagógica.'}
-            </p>
-            <p className="mt-3 max-w-2xl text-[15px] leading-8 text-[#587067]">
-              {en
-                ? 'Define the route, organise the challenge, prepare the key materials and review coherence before implementation.'
-                : 'Define la ruta, organiza el reto, prepara los materiales clave y revisa la coherencia antes de implementar el kit.'}
-            </p>
-
-            <div className="mt-5 flex flex-wrap gap-2.5">
-              {[
-                isIB ? 'Diseño Escolar' : (en ? 'Technology and Computing' : 'Tecnología e Informática'),
-                isIB ? (en ? 'Design teachers and coordination' : 'Docentes de diseño y coordinación') : (en ? 'Teachers and coordination' : 'Docentes y coordinación'),
-                en ? languageMeta.label : languageMeta.label,
-              ].map((item) => (
-                <span key={item} className="inline-flex items-center rounded-full border border-[#d9e5e1] bg-white px-3 py-1.5 text-[12px] font-semibold text-[#30534c] shadow-[0_6px_18px_rgba(23,61,55,.05)]">
-                  {item}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          <div className="mt-5 grid gap-3 md:grid-cols-3">
-            {[
-              {
-                n: '01',
-                title: en ? 'Define the base' : 'Define la base',
-                text: en ? 'Route, level, challenge, resources and realistic conditions.' : 'Ruta, nivel, reto, recursos y condiciones reales.',
-              },
-              {
-                n: '02',
-                title: en ? 'Generate the kit' : 'Genera el kit',
-                text: en ? 'Materials for teachers, students and families from one source.' : 'Materiales para docentes, estudiantes y familias desde una sola fuente.',
-              },
-              {
-                n: '03',
-                title: en ? 'Review before use' : 'Revisa antes de usar',
-                text: en ? 'Rubric, delivery, family summary and support views before classroom use.' : 'Rúbrica, entrega, resumen para familias y vistas de apoyo antes del uso en aula.',
-              },
-            ].map((item) => (
-              <div key={item.n} className="rounded-[24px] border border-[#e1ebe7] bg-white px-4 py-4 shadow-[0_8px_20px_rgba(23,61,55,.04)]">
-                <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#8e5e12]">{item.n}</p>
-                <p className="mt-2 text-[15px] font-black text-[#173d37]">{item.title}</p>
-                <p className="mt-2 text-sm leading-7 text-[#395750]">{item.text}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Documents preview */}
-      <div className="mt-7 w-full rounded-[28px] border border-[#d7e3df] bg-white p-5 shadow-[0_14px_30px_rgba(23,61,55,.05)]">
-        <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#8e5e12]">{en ? 'Included resources' : 'Recursos incluidos'}</p>
-        <p className="mt-2 text-[1.55rem] leading-tight text-[#173d37]" style={{ fontFamily: 'Georgia, Times New Roman, serif', fontWeight: 700 }}>{en ? 'Main materials generated for the kit' : 'Materiales principales que genera el kit'}</p>
-        <p className="mt-2 max-w-3xl text-[14px] leading-7 text-[#587067]">
-          {en
-            ? 'Everything is prepared from the same planning base so the teacher can review, adjust and use the kit with coherence.'
-            : 'Todo se prepara desde una misma base de planeación para que el docente pueda revisar, ajustar y usar el kit con coherencia.'}
-        </p>
-        <div className="mt-4 grid gap-3 md:grid-cols-2">
-          {[
-            { icon: FiFileText, label: en ? 'Curricular definition of the kit' : 'Definición curricular del kit' },
-            { icon: FiCheckSquare, label: en ? 'Challenge and solution / product' : 'Reto y solución / producto' },
-            { icon: FiPackage, label: en ? 'Materials checklist' : 'Checklist de materiales' },
-            { icon: FiUsers, label: en ? 'Teacher guide' : 'Guía del docente' },
-            { icon: FiFileText, label: en ? 'Student workbook (editable and returnable)' : 'Guía del estudiante (editable y retornable)' },
-            { icon: FiCheckSquare, label: en ? 'Assessment rubric' : 'Rúbrica de evaluación' },
-            { icon: FiUsers, label: en ? 'Family summary' : 'Resumen para familias' },
-          ].map(({ icon: Icon, label }) => (
-            <div key={label} className="flex items-center gap-3 rounded-2xl border border-[#e1ebe7] bg-[#fbfdfc] px-4 py-3 text-sm text-[#33534c]">
-              <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-[#2b5a52]/8">
-                <Icon className="text-[15px] text-[#2b5a52]" />
-              </div>
-              <span className="font-medium leading-6">{label}</span>
+            <div key={item.n} className="text-center p-4">
+              <p className="text-2xl font-black text-[#fbb041]">{item.n}</p>
+              <p className="mt-1 text-sm font-bold text-[#173d37]">{item.title}</p>
+              <p className="mt-1 text-xs text-[#5a7069] leading-5">{item.text}</p>
             </div>
           ))}
         </div>
       </div>
 
-      {/* MEN resource card */}
-      <a
-        href={isIB ? IB_MYP_DESIGN_URL : MEN_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="w-full flex items-center gap-3 p-4 rounded-2xl border-2 border-[#2b5a52]/20
-          hover:border-[#2b5a52]/50 hover:bg-[#2b5a52]/5 transition-colors group mb-8"
-      >
-        <div className="w-9 h-9 rounded-xl bg-[#2b5a52]/10 flex items-center justify-center flex-shrink-0">
-          <FiBook className="text-[#2b5a52]" />
-        </div>
-        <div className="flex-1 text-left">
-          <p className="text-sm font-semibold text-[#2b5a52]">{isIB ? 'Diseño Escolar' : (en ? 'MEN Curriculum Guidelines' : 'Orientaciones Curriculares MEN')}</p>
-          <p className="text-xs text-gray-500">{isIB ? (en ? 'Check the official design cycle reference' : 'Consulta la referencia oficial del ciclo de diseño') : (en ? 'Check the official Ministry of Education document' : 'Consulta el documento oficial del Ministerio de Educación')}</p>
-        </div>
-        <FiExternalLink className="text-gray-400 group-hover:text-[#2b5a52] transition-colors flex-shrink-0" />
-      </a>
-
-      {/* Kits guardados */}
-      {filteredSavedKits.length > 0 && (
-        <div className="w-full mb-6">
-          <div className="mb-3 flex items-center justify-between gap-3">
-            <p className="text-xs font-bold text-gray-500 uppercase tracking-wide flex items-center gap-1.5">
-              <FiFolder className="text-[#2b5a52]" /> {en ? 'Continue where you left off' : 'Continúa donde dejaste'}
-            </p>
-            <button
-              type="button"
-              data-tour="panel"
-              onClick={onOpenPanel}
-              className="text-xs font-semibold text-[#2b5a52] hover:text-[#234a43] transition-colors"
-            >
-              {en ? 'Open progress panel' : 'Abrir panel de evolución'}
-            </button>
-          </div>
-          <div className="space-y-2">
-            {filteredSavedKits.slice(0, 2).map((kit) => (
-              <div key={kit.id}
-                className="flex items-center gap-3 p-3 bg-white rounded-xl border border-gray-100 shadow-sm hover:border-[#2b5a52]/25 transition-colors">
-                <div className="w-8 h-8 rounded-lg bg-[#2b5a52]/8 flex items-center justify-center flex-shrink-0">
-                  <FiFileText className="text-[#2b5a52] text-sm" />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-semibold text-gray-800 truncate">{kit.preview.institucion}</p>
-                  <p className="text-xs text-gray-500 truncate">{kit.preview.route || 'MEN'} · {kit.preview.grado} · {kit.preview.subtema}</p>
-                  <p className="text-[10px] text-gray-400">{fmtDate(kit.savedAt)} · {en ? `Step ${kit.step} of 13` : `Paso ${kit.step} de 13`}</p>
-                </div>
-                <button
-                  onClick={() => onLoad(kit)}
-                  className="text-xs px-3 py-1.5 bg-[#2b5a52] text-white rounded-lg font-semibold hover:bg-[#234a43] transition-colors flex-shrink-0"
-                >
-                  {en ? 'Continue' : 'Continuar'}
-                </button>
-                <button
-                  onClick={(e) => handleDelete(kit.id, e)}
-                  className="text-gray-300 hover:text-red-400 p-1 rounded-lg hover:bg-red-50 transition-colors flex-shrink-0"
-                  title={en ? 'Delete saved kit' : 'Eliminar kit guardado'}
-                >
-                  <FiTrash2 className="text-sm" />
-                </button>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      <button
-        onClick={onStart}
-        className="w-full py-4 bg-[#2b5a52] text-white rounded-2xl font-bold text-base
-          hover:bg-[#2b5a52]/90 active:scale-95 transition-all shadow-lg shadow-[#2b5a52]/25
-          flex items-center justify-center gap-2"
-      >
-        {filteredSavedKits.length > 0
-          ? (en ? `New ${getRouteLabel(routeMeta.id, data?.language)}` : `Nuevo ${getRouteLabel(routeMeta.id, data?.language)}`)
-          : (en ? `Start with ${getRouteLabel(routeMeta.id, data?.language)}` : `Comenzar con ${getRouteLabel(routeMeta.id, data?.language)}`)} <FiChevronRight />
-      </button>
-      <p className="mt-3 text-sm leading-6 text-[#5a7069]">{en ? 'Takes approximately 10–15 minutes · Saves automatically' : 'Tarda aproximadamente 10–15 minutos · Se guarda automáticamente'}</p>
+      {/* ── Panel link ── */}
+      <div className="mt-6 text-center">
+        <button type="button" data-tour="panel" onClick={onOpenPanel} className="text-xs font-semibold text-[#2b5a52] hover:text-[#234a43] transition-colors">
+          {en ? 'Open progress panel' : 'Abrir panel de evolución'}
+        </button>
+      </div>
     </div>
   )
 }
