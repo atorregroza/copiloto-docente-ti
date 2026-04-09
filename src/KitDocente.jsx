@@ -2885,28 +2885,32 @@ function Welcome({ data, onChange, onStart, onLoad, onOpenPanel, onStartTour }) 
       </div>
 
       {/* ── Cómo funciona (debajo del fold) ── */}
-      <div className="mt-10 pt-8 border-t border-gray-100">
-        <p className="text-[10px] font-bold uppercase tracking-wide text-[#8e5e12] text-center mb-4">{en ? 'How it works' : 'Cómo funciona'}</p>
-        <div className="grid gap-3 sm:grid-cols-3">
+      <div className="mt-8 rounded-2xl border border-[#d7e3df] bg-white p-5 shadow-sm">
+        <p className="text-[10px] font-bold uppercase tracking-wide text-[#8e5e12] mb-4">{en ? 'How it works' : 'Cómo funciona'}</p>
+        <div className="grid gap-4 sm:grid-cols-3">
           {[
-            { n: '01', title: en ? 'Define' : 'Define', text: en ? 'Route, grade, challenge, resources.' : 'Ruta, grado, reto, recursos.' },
-            { n: '02', title: en ? 'Generate' : 'Genera', text: en ? '7 documents: guides, rubric, assessment.' : '7 documentos: guías, rúbrica, evaluación.' },
-            { n: '03', title: en ? 'Use' : 'Usa', text: en ? 'Edit, deliver, grade, share.' : 'Edita, entrega, califica, comparte.' },
+            { n: '01', emoji: '🎯', title: en ? 'Define' : 'Define', text: en ? 'Route, grade, challenge, resources and constraints.' : 'Ruta, grado, reto, recursos y restricciones.' },
+            { n: '02', emoji: '⚡', title: en ? 'Generate' : 'Genera', text: en ? '7 documents auto-generated: guides, rubric, assessment, family summary.' : '7 documentos auto-generados: guías, rúbrica, evaluación, resumen familias.' },
+            { n: '03', emoji: '✅', title: en ? 'Use' : 'Usa', text: en ? 'Edit what you need, deliver to students, grade with the interactive rubric, share.' : 'Edita lo que necesites, entrega al estudiante, califica con la rúbrica interactiva, comparte.' },
           ].map((item) => (
-            <div key={item.n} className="text-center p-4">
-              <p className="text-2xl font-black text-[#fbb041]">{item.n}</p>
-              <p className="mt-1 text-sm font-bold text-[#173d37]">{item.title}</p>
+            <div key={item.n} className="rounded-xl border border-[#e8f0ec] bg-[#f8fbfa] p-4">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-lg">{item.emoji}</span>
+                <span className="text-xs font-black text-[#fbb041]">{item.n}</span>
+              </div>
+              <p className="text-sm font-bold text-[#173d37]">{item.title}</p>
               <p className="mt-1 text-xs text-[#5a7069] leading-5">{item.text}</p>
             </div>
           ))}
         </div>
-      </div>
-
-      {/* ── Panel link ── */}
-      <div className="mt-6 text-center">
-        <button type="button" data-tour="panel" onClick={onOpenPanel} className="text-xs font-semibold text-[#2b5a52] hover:text-[#234a43] transition-colors">
-          {en ? 'Open progress panel' : 'Abrir panel de evolución'}
-        </button>
+        <div className="mt-4 pt-3 border-t border-gray-100 flex items-center justify-between">
+          <button type="button" data-tour="panel" onClick={onOpenPanel} className="text-xs font-semibold text-[#2b5a52] hover:text-[#234a43] transition-colors">
+            {en ? 'Open progress panel' : 'Panel de evolución'}
+          </button>
+          <a href={isIB ? IB_MYP_DESIGN_URL : MEN_URL} target="_blank" rel="noopener noreferrer" className="text-xs text-[#5a7069] hover:text-[#2b5a52] transition-colors flex items-center gap-1">
+            {en ? 'Curriculum reference' : 'Referencia curricular'} <FiExternalLink className="text-[10px]" />
+          </a>
+        </div>
       </div>
     </div>
   )
