@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { FiChevronRight, FiChevronLeft, FiPrinter, FiRefreshCw, FiCheck, FiBook, FiExternalLink, FiFileText, FiUsers, FiCheckSquare, FiPackage, FiUpload, FiX, FiSave, FiClock, FiFolder, FiLink, FiAlertCircle, FiTrash2, FiAward, FiImage, FiCopy, FiInfo, FiZap, FiSliders } from 'react-icons/fi'
 import logoMM from './assets/images/LogoMM.svg'
 import { detectStemDomain, buildStemPackage, STEM_DOMAINS } from './data/stemCatalog'
-import { OnboardingTour, GuidedTour } from './OnboardingTour'
+import { OnboardingTour, GuidedTour, TourMenu, TourCompleteMenu } from './OnboardingTour'
 
 const MEN_URL = 'https://www.colombiaaprende.edu.co/sites/default/files/files_public/2022-11/Orientaciones_Curricures_Tecnologia.pdf'
 const IB_MYP_DESIGN_URL = 'https://www.ibo.org/programmes/middle-years-programme/curriculum/design/'
@@ -7546,7 +7546,9 @@ export function KitDocente() {
   const [sharedKit, setSharedKit] = useState(null)
   const [showCreditos, setShowCreditos] = useState(false)
   const [kitId, setKitId] = useState(null)
-  const [guidedTour, setGuidedTour] = useState(false)
+  const [guidedTour, setGuidedTour] = useState(null) // null | { track: 'create'|'evaluate'|'student'|'full' }
+  const [tourMenu, setTourMenu] = useState(false)
+  const [tourComplete, setTourComplete] = useState(null) // null | completedTrackKey
   const topRef = useRef()
   const en = isEnglish(data)
 
@@ -7677,7 +7679,7 @@ export function KitDocente() {
 
   const scrollToTop = () => topRef.current?.scrollTo(0, 0)
   const renderContent = () => {
-    if (step === 0) return <Welcome data={data} onChange={update} onStart={next} onLoad={handleLoad} onOpenPanel={() => setShowPanel(true)} onStartTour={() => setGuidedTour(true)} />
+    if (step === 0) return <Welcome data={data} onChange={update} onStart={next} onLoad={handleLoad} onOpenPanel={() => setShowPanel(true)} onStartTour={() => setTourMenu(true)} />
     if (step === 1) return <BlockA data={data} onChange={update} />
     if (step === 2) return <BlockB data={data} onChange={update} />
     if (step === 3) return <BlockC data={data} onChange={update} />
@@ -7801,15 +7803,41 @@ export function KitDocente() {
         </div>
       )}
 
-      {/* Tour guiado con ejemplo */}
+      {/* Menú de selección de recorrido */}
+      {tourMenu && (
+        <TourMenu
+          language={data.language}
+          onSelect={(track) => {
+            setTourMenu(false)
+            setGuidedTour({ track })
+            // Jump to first step of the track
+            const enrichedData = { ...data, componenteLabel: getFrameworkValue(data), subtema: getLocalizedSubtema(data) }
+            const firstStep = track === 'create' ? 0 : track === 'evaluate' ? 11 : track === 'student' ? 10 : 0
+            for (let s = 0; s <= firstStep; s++) {
+              if (s >= 5 && s <= 11) {
+                const field = `paso${s - 4}`
+                if (!data[field]) {
+                  const gen = GENERADORES[s - 5]
+                  if (gen) update({ [field]: gen(enrichedData) })
+                }
+              }
+            }
+            setStep(firstStep)
+            topRef.current?.scrollTo(0, 0)
+          }}
+          onDismiss={() => setTourMenu(false)}
+        />
+      )}
+
+      {/* Tour guiado activo */}
       {guidedTour && (
         <GuidedTour
           language={data.language}
+          track={guidedTour.track}
           currentStep={step}
           onNext={(targetStep) => {
-            // Pre-generate content for steps we're skipping to
             const enrichedData = { ...data, componenteLabel: getFrameworkValue(data), subtema: getLocalizedSubtema(data) }
-            for (let s = step; s < targetStep; s++) {
+            for (let s = step; s <= targetStep; s++) {
               if (s >= 5 && s <= 11) {
                 const field = `paso${s - 4}`
                 if (!data[field]) {
@@ -7821,8 +7849,38 @@ export function KitDocente() {
             setStep(targetStep)
             topRef.current?.scrollTo(0, 0)
           }}
-          onDismiss={() => setGuidedTour(false)}
+          onDismiss={() => setGuidedTour(null)}
           onReset={reset}
+          onShowMenu={() => {
+            setTourComplete(guidedTour.track)
+            setGuidedTour(null)
+          }}
+        />
+      )}
+
+      {/* Modal post-tour: ¿otro recorrido? */}
+      {tourComplete && (
+        <TourCompleteMenu
+          language={data.language}
+          completedTrack={tourComplete}
+          onSelect={(track) => {
+            setTourComplete(null)
+            setGuidedTour({ track })
+            const firstStep = track === 'create' ? 0 : track === 'evaluate' ? 11 : track === 'student' ? 10 : 0
+            const enrichedData = { ...data, componenteLabel: getFrameworkValue(data), subtema: getLocalizedSubtema(data) }
+            for (let s = 0; s <= firstStep; s++) {
+              if (s >= 5 && s <= 11) {
+                const field = `paso${s - 4}`
+                if (!data[field]) {
+                  const gen = GENERADORES[s - 5]
+                  if (gen) update({ [field]: gen(enrichedData) })
+                }
+              }
+            }
+            setStep(firstStep)
+            topRef.current?.scrollTo(0, 0)
+          }}
+          onCreateKit={() => { setTourComplete(null); reset() }}
         />
       )}
 
