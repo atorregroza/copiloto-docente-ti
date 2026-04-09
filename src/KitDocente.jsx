@@ -2799,10 +2799,18 @@ function Welcome({ data, onChange, onStart, onLoad, onOpenPanel, onStartTour }) 
         <h1 className="text-[2.2rem] sm:text-[2.8rem] leading-[1.05] text-[#173d37]" style={{ fontFamily: 'Georgia, Times New Roman, serif', fontWeight: 800 }}>
           {en ? 'Create your teaching kit.' : 'Crea tu kit docente.'}
         </h1>
-        <p className="mt-3 text-base text-[#5a7069] max-w-lg mx-auto leading-7">
-          {en
-            ? 'Planning, student guide, rubric and assessment — in one connected flow. Ready in 10-15 minutes.'
-            : 'Planeación, guía del estudiante, rúbrica y evaluación — en un solo flujo. Listo en 10-15 minutos.'}
+        <div className="mt-4 flex flex-wrap justify-center gap-2">
+          {(en
+            ? ['Planning', 'Student guide', 'Rubric', 'Assessment', 'Family summary']
+            : ['Planeación', 'Guía del estudiante', 'Rúbrica', 'Evaluación', 'Resumen familias']
+          ).map((item) => (
+            <span key={item} className="inline-flex items-center gap-1.5 rounded-full border border-[#2b5a52]/15 bg-[#2b5a52]/5 px-3 py-1.5 text-xs font-semibold text-[#2b5a52]">
+              <FiCheck className="text-[10px] text-[#fbb041]" /> {item}
+            </span>
+          ))}
+        </div>
+        <p className="mt-3 text-sm text-[#8a9e98]">
+          {en ? 'One connected flow · Ready in 10-15 minutes' : 'Un solo flujo conectado · Listo en 10-15 minutos'}
         </p>
       </div>
 
