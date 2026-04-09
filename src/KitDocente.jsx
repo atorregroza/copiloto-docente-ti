@@ -2715,7 +2715,7 @@ function Welcome({ data, onChange, onStart, onLoad, onOpenPanel, onStartTour }) 
   const isIB = data?.route === 'ib_myp_design'
   const languageMeta = getLanguageMeta(data?.language)
   const en = isEnglish(data)
-  const filteredSavedKits = savedKits.filter((kit) => (kit?.data?.route || 'men') === (data?.route || 'men'))
+  const filteredSavedKits = savedKits.filter((kit) => (kit?.data?.route || 'men') === (data?.route || 'men') && kit?.preview?.institucion?.trim())
 
   const handleStemPreset = () => {
     const preset = buildStemPreset(data?.language || 'es')
@@ -2907,7 +2907,7 @@ function Welcome({ data, onChange, onStart, onLoad, onOpenPanel, onStartTour }) 
         </div>
         <div className="mt-4 pt-3 border-t border-gray-100 flex items-center justify-between">
           <button type="button" data-tour="panel" onClick={onOpenPanel} className="text-xs font-semibold text-[#2b5a52] hover:text-[#234a43] transition-colors">
-            {en ? 'Open progress panel' : 'Panel de evolución'}
+            {en ? 'My saved kits' : 'Mis kits guardados'}
           </button>
           <a href={isIB ? IB_MYP_DESIGN_URL : MEN_URL} target="_blank" rel="noopener noreferrer" className="text-xs text-[#5a7069] hover:text-[#2b5a52] transition-colors flex items-center gap-1">
             {en ? 'Curriculum reference' : 'Referencia curricular'} <FiExternalLink className="text-[10px]" />
@@ -7081,7 +7081,7 @@ function PanelDocente({ onClose, onLoad, language = 'es', route = 'men' }) {
   const semColor = avgScore >= 85 ? 'text-green-500' : avgScore >= 65 ? 'text-amber-500' : 'text-orange-500'
 
   return (
-    <div role="dialog" aria-modal="true" aria-label={en ? 'Progress panel' : 'Panel de evolución'} className="fixed inset-0 z-50 flex items-start justify-end no-print" onClick={onClose} onKeyDown={(e) => { if (e.key === 'Escape') onClose() }}>
+    <div role="dialog" aria-modal="true" aria-label={en ? 'My saved kits' : 'Mis kits guardados'} className="fixed inset-0 z-50 flex items-start justify-end no-print" onClick={onClose} onKeyDown={(e) => { if (e.key === 'Escape') onClose() }}>
       <div
         className="bg-white h-full w-full max-w-sm shadow-2xl overflow-y-auto flex flex-col"
         onClick={(e) => e.stopPropagation()}
@@ -7090,7 +7090,7 @@ function PanelDocente({ onClose, onLoad, language = 'es', route = 'men' }) {
         <div className="sticky top-0 bg-[#2b5a52] px-5 py-4 flex items-center gap-3 flex-shrink-0">
           <span className="text-xl">📊</span>
           <div className="flex-1 min-w-0">
-            <p className="text-white font-bold text-sm">{en ? 'My progress panel' : 'Mi Panel de Evolución'}</p>
+            <p className="text-white font-bold text-sm">{en ? 'My saved kits' : 'Mis kits guardados'}</p>
             <p className="text-white/70 text-xs">{en ? `History and progress for ${routeLabel}` : `Historial y progreso de ${routeLabel}`}</p>
           </div>
           <button onClick={onClose} aria-label={en ? 'Close' : 'Cerrar'} className="text-white/60 hover:text-white p-1.5 rounded-lg hover:bg-white/10 transition-colors">
