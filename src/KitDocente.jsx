@@ -2889,12 +2889,14 @@ function Welcome({ data, onChange, onStart, onLoad, onOpenPanel, onStartTour }) 
         >
           {en ? 'Take a guided tour with a sample kit' : 'Haz un recorrido guiado con un kit de ejemplo'}
         </button>
-        <p className="text-center text-xs text-[#8a9e98]">{en ? '~10-15 min · Saves automatically' : '~10-15 min · Se guarda automáticamente'}</p>
       </div>
 
       {/* ── Cómo funciona (debajo del fold) ── */}
       <div className="mt-8 rounded-2xl border border-[#d7e3df] bg-white p-5 shadow-sm">
-        <p className="text-[10px] font-bold uppercase tracking-wide text-[#8e5e12] mb-4">{en ? 'How it works' : 'Cómo funciona'}</p>
+        <div className="flex items-center justify-between mb-4">
+          <p className="text-[10px] font-bold uppercase tracking-wide text-[#8e5e12]">{en ? 'How it works' : 'Cómo funciona'}</p>
+          <p className="text-[11px] text-[#8a9e98]">{en ? '~10-15 min · Saves automatically' : '~10-15 min · Se guarda automáticamente'}</p>
+        </div>
         <div className="grid gap-4 sm:grid-cols-3">
           {[
             { n: '01', icon: FiSliders, title: en ? 'Define' : 'Define', text: en ? 'Route, grade, challenge, resources and constraints.' : 'Ruta, grado, reto, recursos y restricciones.' },
