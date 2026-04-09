@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { FiChevronRight, FiChevronLeft, FiPrinter, FiRefreshCw, FiCheck, FiBook, FiExternalLink, FiFileText, FiUsers, FiCheckSquare, FiPackage, FiUpload, FiX, FiSave, FiClock, FiFolder, FiLink, FiAlertCircle, FiTrash2, FiAward, FiImage, FiCopy, FiInfo, FiZap, FiSliders } from 'react-icons/fi'
+import { FiChevronRight, FiChevronLeft, FiPrinter, FiRefreshCw, FiCheck, FiBook, FiExternalLink, FiFileText, FiUsers, FiCheckSquare, FiPackage, FiUpload, FiX, FiSave, FiClock, FiFolder, FiLink, FiAlertCircle, FiTrash2, FiAward, FiImage, FiCopy, FiInfo, FiZap, FiSliders, FiLock } from 'react-icons/fi'
 import logoMM from './assets/images/LogoMM.svg'
 import { detectStemDomain, buildStemPackage, STEM_DOMAINS } from './data/stemCatalog'
 import { OnboardingTour, GuidedTour, TourMenu, TourCompleteMenu } from './OnboardingTour'
@@ -2915,17 +2915,18 @@ function Welcome({ data, onChange, onStart, onLoad, onOpenPanel, onStartTour }) 
         </div>
 
         {/* Bloque de confianza */}
-        <div className="mt-4 pt-3 border-t border-gray-100">
-          <div className="flex flex-wrap justify-center gap-x-5 gap-y-1">
-            {(en
-              ? ['No account needed', 'Works on phone', 'Auto-saves', 'Free', '100% private']
-              : ['Sin cuenta ni registro', 'Funciona en el celular', 'Se guarda solo', 'Gratis', '100% privado']
-            ).map((item) => (
-              <span key={item} className="text-[11px] text-[#8a9e98] flex items-center gap-1">
-                <FiCheck className="text-[#2b5a52] text-[9px]" /> {item}
-              </span>
-            ))}
-          </div>
+        <div className="mt-5 grid grid-cols-2 sm:grid-cols-5 gap-2">
+          {(en
+            ? [{icon: FiUsers, t: 'No account needed'}, {icon: FiImage, t: 'Works on phone'}, {icon: FiSave, t: 'Auto-saves'}, {icon: FiCheck, t: 'Free'}, {icon: FiLock, t: '100% private'}]
+            : [{icon: FiUsers, t: 'Sin cuenta ni registro'}, {icon: FiImage, t: 'Funciona en el celular'}, {icon: FiSave, t: 'Se guarda solo'}, {icon: FiCheck, t: 'Gratis'}, {icon: FiLock, t: '100% privado'}]
+          ).map((item) => (
+            <div key={item.t} className="flex items-center gap-2 rounded-xl border border-[#e8f0ec] bg-[#f8fbfa] px-3 py-2.5">
+              <div className="w-7 h-7 rounded-lg bg-[#2b5a52]/10 flex items-center justify-center flex-shrink-0">
+                <item.icon className="text-xs text-[#2b5a52]" />
+              </div>
+              <span className="text-xs font-semibold text-[#2b5a52] leading-4">{item.t}</span>
+            </div>
+          ))}
         </div>
       </div>
     </div>
