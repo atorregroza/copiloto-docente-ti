@@ -50,13 +50,13 @@ const TRACKS = {
     descEs: 'La rúbrica, la planilla de notas y cómo compartir calificaciones', descEn: 'The rubric, grade sheet and how to share scores',
     stepsEs: [
       { step: 11, emoji: '⭐', title: 'Tu rúbrica', text: '4 criterios con pesos que suman 100%. Puedes editar nombres, pesos y descriptores para adaptarla a tu clase. Este es tu instrumento de evaluación.' },
-      { step: 13, emoji: '📊', title: 'Planilla de calificación', text: 'Exporta la rúbrica como planilla interactiva: escribes el nombre del estudiante, haces clic en el nivel de cada criterio, la nota se calcula sola. Guardas y sigues con el siguiente estudiante.' },
-      { step: 13, emoji: '📋', title: 'Notas y reportes', text: 'Todas las calificaciones se guardan. Puedes copiarlas a Excel con un clic, abrir una vista de resultados del grupo, o compartir la nota individual con cada estudiante.' },
+      { step: 13, emoji: '📊', title: 'Planilla de calificación', text: 'Esta es la pantalla final de tu kit. Baja hasta "Salidas institucionales" y abre "Rúbrica de calificación": ahí escribes el nombre del estudiante, haces clic en el nivel de cada criterio y la nota se calcula sola.' },
+      { step: 13, emoji: '📋', title: 'Notas y reportes', text: 'Dentro de la planilla, cada calificación se guarda automáticamente. Puedes copiar todas las notas a Excel con un clic, abrir una vista de resultados del grupo, o compartir la nota individual con cada estudiante.' },
     ],
     stepsEn: [
       { step: 11, emoji: '⭐', title: 'Your rubric', text: '4 criteria with weights that sum to 100%. You can edit names, weights and descriptors to adapt it to your class. This is your assessment tool.' },
-      { step: 13, emoji: '📊', title: 'Grading sheet', text: 'Export the rubric as an interactive grading sheet: type the student name, click the level for each criterion, the score calculates automatically. Save and move to the next student.' },
-      { step: 13, emoji: '📋', title: 'Grades and reports', text: 'All grades are saved. Copy them to Excel with one click, open a group results view, or share individual scores with each student.' },
+      { step: 13, emoji: '📊', title: 'Grading sheet', text: 'This is your kit\'s final screen. Scroll down to "Institutional outputs" and open "Grading rubric": type the student name, click the level for each criterion and the score calculates automatically.' },
+      { step: 13, emoji: '📋', title: 'Grades and reports', text: 'Inside the grading sheet, every score saves automatically. Copy all grades to Excel with one click, open a group results view, or share individual scores with each student.' },
     ],
   },
   student: {
@@ -65,12 +65,12 @@ const TRACKS = {
     stepsEs: [
       { step: 10, emoji: '📝', title: 'Guía del estudiante', text: 'Este cuadernillo se lo entregas al estudiante. Tiene la ficha del reto, pasos cronometrados, espacios para escribir, subir fotos, checkpoints de semáforo y autoevaluación.' },
       { step: 10, emoji: '✏️', title: 'El estudiante la diligencia', text: 'El estudiante abre el link y puede completar todo: escribir respuestas en los espacios, subir fotos del proceso, marcar los checkpoints de semáforo y llenar la reflexión final. Se guarda automáticamente en su navegador.' },
-      { step: 13, emoji: '📤', title: 'Enviar y exportar', text: 'Desde el botón "Entrega al estudiante" generas el cuadernillo interactivo. También puedes exportar un resumen de una página para las familias y compartir el kit por enlace con otros docentes.' },
+      { step: 13, emoji: '📤', title: 'Enviar y exportar', text: 'Esta es la pantalla final. Busca el botón "Entrega al estudiante" para generar el cuadernillo interactivo. Más abajo en "Salidas institucionales" encuentras el resumen para familias y puedes compartir el kit por enlace.' },
     ],
     stepsEn: [
       { step: 10, emoji: '📝', title: 'Student guide', text: 'You deliver this workbook to students. It has the challenge card, timed steps, spaces to write, photo upload, traffic-light checkpoints and self-assessment.' },
       { step: 10, emoji: '✏️', title: 'Students fill it in', text: 'Students open the link and can complete everything: write answers, upload process photos, mark checkpoints and fill in the final reflection. It auto-saves in their browser.' },
-      { step: 13, emoji: '📤', title: 'Send and export', text: 'The "Deliver to student" button generates the interactive workbook. You can also export a one-page family summary and share the kit with other teachers via link.' },
+      { step: 13, emoji: '📤', title: 'Send and export', text: 'This is the final screen. Find the "Deliver to student" button to generate the interactive workbook. Below in "Institutional outputs" you will find the family summary and can share the kit via link.' },
     ],
   },
   full: {
@@ -87,7 +87,7 @@ const TRACKS = {
       { step: 9, emoji: '👩‍🏫', title: 'Guía docente', text: 'Secuencia cronometrada lista para clase. Puedes editar tiempos y actividades.' },
       { step: 10, emoji: '📝', title: 'Guía del estudiante', text: 'Cuadernillo entregable con fotos, checkpoints y autoevaluación.' },
       { step: 11, emoji: '⭐', title: 'Rúbrica', text: 'Criterios editables. Se exporta como planilla interactiva de calificación.' },
-      { step: 13, emoji: '🎉', title: '¡Kit completo!', text: 'Exporta todo: PDF, kit interactivo, planilla de notas y resumen para familias.' },
+      { step: 13, emoji: '🎉', title: '¡Kit completo!', text: 'Esta es la pantalla final. Baja para encontrar: "Entrega al estudiante", "Compartir kit" y "Salidas institucionales" (PDF, planilla de notas, resumen para familias).' },
     ],
     stepsEn: [
       { step: 0, emoji: '👋', title: 'Welcome to the Copilot', text: 'Let\'s walk through the full platform with a sample kit. At each screen I\'ll explain what was filled and why.' },
@@ -100,7 +100,7 @@ const TRACKS = {
       { step: 9, emoji: '👩‍🏫', title: 'Teacher guide', text: 'Timed sequence ready for class. You can edit times and activities.' },
       { step: 10, emoji: '📝', title: 'Student guide', text: 'Deliverable workbook with photos, checkpoints and self-assessment.' },
       { step: 11, emoji: '⭐', title: 'Rubric', text: 'Editable criteria. Exports as an interactive grading sheet.' },
-      { step: 13, emoji: '🎉', title: 'Kit complete!', text: 'Export everything: PDF, interactive kit, grading sheet and family summary.' },
+      { step: 13, emoji: '🎉', title: 'Kit complete!', text: 'This is the final screen. Scroll down to find: "Deliver to student", "Share kit" and "Institutional outputs" (PDF, grading sheet, family summary).' },
     ],
   },
 }
