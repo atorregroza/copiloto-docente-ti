@@ -2810,7 +2810,7 @@ function Welcome({ data, onChange, onStart, onLoad, onOpenPanel, onStartTour }) 
           ))}
         </div>
         <p className="mt-3 text-sm text-[#5a7069]">
-          {en ? 'One connected flow · Ready in 10-15 minutes' : 'Un solo flujo conectado · Listo en 10-15 minutos'}
+          {en ? 'One connected flow' : 'Un solo flujo conectado'}
         </p>
         <div className="mt-5 rounded-xl bg-[#2b5a52] px-5 py-4 max-w-lg mx-auto text-center">
           <p className="text-sm text-white font-semibold leading-6">
