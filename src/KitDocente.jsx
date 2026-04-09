@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { FiChevronRight, FiChevronLeft, FiPrinter, FiRefreshCw, FiCheck, FiBook, FiExternalLink, FiFileText, FiUsers, FiCheckSquare, FiPackage, FiUpload, FiX, FiSave, FiClock, FiFolder, FiLink, FiAlertCircle, FiTrash2, FiAward, FiImage, FiCopy, FiInfo } from 'react-icons/fi'
+import { FiChevronRight, FiChevronLeft, FiPrinter, FiRefreshCw, FiCheck, FiBook, FiExternalLink, FiFileText, FiUsers, FiCheckSquare, FiPackage, FiUpload, FiX, FiSave, FiClock, FiFolder, FiLink, FiAlertCircle, FiTrash2, FiAward, FiImage, FiCopy, FiInfo, FiZap, FiSliders } from 'react-icons/fi'
 import logoMM from './assets/images/LogoMM.svg'
 import { detectStemDomain, buildStemPackage, STEM_DOMAINS } from './data/stemCatalog'
 
@@ -22,6 +22,7 @@ const SHARE_FIELDS = [
   'tieneNEE', 'tiposNEE', 'descripcionNEE',
   'subtema', 'subtemaPropio', 'ibNeed', 'ibOutcome', 'ibEvidence', 'ibPrereq', 'ibCriterion', 'ibGlobalContext', 'ibKeyConcept', 'ibRelatedConcept',
   'stemNeed', 'stemUsers', 'stemAreas', 'stemImpact', 'stemMetric', 'stemPrototype', 'stemEvidenceLink', 'stemRounds', 'stemRoles',
+  'paso0Mode', 'checkpoints',
 ]
 
 function buildSharePayload(data) {
@@ -1420,6 +1421,7 @@ function calcScore(data) {
     { key: 'steps12', ok: !!(data.paso1?.trim() && data.paso2?.trim()), pts: 10, label: copy('PASO 1 y 2 aprobados', 'STEP 1 and 2 completed') },
     { key: 'steps34', ok: !!(data.paso3?.trim() && data.paso4?.trim()), pts: 10, label: copy('PASO 3 y 4 aprobados', 'STEP 3 and 4 completed') },
     { key: 'steps56', ok: !!(data.paso5?.trim() && data.paso6?.trim()), pts: 10, label: copy('Guía del estudiante y rúbrica aprobadas', 'Student workbook and rubric completed') },
+    { key: 'checkpoints', ok: !!(data.checkpoints?.cp1?.some(v => v) || data.checkpoints?.cp2?.some(v => v)), pts: 0, label: copy('Puntos de chequeo formativo incluidos', 'Formative checkpoints included'), formative: true },
   ]
   const score = checks.reduce((s, c) => s + (c.ok ? c.pts : 0), 0)
   return { score, pending: checks.filter((c) => !c.ok) }
@@ -2195,6 +2197,8 @@ ${en ? '1) Look and draw' : '1) Miramos y dibujamos'}
 □ ${en ? 'Draw the problem and your idea.' : 'Dibuja el problema y tu idea.'}
 □ ${en ? 'Name the users.' : 'Di quiénes usarán la solución.'}
 
+##CHECKPOINT1##
+
 ${en ? '2) Build and show' : '2) Construimos y mostramos'}
 □ ${en ? 'Build the simple model.' : 'Construye el modelo sencillo.'}
 □ ${en ? 'Take 1 photo while you build.' : 'Toma 1 foto mientras construyes.'}
@@ -2202,6 +2206,8 @@ ${en ? '2) Build and show' : '2) Construimos y mostramos'}
 ${en ? '3) Test and change' : '3) Probamos y cambiamos'}
 □ ${en ? 'Try it once. Did it work?' : 'Prueba una vez. ¿Funcionó?'}
 □ ${en ? 'Make one change and say why.' : 'Haz un cambio y di por qué.'}
+
+##CHECKPOINT2##
 
 ${en ? 'Evidence to submit:' : 'Evidencias a entregar:'}
 • ${en ? '1 photo of process' : '1 foto del proceso'}
@@ -2217,7 +2223,11 @@ ${en ? 'Mini self-check:' : 'Auto-revisión:'}
   if (bandKey === 'constructores') {
     return `${header}
 ${line}
+##CHECKPOINT1##
+
 ${renderRounds()}
+
+##CHECKPOINT2##
 
 ${en ? 'Evidence checklist:' : 'Lista de evidencias:'}
 □ ${en ? 'Sketch or diagram (entrada-proceso-salida).' : 'Boceto o diagrama (entrada-proceso-salida).'}
@@ -2231,7 +2241,11 @@ ${en ? 'Presentation (max 2 min): need → idea → what changed after test.' : 
   if (bandKey === 'innovadores') {
     return `${header}
 ${line}
+##CHECKPOINT1##
+
 ${renderRounds()}
+
+##CHECKPOINT2##
 
 ${en ? 'Evidence checklist:' : 'Lista de evidencias:'}
 □ ${en ? 'Sketch/diagram with materials.' : 'Boceto/diagrama con materiales.'}
@@ -2243,7 +2257,11 @@ ${en ? 'Presentation (max 2 min): need → prototype → data → improvement.' 
 
   return `${header}
 ${line}
+##CHECKPOINT1##
+
 ${renderRounds()}
+
+##CHECKPOINT2##
 
 ${en ? 'Evidence checklist:' : 'Lista de evidencias:'}
 □ ${en ? 'System map or constraints list.' : 'Mapa de sistema o lista de restricciones.'}
@@ -2291,12 +2309,16 @@ ${isIB ? '□ We identified who we are designing for and what they need.' : ''}
 ${isIB ? 'What did we discover about the user, context or need?\n[RESEARCH SPACE — Write findings, criteria and constraints]\n\nOur best first idea:\n[SKETCH SPACE — Draw or write your design proposal here]' : 'Draw or describe your first idea here:\n[SKETCH SPACE — Draw or write your design here]'}
 ${fotos[0] || ''}
 
+##CHECKPOINT1##
+
 ====
 ⏱ STEP 3 — ${isIB ? 'We build, test and improve' : 'We build or simulate'} (${d.duracionSimulador || '15–20'} min)
 □ ${isIB ? 'We build or model the solution based on the chosen idea.' : 'We begin to build or simulate according to the design.'}
 □ ${isIB ? 'We test the solution and adjust it if needed.' : 'We make adjustments if something does not work.'}
 ${isIB ? 'What did we learn while testing?\n[TESTING SPACE — Write what worked, what did not and what you adjusted]' : 'Problems we found:\n[PROBLEM SPACE — Write the obstacles you found]'}
 ${fotos[1] || ''}
+
+##CHECKPOINT2##
 
 ====
 ⏱ STEP 4 — We present our product
@@ -2343,12 +2365,16 @@ ${isIB ? '□ Identificamos para quién diseñamos y qué necesita.' : ''}
 ${isIB ? '¿Qué descubrimos del usuario, contexto o necesidad?\n[ESPACIO PARA INDAGACIÓN — Escribe hallazgos, criterios y restricciones]\n\nNuestra mejor idea inicial:\n[ESPACIO PARA BOCETO — Dibuja o escribe tu propuesta de diseño aquí]' : 'Dibuja o describe tu idea inicial aquí:\n[ESPACIO PARA BOCETO — Dibuja o escribe tu diseño aquí]'}
 ${fotos[0] || ''}
 
+##CHECKPOINT1##
+
 ====
 ⏱ PASO 3 — ${isIB ? 'Construimos, probamos y ajustamos' : 'Construimos o simulamos'} (${d.duracionSimulador || '15–20'} min)
 □ ${isIB ? 'Construimos o modelamos la solución según la idea elegida.' : 'Comenzamos a construir o simular según el diseño.'}
 □ ${isIB ? 'Probamos la solución y hacemos ajustes si es necesario.' : 'Hacemos ajustes si algo no funciona.'}
 ${isIB ? 'Qué aprendimos al probar:\n[ESPACIO PARA PRUEBAS — Anota qué funcionó, qué no y qué ajustaste]' : 'Problemas que encontramos:\n[ESPACIO PARA PROBLEMAS — Anota los obstáculos que encontraste]'}
 ${fotos[1] || ''}
+
+##CHECKPOINT2##
 
 ====
 ⏱ PASO 4 — Presentamos nuestro producto
@@ -3701,9 +3727,32 @@ function BlockD({ data, onChange }) {
   )
 }
 
+function QuickAdvancedToggle({ value, onChange, isEN }) {
+  const isQuick = value !== 'advanced'
+  return (
+    <div className="flex items-center gap-1 rounded-full border border-[#d7e3df] bg-white p-0.5 w-fit mb-4">
+      <button
+        type="button"
+        onClick={() => onChange('quick')}
+        className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[11px] font-semibold transition-colors ${isQuick ? 'bg-[#2b5a52] text-white' : 'text-[#5a7069] hover:text-[#2b5a52]'}`}
+      >
+        <FiZap className="text-xs" /> {isEN ? 'Quick' : 'Rapido'}
+      </button>
+      <button
+        type="button"
+        onClick={() => onChange('advanced')}
+        className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[11px] font-semibold transition-colors ${!isQuick ? 'bg-[#2b5a52] text-white' : 'text-[#5a7069] hover:text-[#2b5a52]'}`}
+      >
+        <FiSliders className="text-xs" /> {isEN ? 'Advanced' : 'Avanzado'}
+      </button>
+    </div>
+  )
+}
+
 function Paso0({ data, subtemas, onChange }) {
   const isIB = data.route === 'ib_myp_design'
   const isEN = isEnglish(data)
+  const isQuickIB = isIB && (data.paso0Mode || 'quick') === 'quick'
   const componente = MEN_COMPONENTES.find((c) => c.id === data.componente)
   const ibSupport = buildIBSupport(data)
   const ibSuggestions = buildIBFieldSuggestions(data)
@@ -3842,6 +3891,8 @@ function Paso0({ data, subtemas, onChange }) {
       }))
     }
 
+    const isQuickStem = (data.paso0Mode || 'quick') === 'quick'
+
     return (
       <div className="mx-auto w-full max-w-4xl space-y-4">
         <div>
@@ -3853,6 +3904,8 @@ function Paso0({ data, subtemas, onChange }) {
               : 'Define una necesidad auténtica, usuarios, integración de áreas y el prototipo mínimo que probarás dos veces.'}
           </p>
         </div>
+
+        <QuickAdvancedToggle value={data.paso0Mode || 'quick'} onChange={(v) => onChange({ paso0Mode: v })} isEN={isEN} />
 
         <div className="grid gap-4 md:grid-cols-2">
           <div className="space-y-3">
@@ -3932,16 +3985,20 @@ function Paso0({ data, subtemas, onChange }) {
                 </div>
               )}
             </div>
-            <Label>{isEN ? 'Users / context' : 'Usuarios / contexto'}</Label>
-            <Textarea
-              value={data.stemUsers}
-              onChange={(v) => updateStem({ stemUsers: v })}
-              rows={2}
-              placeholder={isEN ? 'Who is affected? When and where?' : '¿Quiénes se afectan? ¿Cuándo y dónde?'}
-            />
+            {!isQuickStem && (
+              <>
+                <Label>{isEN ? 'Users / context' : 'Usuarios / contexto'}</Label>
+                <Textarea
+                  value={data.stemUsers}
+                  onChange={(v) => updateStem({ stemUsers: v })}
+                  rows={2}
+                  placeholder={isEN ? 'Who is affected? When and where?' : '¿Quiénes se afectan? ¿Cuándo y dónde?'}
+                />
+              </>
+            )}
           </div>
 
-          <div className="space-y-3">
+          {!isQuickStem && <div className="space-y-3">
             <Label>{isEN ? 'Areas that must converge' : 'Áreas que deben converger'}</Label>
             <div className="flex flex-wrap gap-2">
               {areaOptions.map((a) => {
@@ -3971,10 +4028,10 @@ function Paso0({ data, subtemas, onChange }) {
               rows={2}
               placeholder={isEN ? 'Ex: reduce heat for students with asthma; reuses materials.' : 'Ej: reduce calor para estudiantes con asma; reutiliza materiales.'}
             />
-          </div>
+          </div>}
         </div>
 
-        <div className="grid gap-4 md:grid-cols-2">
+        {!isQuickStem && <div className="grid gap-4 md:grid-cols-2">
           <div className="space-y-3">
             <Label>{isEN ? 'Fast metric (15–30 min)' : 'Métrica rápida (15–30 min)'}</Label>
             <Input
@@ -4020,9 +4077,9 @@ function Paso0({ data, subtemas, onChange }) {
               placeholder={isEN ? 'Drive/SharePoint link' : 'Enlace de Drive/SharePoint'}
             />
           </div>
-        </div>
+        </div>}
 
-        <div className="grid gap-4 md:grid-cols-2">
+        {!isQuickStem && <div className="grid gap-4 md:grid-cols-2">
           {(data.stemRounds || []).map((round, idx) => (
             <div key={idx} className="rounded-2xl border border-[#d7e3df] bg-white p-4 shadow-sm">
               <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#2b5a52]">
@@ -4068,7 +4125,22 @@ function Paso0({ data, subtemas, onChange }) {
               </div>
             </div>
           ))}
-        </div>
+        </div>}
+
+        {/* Quick mode: summary card */}
+        {isQuickStem && data.stemPrototype && (
+          <div className="rounded-2xl border border-[#2b5a52]/15 bg-[#f8faf9] p-4 space-y-2">
+            <p className="text-[11px] font-bold uppercase tracking-wide text-[#2b5a52]">{isEN ? 'Auto-generated package' : 'Paquete auto-generado'}</p>
+            <p className="text-sm text-gray-700"><strong>{isEN ? 'Prototype:' : 'Prototipo:'}</strong> {data.stemPrototype}</p>
+            <p className="text-sm text-gray-700"><strong>{isEN ? 'Metric:' : 'Métrica:'}</strong> {data.stemMetric}</p>
+            {(data.stemRounds || []).map((r, i) => (
+              <p key={i} className="text-xs text-[#5a7069]">{isEN ? `Round ${i + 1}:` : `Ronda ${i + 1}:`} {r.focus}</p>
+            ))}
+            <p className="text-[11px] text-[#8e5e12] mt-2 italic">
+              {isEN ? 'Switch to Advanced to customize all fields.' : 'Cambia a Avanzado para personalizar todos los campos.'}
+            </p>
+          </div>
+        )}
 
         <div className="p-4 rounded-2xl border border-[#2b5a52]/15 bg-[#2b5a52]/5">
           <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#2b5a52] mb-2">{isEN ? 'Suggested challenges' : 'Retos sugeridos'}</p>
@@ -4192,6 +4264,8 @@ function Paso0({ data, subtemas, onChange }) {
             <p className="mt-2 text-sm text-gray-700 leading-relaxed">{isEN ? 'Set the curricular frame for the design brief.' : 'Define el marco curricular del reto de diseño.'}</p>
           </div>
 
+          <QuickAdvancedToggle value={data.paso0Mode || 'quick'} onChange={(v) => onChange({ paso0Mode: v })} isEN={isEN} />
+
           <div className="grid gap-3 md:grid-cols-2">
             <div>
               <p className="text-[11px] font-bold uppercase tracking-wide text-[#2b5a52] mb-2">{isEN ? 'Design criterion focus' : 'Foco de criterio de diseño'}</p>
@@ -4212,64 +4286,59 @@ function Paso0({ data, subtemas, onChange }) {
               </div>
             </div>
 
-            <div className="space-y-3">
-              <div>
-                <p className="text-[11px] font-bold uppercase tracking-wide text-[#2b5a52] mb-2">{isEN ? 'Global context' : 'Contexto global'}</p>
-                <Select
-                  value={data.ibGlobalContext}
-                  onChange={(v) => onChange({ ibGlobalContext: v })}
-                  options={IB_GLOBAL_CONTEXTS.map((item) => ({ value: item.id, label: getIBLabel(item, isEN) }))}
-                />
-              </div>
-              <div className="grid gap-3 sm:grid-cols-2">
+            {!isQuickIB ? (
+              <div className="space-y-3">
                 <div>
-                  <p className="text-[11px] font-bold uppercase tracking-wide text-[#2b5a52] mb-2">{isEN ? 'Key concept' : 'Concepto clave'}</p>
+                  <p className="text-[11px] font-bold uppercase tracking-wide text-[#2b5a52] mb-2">{isEN ? 'Global context' : 'Contexto global'}</p>
                   <Select
-                    value={data.ibKeyConcept}
-                    onChange={(v) => onChange({ ibKeyConcept: v })}
-                    options={IB_KEY_CONCEPTS.map((item) => ({ value: item.id, label: getIBLabel(item, isEN) }))}
+                    value={data.ibGlobalContext}
+                    onChange={(v) => onChange({ ibGlobalContext: v })}
+                    options={IB_GLOBAL_CONTEXTS.map((item) => ({ value: item.id, label: getIBLabel(item, isEN) }))}
                   />
                 </div>
-                <div>
-                  <p className="text-[11px] font-bold uppercase tracking-wide text-[#2b5a52] mb-2">{isEN ? 'Related concept' : 'Concepto relacionado'}</p>
-                  <Select
-                    value={data.ibRelatedConcept}
-                    onChange={(v) => onChange({ ibRelatedConcept: v })}
-                    options={IB_RELATED_CONCEPTS.map((item) => ({ value: item.id, label: getIBLabel(item, isEN) }))}
-                  />
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <div>
+                    <p className="text-[11px] font-bold uppercase tracking-wide text-[#2b5a52] mb-2">{isEN ? 'Key concept' : 'Concepto clave'}</p>
+                    <Select
+                      value={data.ibKeyConcept}
+                      onChange={(v) => onChange({ ibKeyConcept: v })}
+                      options={IB_KEY_CONCEPTS.map((item) => ({ value: item.id, label: getIBLabel(item, isEN) }))}
+                    />
+                  </div>
+                  <div>
+                    <p className="text-[11px] font-bold uppercase tracking-wide text-[#2b5a52] mb-2">{isEN ? 'Related concept' : 'Concepto relacionado'}</p>
+                    <Select
+                      value={data.ibRelatedConcept}
+                      onChange={(v) => onChange({ ibRelatedConcept: v })}
+                      options={IB_RELATED_CONCEPTS.map((item) => ({ value: item.id, label: getIBLabel(item, isEN) }))}
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
+            ) : (
+              <div className="flex items-center text-xs text-[#5a7069] italic">
+                {isEN ? 'Context and concepts use defaults.' : 'Contexto y conceptos usan valores predeterminados.'}
+              </div>
+            )}
           </div>
 
-          <div className="rounded-xl border border-[#2b5a52]/10 bg-white p-4">
-            <p className="text-[11px] font-bold uppercase tracking-wide text-[#8e5e12] mb-2">{isEN ? 'Curricular support' : 'Apoyo curricular'}</p>
-            <div className="space-y-2 text-sm text-gray-700">
-              <p><strong>{isEN ? 'Focus' : 'Enfoque'}:</strong> {ibSupport.focus}</p>
-              <p><strong>{isEN ? 'Guiding inquiry' : 'Pregunta orientadora'}:</strong> {ibSupport.inquiry}</p>
-              <p><strong>{isEN ? 'Suggested brief' : 'Formulación sugerida'}:</strong> {ibSupport.brief}</p>
-              <p><strong>{isEN ? 'Selected objective' : 'Objetivo que arrastra este criterio'}:</strong> {isEN ? ibCoherence.guide.objective : ibCoherence.guide.objectiveEs}</p>
+          {!isQuickIB && (
+            <div className="rounded-xl border border-[#2b5a52]/10 bg-white p-4">
+              <p className="text-[11px] font-bold uppercase tracking-wide text-[#8e5e12] mb-2">{isEN ? 'Curricular support' : 'Apoyo curricular'}</p>
+              <div className="space-y-2 text-sm text-gray-700">
+                <p><strong>{isEN ? 'Focus' : 'Enfoque'}:</strong> {ibSupport.focus}</p>
+                <p><strong>{isEN ? 'Guiding inquiry' : 'Pregunta orientadora'}:</strong> {ibSupport.inquiry}</p>
+                <p><strong>{isEN ? 'Suggested brief' : 'Formulación sugerida'}:</strong> {ibSupport.brief}</p>
+                <p><strong>{isEN ? 'Selected objective' : 'Objetivo que arrastra este criterio'}:</strong> {isEN ? ibCoherence.guide.objective : ibCoherence.guide.objectiveEs}</p>
+              </div>
             </div>
-          </div>
-        </div>
-      )}
-
-      {savedKits.length > 0 && filteredSavedKits.length === 0 && (
-        <div className="w-full mb-6 rounded-2xl border border-[#d7e3df] bg-white px-4 py-4 shadow-sm">
-          <p className="text-xs font-bold text-gray-500 uppercase tracking-wide mb-1 flex items-center gap-1.5">
-            <FiFolder className="text-[#2b5a52]" /> {en ? 'Saved kits in this route' : 'Kits guardados en esta ruta'}
-          </p>
-          <p className="text-sm leading-6 text-[#506761]">
-            {isIB
-              ? (en ? 'You do not have saved kits yet for IB MYP Design.' : 'Aún no tienes kits guardados para IB MYP Design.')
-              : (en ? 'You do not have saved kits yet for the MEN Technology and Computing route.' : 'Aún no tienes kits guardados para la ruta MEN de Tecnología e Informática.')}
-          </p>
+          )}
         </div>
       )}
 
       {isIB ? (
         <div className="space-y-4">
-          <div className="rounded-xl border border-[#2b5a52]/10 bg-white p-4">
+          {!isQuickIB && <div className="rounded-xl border border-[#2b5a52]/10 bg-white p-4">
             <p className="text-[11px] font-bold uppercase tracking-wide text-[#8e5e12] mb-2">{isEN ? 'Teaching support' : 'Apoyo al docente'}</p>
             <div className="space-y-2 text-sm text-gray-700">
               <p><strong>{isEN ? 'Focus' : 'Enfoque'}:</strong> {ibSupport.focus}</p>
@@ -4292,9 +4361,9 @@ function Paso0({ data, subtemas, onChange }) {
                 {isEN ? 'Use suggested outcome' : 'Usar producto sugerido'}
               </button>
             </div>
-          </div>
+          </div>}
 
-          <div className="rounded-xl border border-[#173d37]/12 bg-[#f8faf9] p-4">
+          {!isQuickIB && <div className="rounded-xl border border-[#173d37]/12 bg-[#f8faf9] p-4">
             <p className="text-[11px] font-bold uppercase tracking-wide text-[#2b5a52] mb-2">{isEN ? 'Curricular coherence filter' : 'Filtro de coherencia curricular'}</p>
             <div className="space-y-2 text-sm text-gray-700">
               <p><strong>{isEN ? 'This criterion expects' : 'Este criterio espera'}:</strong> {isEN ? ibCoherence.guide.objective : ibCoherence.guide.objectiveEs}</p>
@@ -4351,9 +4420,9 @@ function Paso0({ data, subtemas, onChange }) {
                 {isEN ? 'The current challenge, outcome and evidence are coherent with the selected IB criterion.' : 'El reto, el producto y la evidencia actuales son coherentes con el criterio IB seleccionado.'}
               </div>
             )}
-          </div>
+          </div>}
 
-          <IBProposalAssistant
+          {!isQuickIB && <IBProposalAssistant
             data={data}
             onApply={(proposal) => onChange(syncIBSubtema({
               ibNeed: proposal.need || data.ibNeed || '',
@@ -4362,7 +4431,7 @@ function Paso0({ data, subtemas, onChange }) {
               ibEvidence: proposal.evidence || data.ibEvidence || '',
               ibPrereq: proposal.prereq || data.ibPrereq || '',
             }))}
-          />
+          />}
 
           <div>
             <p className="text-xs font-medium text-gray-600 mb-1">{isEN ? '1. Need or problem to solve' : '1. Necesidad o problema a resolver'}</p>
@@ -4405,46 +4474,66 @@ function Paso0({ data, subtemas, onChange }) {
               ))}
             </div>
           </div>
-          <div>
-            <p className="text-xs font-medium text-gray-600 mb-1">{isEN ? '3. Evidence of process and solution' : '3. Evidencia del proceso y de la solución'}</p>
-            <Input
-              value={data.ibEvidence || ''}
-              onChange={(v) => onChange(syncIBSubtema({ ibEvidence: v }))}
-              placeholder={isEN ? 'Example: Annotated sketch, prototype photos and short design reflection' : 'Ej: Boceto comentado, fotos del prototipo y reflexión breve de diseño'}
-            />
-            <div className="mt-2 flex flex-wrap gap-2">
-              {ibSuggestions.evidence.map((item) => (
-                <button
-                  key={item}
-                  type="button"
-                  onClick={() => onChange(syncIBSubtema({ ibEvidence: item }))}
-                  className="rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-xs text-gray-600 hover:border-[#2b5a52]/30 hover:text-[#2b5a52]"
-                >
-                  {item}
-                </button>
-              ))}
+          {!isQuickIB ? (
+            <>
+              <div>
+                <p className="text-xs font-medium text-gray-600 mb-1">{isEN ? '3. Evidence of process and solution' : '3. Evidencia del proceso y de la solución'}</p>
+                <Input
+                  value={data.ibEvidence || ''}
+                  onChange={(v) => onChange(syncIBSubtema({ ibEvidence: v }))}
+                  placeholder={isEN ? 'Example: Annotated sketch, prototype photos and short design reflection' : 'Ej: Boceto comentado, fotos del prototipo y reflexión breve de diseño'}
+                />
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {ibSuggestions.evidence.map((item) => (
+                    <button
+                      key={item}
+                      type="button"
+                      onClick={() => onChange(syncIBSubtema({ ibEvidence: item }))}
+                      className="rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-xs text-gray-600 hover:border-[#2b5a52]/30 hover:text-[#2b5a52]"
+                    >
+                      {item}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <p className="text-xs font-medium text-gray-600 mb-1">{isEN ? '4. Prior knowledge or skills needed' : '4. Conocimientos o habilidades previas'}</p>
+                <Input
+                  value={data.ibPrereq || ''}
+                  onChange={(v) => onChange(syncIBSubtema({ ibPrereq: v }))}
+                  placeholder={isEN ? 'Example: Basic sketching, measuring and collaborative work' : 'Ej: Bocetación básica, medición simple y trabajo colaborativo'}
+                />
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {ibSuggestions.prereq.map((item) => (
+                    <button
+                      key={item}
+                      type="button"
+                      onClick={() => onChange(syncIBSubtema({ ibPrereq: item }))}
+                      className="rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-xs text-gray-600 hover:border-[#2b5a52]/30 hover:text-[#2b5a52]"
+                    >
+                      {item}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </>
+          ) : (
+            <div className="rounded-xl border border-[#2b5a52]/10 bg-[#f8faf9] p-3 space-y-2">
+              <p className="text-[11px] font-bold uppercase tracking-wide text-[#2b5a52]">{isEN ? 'Auto-configured' : 'Auto-configurado'}</p>
+              <p className="text-xs text-[#5a7069]">{isEN ? 'Evidence, prior knowledge, and IB concepts are set from the coherence engine.' : 'Evidencia, prerrequisitos y conceptos IB configurados desde el motor de coherencia.'}</p>
+              <button
+                type="button"
+                onClick={() => onChange(syncIBSubtema({
+                  ibEvidence: ibCoherence.recommendedEvidence,
+                  ibPrereq: ibSuggestions.prereq?.[0] || '',
+                }))}
+                className="rounded-lg border border-[#2b5a52]/20 bg-white px-3 py-1.5 text-xs font-semibold text-[#2b5a52] hover:bg-[#eef4f2]"
+              >
+                {isEN ? 'Auto-align evidence and prerequisites' : 'Auto-alinear evidencia y prerrequisitos'}
+              </button>
+              <p className="text-[11px] text-[#8e5e12] italic">{isEN ? 'Switch to Advanced to customize all fields.' : 'Cambia a Avanzado para personalizar todos los campos.'}</p>
             </div>
-          </div>
-          <div>
-            <p className="text-xs font-medium text-gray-600 mb-1">{isEN ? '4. Prior knowledge or skills needed' : '4. Conocimientos o habilidades previas'}</p>
-            <Input
-              value={data.ibPrereq || ''}
-              onChange={(v) => onChange(syncIBSubtema({ ibPrereq: v }))}
-              placeholder={isEN ? 'Example: Basic sketching, measuring and collaborative work' : 'Ej: Bocetación básica, medición simple y trabajo colaborativo'}
-            />
-            <div className="mt-2 flex flex-wrap gap-2">
-              {ibSuggestions.prereq.map((item) => (
-                <button
-                  key={item}
-                  type="button"
-                  onClick={() => onChange(syncIBSubtema({ ibPrereq: item }))}
-                  className="rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-xs text-gray-600 hover:border-[#2b5a52]/30 hover:text-[#2b5a52]"
-                >
-                  {item}
-                </button>
-              ))}
-            </div>
-          </div>
+          )}
 
           {data.subtema && (
             <div className="rounded-xl border border-[#2b5a52]/15 bg-[#f8faf9] p-4">
@@ -6116,6 +6205,69 @@ window.addEventListener('DOMContentLoaded', () => {
       </div>`
     }
 
+    const CHECKPOINT_ITEMS = (cpNum, route, lang) => {
+      const en = lang === 'en'
+      if (cpNum === 1) return [
+        en ? 'We understand the challenge and know what to deliver.' : 'Entendemos el reto y sabemos qué entregar.',
+        en ? 'We have a sketch or initial idea.' : 'Tenemos un boceto o idea inicial.',
+        en ? 'Roles assigned and materials ready.' : 'Roles asignados y materiales listos.',
+      ]
+      const item2 = route === 'stem'
+        ? (en ? 'We completed at least one test round with data.' : 'Completamos al menos una ronda de prueba con datos.')
+        : route === 'ib_myp_design'
+          ? (en ? 'We tested with the user or context and documented our adjustment.' : 'Probamos con el usuario o contexto y documentamos qué ajustamos.')
+          : (en ? 'We tested at least once and adjusted something.' : 'Probamos al menos una vez y ajustamos algo.')
+      return [
+        en ? 'Our prototype/product works or is nearly ready.' : 'Nuestro prototipo/producto funciona o está casi listo.',
+        item2,
+        en ? 'We can explain our decisions in 2 minutes.' : 'Podemos explicar nuestras decisiones en 2 minutos.',
+      ]
+    }
+
+    const mkCheckpoint = (cpNum, interactive) => {
+      const en = isEN
+      const items = CHECKPOINT_ITEMS(cpNum, data.route, data.language)
+      const title = cpNum === 1
+        ? (en ? 'Checkpoint 1: Planning check' : 'Punto de chequeo 1: Verificación de planeación')
+        : (en ? 'Checkpoint 2: Progress check' : 'Punto de chequeo 2: Verificación de progreso')
+      const hdr = en ? ['Ready', 'In progress', 'Stuck'] : ['Listo', 'En proceso', 'Atascado']
+      const colors = ['#16a34a', '#d97706', '#dc2626']
+      const icons = ['🟢', '🟡', '🔴']
+
+      if (interactive) {
+        const rows = items.map((r, i) => `
+          <tr>
+            <td style="padding:10px 12px;font-size:.82rem;color:#374151;border-bottom:1px solid #f3f4f6">${escHtml(r)}</td>
+            ${icons.map((ic, j) => `<td style="text-align:center;border-bottom:1px solid #f3f4f6"><label style="cursor:pointer"><input type="radio" name="cp${cpNum}_${i}" value="${j}" style="accent-color:${colors[j]};width:16px;height:16px"> ${ic}</label></td>`).join('')}
+          </tr>`).join('')
+        return `<div style="margin:1rem 0;border-radius:10px;overflow:hidden;border:1px solid #e5e7eb;box-shadow:0 1px 4px rgba(0,0,0,.06)">
+          <div style="background:#2b5a52;color:#fff;padding:10px 14px;font-size:.78rem;font-weight:700">⏱ ${escHtml(title)}</div>
+          <table style="width:100%;border-collapse:collapse">
+            <thead><tr style="background:#f0fdf4">
+              <th style="padding:8px 12px;text-align:left;font-size:.75rem;font-weight:600;color:#374151">${en ? 'Statement' : 'Afirmación'}</th>
+              ${hdr.map((h, j) => `<th style="padding:8px 6px;text-align:center;font-size:.75rem;font-weight:600;color:${colors[j]};width:80px">${icons[j]} ${h}</th>`).join('')}
+            </tr></thead>
+            <tbody>${rows}</tbody>
+          </table>
+        </div>`
+      }
+      const rows = items.map(r => `
+        <tr>
+          <td style="padding:9px 12px;font-size:.8rem;color:#374151;border-bottom:1px solid #f3f4f6">${escHtml(r)}</td>
+          ${icons.map(() => `<td style="text-align:center;border-bottom:1px solid #f3f4f6;width:80px"><span style="font-size:1.1rem">○</span></td>`).join('')}
+        </tr>`).join('')
+      return `<div style="margin:1rem 0;border-radius:10px;overflow:hidden;border:1px solid #e5e7eb">
+        <div style="background:#2b5a52;color:#fff;padding:9px 14px;font-size:.76rem;font-weight:700">⏱ ${escHtml(title)}</div>
+        <table style="width:100%;border-collapse:collapse">
+          <thead><tr style="background:#f0fdf4">
+            <th style="padding:8px 12px;text-align:left;font-size:.73rem;font-weight:600;color:#374151">${en ? 'Statement' : 'Afirmación'}</th>
+            ${hdr.map((h, j) => `<th style="padding:8px 6px;text-align:center;font-size:.73rem;font-weight:600;color:${colors[j]};width:80px">${icons[j]} ${h}</th>`).join('')}
+          </tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>`
+    }
+
     const mkHtml = (raw, interactive = false) => {
       const lines = String(raw || '').split('\n')
       let out = '', buf = [], ord = false
@@ -6170,6 +6322,8 @@ window.addEventListener('DOMContentLoaded', () => {
         }
         // Marcador especial autoevaluación
         if (t === '##AUTOEVAL##') { flush(); out += mkAutoeval(interactive); continue }
+        if (t === '##CHECKPOINT1##') { flush(); out += mkCheckpoint(1, interactive); continue }
+        if (t === '##CHECKPOINT2##') { flush(); out += mkCheckpoint(2, interactive); continue }
         // Instrucción foto/captura
         if (/^(📸|FOTO\s*\d+\s*[:.]|FOTO[/]?CAPTURA\s*:)/i.test(t)) {
           flush()
@@ -6549,6 +6703,8 @@ window.addEventListener('DOMContentLoaded', ()=>{
         if (!t) { flush(); continue }
         if (/^[=\-]{4,}$/.test(t) || /^[─━═]{4,}$/.test(t)) { flush(); out += '<hr>'; continue }
         if (t === '##AUTOEVAL##') { flush(); out += mkAutoeval(); continue }
+        if (t === '##CHECKPOINT1##') { flush(); out += mkCheckpoint(1, false); continue }
+        if (t === '##CHECKPOINT2##') { flush(); out += mkCheckpoint(2, false); continue }
         if (/^(📸|FOTO\s*\d+\s*[:.])/.test(t)) {
           flush(); _pid++
           const desc = t.replace(/^(📸\s*(?:FOTO\s*\d*\s*[:.]?)?|FOTO\s*\d*\s*[:.:])\s*/, '').trim() || t.replace(/^📸\s*/, '')
@@ -7025,6 +7181,8 @@ const INITIAL = {
   stemNeed: '', stemUsers: '', stemAreas: ['science', 'technology', 'engineering'], stemImpact: '', stemMetric: '', stemPrototype: '', stemEvidenceLink: '',
   stemRounds: [{ focus: '', evidence: '', adjustment: '' }, { focus: '', evidence: '', adjustment: '' }],
   stemRoles: ['integracion', 'evidencias', 'tester'],
+  paso0Mode: 'quick',
+  checkpoints: { cp1: ['', '', ''], cp2: ['', '', ''] },
   paso1: '', paso2: '', paso3: '', paso4: '', paso5: '', paso6: '', paso7: '',
   imgPaso1: [], imgPaso2: [], imgPaso3: [], imgPaso4: [], imgPaso5: [], imgPaso6: [], imgPaso7: [],
   rubrica: {
