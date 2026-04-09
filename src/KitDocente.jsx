@@ -7822,6 +7822,7 @@ export function KitDocente() {
             topRef.current?.scrollTo(0, 0)
           }}
           onDismiss={() => setGuidedTour(false)}
+          onReset={reset}
         />
       )}
 

@@ -31,7 +31,7 @@ const TOUR_STEPS_EN = [
   { step: 13, emoji: '🎉', title: 'Kit complete!', text: 'From here you export everything: PDF to print, interactive kit, grading rubric for after class, and a one-page family summary. Everything the platform generated is yours to edit and use.' },
 ]
 
-export function GuidedTour({ language = 'es', currentStep, onNext, onDismiss }) {
+export function GuidedTour({ language = 'es', currentStep, onNext, onDismiss, onReset }) {
   const steps = language === 'en' ? TOUR_STEPS_EN : TOUR_STEPS_ES
   const en = language === 'en'
 
@@ -48,6 +48,7 @@ export function GuidedTour({ language = 'es', currentStep, onNext, onDismiss }) 
     e.stopPropagation(); e.preventDefault()
     if (isLast) {
       onDismiss()
+      if (onReset) onReset()
     } else {
       // Find the next tour step and tell the parent to jump there
       const nextTourStep = steps[tourIndex + 1]
