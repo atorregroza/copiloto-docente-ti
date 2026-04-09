@@ -2812,11 +2812,18 @@ function Welcome({ data, onChange, onStart, onLoad, onOpenPanel, onStartTour }) 
         <p className="mt-3 text-sm text-[#8a9e98]">
           {en ? 'One connected flow · Ready in 10-15 minutes' : 'Un solo flujo conectado · Listo en 10-15 minutos'}
         </p>
-        <p className="mt-3 text-[13px] text-[#5a7069] max-w-md mx-auto leading-6 italic">
-          {en
-            ? 'You are the pilot. This is your copilot — the more you know about your class, the better the kit will be.'
-            : 'Tú eres el piloto. Esto es tu copiloto — entre más conozcas a tus estudiantes, mejores serán tus kits.'}
-        </p>
+        <div className="mt-5 rounded-xl bg-[#2b5a52] px-5 py-4 max-w-lg mx-auto text-center">
+          <p className="text-sm text-white font-semibold leading-6">
+            {en
+              ? 'You are the pilot. This is your copilot.'
+              : 'Tú eres el piloto. Esto es tu copiloto.'}
+          </p>
+          <p className="mt-1 text-xs text-white/70 leading-5">
+            {en
+              ? 'The platform generates the structure — your expertise in the subject makes it exceptional.'
+              : 'La plataforma genera la estructura — tu dominio de la asignatura la hace excepcional.'}
+          </p>
+        </div>
       </div>
 
       {/* ── Selector de ruta (compacto) ── */}
